@@ -1,0 +1,5 @@
+NAME    ID    SIZE    PROCESSOR    CONTEXT    UNTIL 
+NAME                   ID              SIZE      PROCESSOR          CONTEXT    UNTIL              
+itmo-agent9b:latest    197a80d8f1b3    8.5 GB    36%/64% CPU/GPU    65536      4 minutes from now    
+NAME                 ID              SIZE      PROCESSOR    CONTEXT    UNTIL              
+itmo-agent:latest    3465bc38f59d    5.3 GB    100% GPU     65536      4 minutes from now    

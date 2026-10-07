@@ -28,11 +28,32 @@
       "steps": 8,
       "permission": {
         "*": "deny",
-        "read": "allow",
+        "read": {
+          "*": "deny",
+          "practices/practice_03/lab/demo": "allow",
+          "practices/practice_03/lab/demo/*": "allow"
+        },
         "glob": "allow",
-        "grep": "allow"
+        "grep": "allow",
+        "external_directory": "deny"
+      }
+    },
+    "local-guide-alt": {
+      "description": "Read-only local repository assistant (alt system prompt)",
+      "mode": "primary",
+      "prompt": "{file:../system.txt}",
+      "steps": 8,
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "deny",
+          "practices/practice_03/lab/demo": "allow",
+          "practices/practice_03/lab/demo/*": "allow"
+        },
+        "glob": "allow",
+        "grep": "allow",
+        "external_directory": "deny"
       }
     }
   }
 }
-

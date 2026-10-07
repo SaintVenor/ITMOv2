@@ -1,0 +1,27 @@
+$ ollama create itmo-agent -f lab/Modelfile.agent
+using existing layer sha256:507eb1c1c053f840992a77fc4bbfef25af8a27a12711f6663385a757c36beb83
+writing manifest
+success
+
+$ ollama list | grep itmo-agent:
+itmo-agent:latest      3465bc38f59d    3.4 GB    Less than a second ago
+
+$ ollama show itmo-agent --modelfile  (без LICENSE/TEMPLATE)
+FROM /usr/share/ollama/.ollama/models/blobs/sha256-81fb60c7daa80fc1123380b98970b320ae233409f0f71a72ed7b9b0d62f40490
+RENDERER qwen3.5
+PARSER qwen3.5
+PARAMETER presence_penalty 1.5
+PARAMETER temperature 0.2
+PARAMETER top_k 20
+PARAMETER top_p 0.95
+PARAMETER num_ctx 65536
+
+$ ollama show itmo-agent  (Capabilities)
+  Capabilities
+    completion
+    vision
+    tools
+    thinking
+        levels     false, true
+        default    true
+

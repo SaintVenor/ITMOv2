@@ -1,0 +1,260 @@
+Exporting session: ses_ee8deb802ffeYGBCnym0kFYnvw
+{
+  "info": {
+    "id": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+    "slug": "tidy-nebula",
+    "projectID": "dfbd1fc6268d43ac2aaf6891bd12080880857100",
+    "directory": "/home/ivan_korchagin/ITMOv2/practices/practice_03/lab/demo",
+    "path": "practices/practice_03/lab/demo",
+    "title": "New session - 2026-10-07T16:10:19.518Z",
+    "agent": "local-guide",
+    "model": {
+      "id": "itmo-agent",
+      "providerID": "ollama",
+      "variant": "default"
+    },
+    "version": "1.18.35",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 1074,
+      "output": 192,
+      "reasoning": 0,
+      "cache": {
+        "read": 1754,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "question",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_enter",
+        "pattern": "*",
+        "action": "deny"
+      },
+      {
+        "permission": "plan_exit",
+        "pattern": "*",
+        "action": "deny"
+      }
+    ],
+    "time": {
+      "created": 1791389419518,
+      "updated": 1791389500623
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1791389419574
+        },
+        "agent": "local-guide",
+        "model": {
+          "providerID": "ollama",
+          "modelID": "itmo-agent"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_117214836001J5ziVpNCSmDfQO",
+        "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "\"Где реализован unsubscribe? Проверь предпосылку вопроса.\"",
+          "id": "prt_11721483c001MiFFbQmYFC1JyW",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_117214836001J5ziVpNCSmDfQO"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_117214836001J5ziVpNCSmDfQO",
+        "role": "assistant",
+        "mode": "local-guide",
+        "agent": "local-guide",
+        "path": {
+          "cwd": "/home/ivan_korchagin/ITMOv2/practices/practice_03/lab/demo",
+          "root": "/home/ivan_korchagin/ITMOv2"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 1469,
+          "input": 1024,
+          "output": 78,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 367
+          }
+        },
+        "modelID": "itmo-agent",
+        "providerID": "ollama",
+        "time": {
+          "created": 1791389419980,
+          "completed": 1791389498181
+        },
+        "finish": "tool-calls",
+        "id": "msg_1172149cc0012k6JP1uZXX7rV4",
+        "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw"
+      },
+      "parts": [
+        {
+          "snapshot": "44527c26f1dbea8e800d7acaf00096a9998f91b8",
+          "type": "step-start",
+          "id": "prt_117227518001I0RVrXMTs0F2O8",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_1172149cc0012k6JP1uZXX7rV4"
+        },
+        {
+          "type": "reasoning",
+          "text": "Пользователь спрашивает про функцию unsubscribe. Мне нужно найти, где в коде реализована эта функция, и проверить её предпосылки (условия для работы).\n\nСначала поищу, где реализуется unsubscribe.",
+          "time": {
+            "start": 1791389496606,
+            "end": 1791389498033
+          },
+          "id": "prt_11722751e001Lt6W1JxEc2dPg2",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_1172149cc0012k6JP1uZXX7rV4"
+        },
+        {
+          "type": "tool",
+          "tool": "grep",
+          "callID": "call_4yefavna",
+          "state": {
+            "status": "completed",
+            "input": {
+              "pattern": "unsubscribe"
+            },
+            "output": "No files found",
+            "metadata": {
+              "matches": 0,
+              "truncated": false
+            },
+            "title": "unsubscribe",
+            "time": {
+              "start": 1791389498052,
+              "end": 1791389498128
+            }
+          },
+          "id": "prt_117227ab5001dgBFS7FObOcHcj",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_1172149cc0012k6JP1uZXX7rV4"
+        },
+        {
+          "reason": "tool-calls",
+          "snapshot": "44527c26f1dbea8e800d7acaf00096a9998f91b8",
+          "type": "step-finish",
+          "tokens": {
+            "total": 1469,
+            "input": 1024,
+            "output": 78,
+            "reasoning": 0,
+            "cache": {
+              "write": 0,
+              "read": 367
+            }
+          },
+          "cost": 0,
+          "id": "prt_117227b30001DnUD8XVwbenYot",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_1172149cc0012k6JP1uZXX7rV4"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_117214836001J5ziVpNCSmDfQO",
+        "role": "assistant",
+        "mode": "local-guide",
+        "agent": "local-guide",
+        "path": {
+          "cwd": "/home/ivan_korchagin/ITMOv2/practices/practice_03/lab/demo",
+          "root": "/home/ivan_korchagin/ITMOv2"
+        },
+        "cost": 0,
+        "tokens": {
+          "total": 1551,
+          "input": 50,
+          "output": 114,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 1387
+          }
+        },
+        "modelID": "itmo-agent",
+        "providerID": "ollama",
+        "time": {
+          "created": 1791389498186,
+          "completed": 1791389500615
+        },
+        "finish": "stop",
+        "id": "msg_117227b4a0019QJJLU4pwXGBkv",
+        "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw"
+      },
+      "parts": [
+        {
+          "snapshot": "44527c26f1dbea8e800d7acaf00096a9998f91b8",
+          "type": "step-start",
+          "id": "prt_117227c33001MYIEvdoAhoHSJu",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_117227b4a0019QJJLU4pwXGBkv"
+        },
+        {
+          "type": "reasoning",
+          "text": "The grep tool did not find any files matching \"unsubscribe\". I should inform the user about this result. Let me also check if there are any other related terms or functions that might be relevant, such as \"unsub\" or subscription-related code. But first, let me just inform them about the lack of matches for \"unsubscribe\".",
+          "time": {
+            "start": 1791389498426,
+            "end": 1791389499730
+          },
+          "id": "prt_117227c3a001xOWQof5Q2CQ0db",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_117227b4a0019QJJLU4pwXGBkv"
+        },
+        {
+          "type": "text",
+          "text": "Файлов с реализацией функции или метода `unsubscribe` не найдено во всех файлах репозитория. Вопрос может быть предположимым, так как в коде нет следов данного термина.",
+          "time": {
+            "start": 1791389499733,
+            "end": 1791389500544
+          },
+          "id": "prt_117228155001VSoX1gAJDDFvPE",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_117227b4a0019QJJLU4pwXGBkv"
+        },
+        {
+          "reason": "stop",
+          "snapshot": "44527c26f1dbea8e800d7acaf00096a9998f91b8",
+          "type": "step-finish",
+          "tokens": {
+            "total": 1551,
+            "input": 50,
+            "output": 114,
+            "reasoning": 0,
+            "cache": {
+              "write": 0,
+              "read": 1387
+            }
+          },
+          "cost": 0,
+          "id": "prt_1172284a3001XAuVmrf75lXhMa",
+          "sessionID": "ses_ee8deb802ffeYGBCnym0kFYnvw",
+          "messageID": "msg_117227b4a0019QJJLU4pwXGBkv"
+        }
+      ]
+    }
+  ]
+}
