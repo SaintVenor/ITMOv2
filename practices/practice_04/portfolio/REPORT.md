@@ -10,7 +10,7 @@
 | Skill | `.opencode/skills/test-driven-development/` | заставляет сначала написать падающий тест, поэтому фича US-3 сразу закрыта проверками | `<фрагмент: вызов skill + чтение writing-good-tests.md>` |
 | MCP Context7 | `opencode.json` → `context7` | документация FastAPI/Pydantic нужной версии вместо параметрической памяти модели | `<фрагмент: вызов context7_* и ответ>` |
 | MCP portfolio | `opencode.json` → `portfolio` | факты о проектах берутся из данных сайта, а не выдумываются | см. раздел 3 |
-| Hook | `.opencode/plugins/check-after-edit.js` | после каждой правки запускает `scripts/check.sh` и возвращает вывод агенту: «готово» без зелёных тестов невозможно | `<FAIL и PASS из ленты>`, `evidence/hook-log.jsonl` |
+| Hook | `.opencode/plugin/check-after-edit.js` | после каждой правки запускает `scripts/check.sh` и возвращает вывод агенту: «готово» без зелёных тестов невозможно | `<FAIL и PASS из ленты>`, `evidence/hook-log.jsonl` |
 
 Runner: `scripts/check.sh` (pytest), до подключения hook проверен вручную.
 
