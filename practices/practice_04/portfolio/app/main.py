@@ -6,6 +6,9 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
+from typing import Annotated
+from pydantic import StringConstraints
 
 DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "projects.json"
 
@@ -127,3 +130,37 @@ def project_page(slug: str) -> str:
 {chips(p['tech'])}
 <p><a href="{escape(p['repo'])}">Репозиторий на GitHub</a></p>"""
     return page(f"{p['name']} · {OWNER['name']}", body)
+
+
+# In-memory storage for contact messages, per process lifetime
+contact_messages: list[dict] = []
+
+
+EmailStr = Annotated[
+    str,
+    StringConstraints(
+        pattern=r"^[^@]+@[^@]+\.[^@]+$",
+    ),
+]
+
+
+class ContactRequest(BaseModel):
+    name: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
+    email: EmailStr
+    message: Annotated[str, StringConstraints(strip_whitespace=True, min_length=10, max_length=2000)]
+    website: str | None = None
+
+
+@app.post("/api/contact", status_code=201)
+def contact(req: ContactRequest):
+    # honeypot: if website provided and not empty after strip -> spam
+    if req.website is not None and req.website.strip():
+        raise HTTPException(status_code=400, detail="spam")
+
+    # Store message in memory
+    contact_messages.append({
+        "name": req.name,
+        "email": req.email,
+        "message": req.message,
+    })
+    return {"status": "received"}
