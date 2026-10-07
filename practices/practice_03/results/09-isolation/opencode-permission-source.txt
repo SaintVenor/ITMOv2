@@ -1,0 +1,5 @@
+# opencode 1.18.35: фрагменты проверки прав из бинарника
+# $ strings -n 8 $(readlink -f $(which opencode)) | grep -o 'permission:"(read|glob|grep)",patterns:.{0,60}'
+permission:"glob",patterns:[r.pattern],always:["*"],metadata:{pattern:r.patter
+permission:"grep",patterns:[r.pattern],always:["*"],metadata:{pattern:r.patter
+permission:"read",patterns:[z.relative(c.worktree,h)],always:["*"],metada

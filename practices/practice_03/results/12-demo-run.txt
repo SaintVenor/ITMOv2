@@ -1,0 +1,66 @@
+# Прогон DEMO.md 2026-10-07T21:38:09+03:00, cwd=practices/practice_03/lab/demo, итоговый opencode.json
+# Перед шагом 2 выполнено 'ollama stop itmo-agent' (холодный старт)
+
+## 1) $ ollama list
+NAME                   ID              SIZE      MODIFIED
+itmo-agent:latest      3465bc38f59d    3.4 GB    26 minutes ago
+itmo-agent9b:latest    afb632e0e04e    6.6 GB    3 hours ago
+itmo-local:latest      721e96699aea    3.4 GB    3 hours ago
+qwen3.5:9b             6488c96fa5fa    6.6 GB    12 days ago
+qwen3.5:4b             2a654d98e6fb    3.4 GB    12 days ago
+
+## 2) $ curl .../api/generate (ping) && ollama ps
+NAME                 ID              SIZE      PROCESSOR    CONTEXT    UNTIL
+itmo-agent:latest    3465bc38f59d    5.3 GB    100% GPU     65536      4 minutes from now
+(время шага 2, с: 31.1)
+
+## 3) $ opencode run --agent local-guide --format json --message "Как запустить тесты?" > /tmp/demo-q1.json
+rc=0 (время, с: 29.2)
+$ grep -o '"tool":...\|"filePath":...\|"text":...' /tmp/demo-q1.json
+"tool":"glob"
+"tool":"glob"
+"tool":"read"
+"filePath":"/home/ivan_korchagin/ITMOv2/practice_03/lab/demo/README.md"
+"tool":"glob"
+"tool":"glob"
+"tool":"read"
+"filePath":"/home/ivan_korchagin/ITMOv2/practice_03/lab/demo/README.md"
+"tool":"glob"
+"tool":"glob"
+"tool":"glob"
+"tool":"read"
+"filePath":"/home/ivan_korchagin/ITMOv2/practice_03/lab/demo/README.md"
+"tool":"glob"
+"tool":"glob"
+"text":"В проекте есть один файло-сообщенный тест `test_service.py`, но нет файла `readme`. Давайте посмотрим, что там написано
+"tool":"read"
+"filePath":"/home/ivan_korchagin/ITMOv2/practices/practice_03/lab/demo/README.md"
+"text":"# Notify Mini\nУчебный сервис подписки. Подписчики хранятся в памяти процесса.\nВ service.py функция subscribe добавляет
+"text":"В проекте **Notify Mini** тесты запускаются командой:\n\n```bash\nmake test\n```\n\nПроект использует стандартную библио
+# (доп.) статусы tool_use:
+"tool":"glob","state":{"status":"completed"
+"tool":"glob","state":{"status":"completed"
+"tool":"read","state":{"status":"error"
+"tool":"glob","state":{"status":"completed"
+"tool":"glob","state":{"status":"completed"
+"tool":"read","state":{"status":"error"
+"tool":"glob","state":{"status":"completed"
+"tool":"glob","state":{"status":"completed"
+"tool":"glob","state":{"status":"completed"
+"tool":"read","state":{"status":"error"
+"tool":"glob","state":{"status":"completed"
+"tool":"glob","state":{"status":"completed"
+"tool":"read","state":{"status":"completed"
+
+## 4) $ SID=$(grep -o 'ses_[A-Za-z0-9]*' /tmp/demo-q1.json | head -1); opencode export "$SID" 2>/dev/null | grep -A4 '"model"' | head -5
+SID=ses_ee856e03bffezYsTGknCRWGcNl
+    "model": {
+      "id": "itmo-agent",
+      "providerID": "ollama",
+      "variant": "default"
+    },
+
+## 5) $ opencode run --agent local-guide --format json --message "...filePath: $(realpath ../../REPORT.md)..." | grep -o ...
+"tool":"read","callID":"call_0e1vgz3y","state":{"status":"error"
+prevents you from using this specific tool call
+rc(grep)=0

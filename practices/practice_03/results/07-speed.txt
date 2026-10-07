@@ -1,0 +1,4 @@
+NAME                 ID              SIZE      PROCESSOR    CONTEXT    UNTIL              
+itmo-agent:latest    3465bc38f59d    5.3 GB    100% GPU     65536      4 minutes from now    
+NAME                 ID              SIZE      PROCESSOR    CONTEXT    UNTIL              
+itmo-agent:latest    3465bc38f59d    5.3 GB    100% GPU     65536      4 minutes from now    

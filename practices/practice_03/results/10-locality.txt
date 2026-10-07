@@ -1,0 +1,20 @@
+# Локальность 10 A/B-прогонов (собрано из results/ab-runs-raw/)
+# tag | sessionID в run-*.json | sessionID в export | агент | providerID/modelID (все assistant-сообщения) | ollama ps после прогона
+local-guide-q1 | ses_ee8e1304cffeIz6uqNfzcelN0p | ses_ee8e1304cffeIz6uqNfzcelN0p | local-guide | ollama/itmo-agent (3 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-q2 | ses_ee8dfd6ffffewu0J3eQ6jrAE81 | ses_ee8dfd6ffffewu0J3eQ6jrAE81 | local-guide | ollama/itmo-agent (3 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-q3 | ses_ee8deb802ffeYGBCnym0kFYnvw | ses_ee8deb802ffeYGBCnym0kFYnvw | local-guide | ollama/itmo-agent (2 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-q4 | ses_ee8dd7245ffeRokjwfGlWEExCc | ses_ee8dd7245ffeRokjwfGlWEExCc | local-guide | ollama/itmo-agent (2 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-q5 | ses_ee8dc18bfffeFVm54kUZ2KlOtA | ses_ee8dc18bfffeFVm54kUZ2KlOtA | local-guide | ollama/itmo-agent (5 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-alt-q1 | ses_ee8dba4cdffeqxI33SdixKtmmJ | ses_ee8dba4cdffeqxI33SdixKtmmJ | local-guide-alt | ollama/itmo-agent (3 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-alt-q2 | ses_ee8daa3f9ffewQuyQWyOoG4VLs | ses_ee8daa3f9ffewQuyQWyOoG4VLs | local-guide-alt | ollama/itmo-agent (3 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-alt-q3 | ses_ee8d9bda0ffeghBmXLxn92zGVJ | ses_ee8d9bda0ffeghBmXLxn92zGVJ | local-guide-alt | ollama/itmo-agent (2 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-alt-q4 | ses_ee8d86f41ffeUTalY8JC7umEIu | ses_ee8d86f41ffeUTalY8JC7umEIu | local-guide-alt | ollama/itmo-agent (3 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+local-guide-alt-q5 | ses_ee8d6fc7bffeEqQePhg3S8amcw | ses_ee8d6fc7bffeEqQePhg3S8amcw | local-guide-alt | ollama/itmo-agent (4 сообщ.) | itmo-agent:latest 3465bc38f59d 5.3 GB 100% GPU 65536
+
+# Первая (упавшая) партия: ab-run-summary.json
+прогонов: 10; returncode: [1]; длительность, с: 1.22–1.47
+# Вторая (зачётная) партия: ab-run-driver.txt
+прогонов с rc=0: 10
+
+# stderr прогонов: у всех 10 прогонов в ab-runs-raw/ файл run-*.err был пустым (0 байт); файлы удалены перед коммитом.
+# Проверено: find results/ab-runs-raw -name '*.err' -size +0c | wc -l  ->  0  (всего .err: 10)

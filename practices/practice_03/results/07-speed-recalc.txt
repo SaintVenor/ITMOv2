@@ -1,0 +1,29 @@
+# Пересчёт скорости itmo-agent по исходным JSON (results/speed-raw/)
+# Часть A: python3 speed-raw/recalc.py speed-raw <файлы>; tok/s = eval_count / (eval_duration/1e9) по последнему объекту файла
+
+## A. Замер из 07-speed.md (по 07-speed.md: think=false, num_ctx=65536; в JSON нет поля thinking)
+файл                               load_s  total_s eval_count    eval_s   tok/s
+ollama_gen_cold.json               5.1277   5.6966         26  0.458160   56.75
+ollama_gen_warm0.json              0.0010   0.8653         26  0.456772   56.92
+ollama_gen_warm1.json              0.0011   0.5275         26  0.445038   58.42
+ollama_gen_warm2.json              0.0012   0.5426         26  0.457401   56.84
+ollama_gen_warm3.json           ОШИБКА: option "seed" must be of type integer
+ollama_gen_warm3_fix.json          0.0014   0.9287         26  0.468571   55.49
+
+Повторы warm1, warm2, warm3_fix (без первого прогретого warm0): медиана 56.84 tok/s (значения: 58.42, 56.84, 55.49)
+Как в старом отчёте: warm0, warm1, warm2: медиана 56.92 tok/s (значения: 56.92, 58.42, 56.84)
+
+## B. Новый замер в режиме агента: поле think не передаётся (у itmo-agent thinking default=true),
+##    stream=false, num_ctx=65536, seed=42; 4 запроса подряд, run0 — прогрев
+$ curl -s http://localhost:11434/api/generate -d '{"model":"itmo-agent","prompt":"Напиши одно короткое предложение про тестирование.","stream":false,"options":{"num_ctx":65536,"seed":42},"keep_alive":"5m"}'
+файл             load_s  total_s eval_count    eval_s   tok/s  len(thinking)
+run0.json       0.0011  72.4659       3985 71.857965   55.46          15046
+run1.json       0.0010  73.1812       3985 72.948747   54.63          15046
+run2.json       0.0062  72.9027       3985 72.780150   54.75          15046
+run3.json       0.0009  73.7608       3985 73.675233   54.09          15046
+
+Повторы run1–run3 (run0 = прогрев): медиана 54.63 tok/s (значения: 54.63, 54.75, 54.09)
+
+$ ollama ps  (после замера B)
+NAME                 ID              SIZE      PROCESSOR    CONTEXT    UNTIL
+itmo-agent:latest    3465bc38f59d    5.3 GB    100% GPU     65536      4 minutes from now
