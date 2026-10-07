@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "argparser",
+    "name": "ArgParser",
+    "summary": "Библиотека разбора аргументов командной строки на C++.",
+    "tech": ["cpp"],
+    "repo": "https://github.com/SaintVenor"
+  },
+  {
+    "slug": "hamarc",
+    "name": "HamArc",
+    "summary": "Архиватор с помехоустойчивым кодированием Хэмминга.",
+    "tech": ["cpp", "algorithms"],
+    "repo": "https://github.com/SaintVenor"
+  },
+  {
+    "slug": "circularbuffer",
+    "name": "CircularBuffer",
+    "summary": "Кольцевой буфер в виде STL-совместимого контейнера.",
+    "tech": ["cpp", "stl"],
+    "repo": "https://github.com/SaintVenor"
+  },
+  {
+    "slug": "wayhome",
+    "name": "WayHome",
+    "summary": "Консольное приложение для поиска маршрутов транспорта через API Яндекс Расписаний.",
+    "tech": ["cpp", "tui", "http"],
+    "repo": "https://github.com/SaintVenor"
+  },
+  {
+    "slug": "ttaskscheduler",
+    "name": "TTaskScheduler",
+    "summary": "Планировщик задач с зависимостями между результатами.",
+    "tech": ["cpp", "templates"],
+    "repo": "https://github.com/SaintVenor"
+  },
+  {
+    "slug": "walkey",
+    "name": "Walkey",
+    "summary": "In-memory база данных по мотивам Redis/Valkey.",
+    "tech": ["cpp", "databases", "networking"],
+    "repo": "https://github.com/SaintVenor"
+  },
+  {
+    "slug": "disassembler",
+    "name": "Disassembler",
+    "summary": "Дизассемблер RISC-V RV32I + RV32M.",
+    "tech": ["cpp", "riscv", "computer-architecture"],
+    "repo": "https://github.com/SaintVenor"
+  },
+  {
+    "slug": "myfloat",
+    "name": "MyFloat",
+    "summary": "Программная реализация арифметики с плавающей точкой.",
+    "tech": ["cpp", "computer-architecture"],
+    "repo": "https://github.com/SaintVenor"
+  }
+]
