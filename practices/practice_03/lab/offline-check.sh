@@ -2,11 +2,13 @@
 # Offline connectivity and local model check (manual run, do NOT auto-run in CI)
 # - Step 1: verify cloud access is unavailable by failing curl to https://ollama.com
 # - Step 2: verify local Ollama model (itmo-agent) responds via localhost
-# - Writes full outputs with timestamps to practices/practice_03/results/offline-check.txt
+# - Writes full outputs with timestamps to ../results/offline-check.txt (relative to this script)
 
 set -u
 
-OUT="practices/practice_03/results/offline-check.txt"
+# Path is resolved from the script location, so it works from any cwd (repo root, lab/, ...)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OUT="$SCRIPT_DIR/../results/offline-check.txt"
 OUT_DIR="$(dirname "$OUT")"
 mkdir -p "$OUT_DIR"
 

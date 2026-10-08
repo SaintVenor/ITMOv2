@@ -25,7 +25,7 @@ curl -s http://localhost:11434/api/generate \
 && ollama ps
 ```
 Ожидаемый вывод (SIZE здесь — занятая память вместе с KV-кэшем на 65536 токенов, поэтому больше, чем в `ollama list`).
-С холодного старта шаг занял 15.6 с (`results/12-demo-run.txt`): загрузка модели плюс ответ на «ping» в режиме thinking, который у itmo-agent включён по умолчанию.
+С холодного старта шаг занимает ~30 с (31.1 с в `results/12-demo-run.txt`): загрузка модели плюс ответ на «ping» в режиме thinking, который у itmo-agent включён по умолчанию.
 ```
 NAME                 ID              SIZE      PROCESSOR    CONTEXT    UNTIL
 itmo-agent:latest    3465bc38f59d    5.3 GB    100% GPU     65536      ...
@@ -40,7 +40,8 @@ opencode run --agent local-guide --format json --message "Как запусти�
 от прогона к прогону разный (модель недетерминирована), поэтому проверяется не точная последовательность, а:
 - есть события `"type":"tool_use"` с `"tool":"glob"`, `"read"` или `"grep"`;
 - все успешные `read` — файлы внутри `lab/demo` (README.md, Makefile, service.py, test_service.py);
-- последнее событие `"type":"text"` упоминает `make test` и/или `python3 -m unittest -v` со ссылкой на файл.
+- есть вызов `read` хотя бы одного файла из `lab/demo`;
+- последнее событие `"type":"text"` упоминает `make test` и/или `python3 -m unittest -v`. Ссылка на файл в ответе возможна, но не гарантирована: в повторном прогоне модель ответила «Тесты запускаются командой `make test`.» без ссылки.
 
 Быстрый просмотр:
 ```bash

@@ -18,3 +18,7 @@ local-guide-alt-q5 | ses_ee8d6fc7bffeEqQePhg3S8amcw | ses_ee8d6fc7bffeEqQePhg3S8
 
 # stderr прогонов: у всех 10 прогонов в ab-runs-raw/ файл run-*.err был пустым (0 байт); файлы удалены перед коммитом.
 # Проверено: find results/ab-runs-raw -name '*.err' -size +0c | wc -l  ->  0  (всего .err: 10)
+
+# Границы tool_use в 10 A/B-прогонах: пути во входах (filePath/path; без path — cwd lab/demo) и абсолютные пути в выводе инструментов — внутри lab/demo
+# $ python3 -I -c 'import json,glob,re;D="/home/ivan_korchagin/ITMOv2/practices/practice_03/lab/demo";ev=[json.loads(l) for f in glob.glob("results/ab-runs-raw/run-*.json") for l in open(f) if l.strip()];t=[e["part"]["state"] for e in ev if e["type"]=="tool_use"];bad=[s["input"] for s in t if any(not (s["input"].get(k,D)+"/").startswith(D+"/") for k in ("filePath","path"))]+[p for s in t for p in re.findall(r"/home/\S+",str(s.get("output",""))) if not p.startswith(D)];print("tool_use:",len(t),"вне lab/demo:",len(bad),bad)'
+tool_use: 36 вне lab/demo: 0 []
