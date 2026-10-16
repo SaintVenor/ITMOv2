@@ -1,0 +1,10 @@
+┌  MCP Servers
+│
+●  ✓ context7 [90mconnected
+│      [90mhttps://mcp.context7.com/mcp
+│
+●  ✓ portfolio [90mconnected
+│      [90mpython3 -m mcp_server.server
+│
+└  2 server(s)
+

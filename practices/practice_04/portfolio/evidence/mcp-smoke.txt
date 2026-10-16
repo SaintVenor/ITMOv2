@@ -1,0 +1,20 @@
+tools: ['get_project']
+
+get_project('walkey') isError=False
+{
+  "slug": "walkey",
+  "name": "Walkey",
+  "summary": "In-memory база данных по мотивам Redis/Valkey.",
+  "tech": [
+    "cpp",
+    "databases",
+    "networking"
+  ],
+  "repo": "https://github.com/SaintVenor"
+}
+
+get_project('no-such-project') isError=True
+Error executing tool get_project: project 'no-such-project' not found. Available: argparser, hamarc, circularbuffer, wayhome, ttaskscheduler, walkey, disassembler, myfloat
+
+get_project('Bad Slug!') isError=True
+Error executing tool get_project: invalid slug 'Bad Slug!': expected lowercase letters, digits and '-', e.g. 'walkey'
