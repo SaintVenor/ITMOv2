@@ -1,0 +1,21 @@
+=== RUN local-guide-q1 ===
+done local-guide-q1 in 88s session=ses_ee8e1304cffeIz6uqNfzcelN0p rc=0
+=== RUN local-guide-q2 ===
+done local-guide-q2 in 73s session=ses_ee8dfd6ffffewu0J3eQ6jrAE81 rc=0
+=== RUN local-guide-q3 ===
+done local-guide-q3 in 82s session=ses_ee8deb802ffeYGBCnym0kFYnvw rc=0
+=== RUN local-guide-q4 ===
+done local-guide-q4 in 88s session=ses_ee8dd7245ffeRokjwfGlWEExCc rc=0
+=== RUN local-guide-q5 ===
+done local-guide-q5 in 29s session=ses_ee8dc18bfffeFVm54kUZ2KlOtA rc=0
+=== RUN local-guide-alt-q1 ===
+done local-guide-alt-q1 in 65s session=ses_ee8dba4cdffeqxI33SdixKtmmJ rc=0
+=== RUN local-guide-alt-q2 ===
+done local-guide-alt-q2 in 58s session=ses_ee8daa3f9ffewQuyQWyOoG4VLs rc=0
+=== RUN local-guide-alt-q3 ===
+done local-guide-alt-q3 in 85s session=ses_ee8d9bda0ffeghBmXLxn92zGVJ rc=0
+=== RUN local-guide-alt-q4 ===
+done local-guide-alt-q4 in 94s session=ses_ee8d86f41ffeUTalY8JC7umEIu rc=0
+=== RUN local-guide-alt-q5 ===
+done local-guide-alt-q5 in 92s session=ses_ee8d6fc7bffeEqQePhg3S8amcw rc=0
+ALL DONE

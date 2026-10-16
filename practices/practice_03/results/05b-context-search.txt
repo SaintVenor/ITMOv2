@@ -1,0 +1,10 @@
+=== num_ctx 32768 ===
+NAME    ID    SIZE    PROCESSOR    CONTEXT    UNTIL 
+
+NAME                   ID              SIZE      PROCESSOR          CONTEXT    UNTIL              
+itmo-agent9b:latest    e15b29a965b5    7.2 GB    24%/76% CPU/GPU    32768      4 minutes from now    
+=== num_ctx 16384 ===
+NAME    ID    SIZE    PROCESSOR    CONTEXT    UNTIL 
+
+NAME                   ID              SIZE      PROCESSOR          CONTEXT    UNTIL              
+itmo-agent9b:latest    afb632e0e04e    6.6 GB    16%/84% CPU/GPU    16384      4 minutes from now    

@@ -1,4 +1,15 @@
+# Профиль для агентных прогонов OpenCode (agent local-guide / local-guide-alt).
 FROM qwen3.5:4b
+
+# 64k: системный промпт OpenCode с описанием инструментов + прочитанные файлы.
+# При этом контексте модель целиком на GPU (ollama ps: 100% GPU, 5.3 GB).
 PARAMETER num_ctx 65536
+
+# Ниже базовой qwen3.5:4b (temperature 1): меньше разброс между прогонами A/B.
 PARAMETER temperature 0.2
 
+# Унаследованы от qwen3.5:4b и раньше задавались неявно; прогоны A/B шли именно с ними.
+# Зафиксированы явно, чтобы профиль не менялся при обновлении базовой модели.
+PARAMETER top_k 20
+PARAMETER top_p 0.95
+PARAMETER presence_penalty 1.5

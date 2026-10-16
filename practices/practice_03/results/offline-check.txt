@@ -1,0 +1,40 @@
+[2026-10-07T22:17:22+03:00] STEP 1: Cloud connectivity check (expected to FAIL)
+[2026-10-07T22:17:22+03:00] Running: curl -sS --max-time 5 https://ollama.com
+[2026-10-07T22:17:27+03:00] Exit code: 28
+[2026-10-07T22:17:27+03:00] Output (begin)
+curl: (28) Resolving timed out after 5001 milliseconds
+[2026-10-07T22:17:27+03:00] Output (end)
+[2026-10-07T22:17:27+03:00] Result: FAIL as expected — no cloud access (confirms offline mode).
+[2026-10-07T22:17:27+03:00] STEP 2: Local model generate via http://localhost:11434/api/generate
+[2026-10-07T22:17:27+03:00] Running: curl -sS -H 'Content-Type: application/json' -d @- http://localhost:11434/api/generate
+[2026-10-07T22:17:28+03:00] Exit code: 0
+[2026-10-07T22:17:28+03:00] Output (begin)
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.255192275Z","response":"Т","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.284204524Z","response":"ест","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.304525772Z","response":"иров","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.321665572Z","response":"ание","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.339021556Z","response":" —","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.356315836Z","response":" это","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.373768014Z","response":" процесс","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.391435244Z","response":" обнару","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.409060524Z","response":"жения","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.426592792Z","response":" дефек","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.443927381Z","response":"тов","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.460936441Z","response":" в","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.477949378Z","response":" программ","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.494859221Z","response":"ном","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.511770872Z","response":" продук","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.528664403Z","response":"те","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.545597678Z","response":" до","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.562656639Z","response":" того","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.579769741Z","response":",","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.597236931Z","response":" как","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.614195881Z","response":" он","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.631091577Z","response":" будет","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.648113624Z","response":" представлен","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.665103525Z","response":" пользователям","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.680763879Z","response":".","done":false}
+{"model":"itmo-agent","created_at":"2026-10-07T19:17:28.69624118Z","response":"","done":true,"done_reason":"stop","context":[248045,846,198,81573,148686,28420,155260,157066,153232,189301,38859,198297,149591,25767,13,248046,198,248045,74455,198,248068,271,248069,271,32868,34981,149591,25767,1892,65589,152653,154428,150282,194534,148779,5624,161113,148524,150073,48824,54308,170146,11,150914,95330,66494,185727,237938,13],"total_duration":805103160,"load_duration":1001877,"prompt_eval_count":24,"prompt_eval_cached_count":20,"prompt_eval_duration":360828000,"eval_count":26,"eval_duration":440920000}
+[2026-10-07T22:17:28+03:00] Output (end)
+[2026-10-07T22:17:28+03:00] Result: SUCCESS — local model responded.
+[2026-10-07T22:17:28+03:00] Done. Output saved to practices/practice_03/results/offline-check.txt

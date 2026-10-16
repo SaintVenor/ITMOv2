@@ -1,0 +1,11 @@
+Исходный план A/B: сравнение моделей qwen3.5:4b vs qwen3.5:9b при фиксированном контексте.
+
+Проблема: qwen3.5:9b не помещается целиком на GPU.
+- 65536: PROCESSOR 36%/64% CPU/GPU
+- 32768: PROCESSOR 24%/76% CPU/GPU
+- 16384: PROCESSOR 16%/84% CPU/GPU
+
+Решение: менять фактор A/B на system prompt при одной модели (qwen3.5:4b) с контекстом 65536.
+- local-guide: prompt {file:./repo-system.txt}
+- local-guide-alt: prompt {file:../system.txt}
+- обе используют модель itmo-agent (qwen3.5:4b, num_ctx 65536), provider ollama, те же permission и steps.

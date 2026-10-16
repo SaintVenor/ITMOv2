@@ -1,0 +1,27 @@
+# Где оказался итоговый ответ: части последнего assistant-сообщения (по results/ab-runs-raw/export-*.json)
+# tag | типы частей последнего сообщения | output-токенов на последнем шаге (run-*.json, step_finish)
+local-guide-q1 | step-start,reasoning,text,step-finish | 165
+local-guide-q2 | step-start,reasoning,text,step-finish | 154
+local-guide-q3 | step-start,reasoning,text,step-finish | 114
+local-guide-q4 | step-start,reasoning,text,step-finish | 56
+local-guide-q5 | step-start,reasoning,text,step-finish | 430
+local-guide-alt-q1 | step-start,reasoning,text,step-finish | 120
+local-guide-alt-q2 | step-start,reasoning,text,step-finish | 123
+local-guide-alt-q3 | step-start,reasoning,text,step-finish | 142
+local-guide-alt-q4 | step-start,reasoning,text,step-finish | 101
+local-guide-alt-q5 | step-start,reasoning,step-finish | 177
+
+# local-guide-alt-q5: полный текст части reasoning последнего сообщения (части text нет)
+
+В предоставленном коде (`service.py`) видно только одну глобальную переменную `subscribers = set()`, которая хранит подписки в памяти. Нет явного сохранения в файл или базу данных, поэтому перезапуск процесса уничтожит эту переменную и подписки.
+
+Мне нужно это подтвердить кодом из `service.py`.
+
+**Ответ:**
+Нет, подписки не сохраняются после перезапуска процесса. В коде используется только переменная в памяти без сохранения на диск.
+
+**Доказательство:**
+- Глобальная переменная: `subscribers = set()` — хранится только в оперативной памяти (L1)
+- При перезапуске процесс создается заново
+- Оперативная память не сохраняется между запусками
+- В коде нет логики сохранения подписок (`save`) или загрузки (`load`)

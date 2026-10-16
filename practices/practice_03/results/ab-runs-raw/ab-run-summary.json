@@ -1,0 +1,82 @@
+[
+  {
+    "tag": "local-guide-q1",
+    "agent": "local-guide",
+    "question": "Как запустить тесты? Укажи файл-источник.",
+    "session": "ses_ee8e3361dffeQI6Ei7JjtfQ4jC",
+    "seconds": 1.4688499759995466,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-q2",
+    "agent": "local-guide",
+    "question": "Что будет при пустом имени подписчика? Подтверди кодом.",
+    "session": "ses_ee8e32d77ffeCwEBpCJOazkmb4",
+    "seconds": 1.2681505470000047,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-q3",
+    "agent": "local-guide",
+    "question": "Где реализован unsubscribe? Проверь предпосылку вопроса.",
+    "session": "ses_ee8e3254bffeFFX3y7TbvTRGXm",
+    "seconds": 1.2177584999999453,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-q4",
+    "agent": "local-guide",
+    "question": "Какая CI-система запускает тесты? Если сведений нет, скажи об этом.",
+    "session": "ses_ee8e31d1dffeacgc68TSztUvLG",
+    "seconds": 1.2174774770001022,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-q5",
+    "agent": "local-guide",
+    "question": "Сохраняются ли подписки после перезапуска процесса? Подтверди кодом.",
+    "session": "ses_ee8e314bcffeI7SB7S1iTJXQW4",
+    "seconds": 1.2177322840007037,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-alt-q1",
+    "agent": "local-guide-alt",
+    "question": "Как запустить тесты? Укажи файл-источник.",
+    "session": "ses_ee8e30c4cffenLKGIPl0CUOMVp",
+    "seconds": 1.2178458089993,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-alt-q2",
+    "agent": "local-guide-alt",
+    "question": "Что будет при пустом имени подписчика? Подтверди кодом.",
+    "session": "ses_ee8e30416ffeuab6D3fHBUq1fJ",
+    "seconds": 1.2178668199994718,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-alt-q3",
+    "agent": "local-guide-alt",
+    "question": "Где реализован unsubscribe? Проверь предпосылку вопроса.",
+    "session": "ses_ee8e2fbc5ffeZ9I0FcKWJn6EZ3",
+    "seconds": 1.2176029880001806,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-alt-q4",
+    "agent": "local-guide-alt",
+    "question": "Какая CI-система запускает тесты? Если сведений нет, скажи об этом.",
+    "session": "ses_ee8e2f362ffetiLSDH13boA9oZ",
+    "seconds": 1.2679357229999368,
+    "returncode": 1
+  },
+  {
+    "tag": "local-guide-alt-q5",
+    "agent": "local-guide-alt",
+    "question": "Сохраняются ли подписки после перезапуска процесса? Подтверди кодом.",
+    "session": "ses_ee8e2eb11fferOLp6NKjEPzJ1K",
+    "seconds": 1.2176393429999735,
+    "returncode": 1
+  }
+]
