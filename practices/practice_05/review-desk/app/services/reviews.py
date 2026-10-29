@@ -1,8 +1,11 @@
+import re
+
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app.models import ROLE_MENTOR, STATUS_PENDING, VERDICTS, Review, Submission, User
+from app.models import ROLE_MENTOR, STATUS_PENDING, VERDICTS, Assignment, Review, Submission, User
+from app.services.assignments import get_assignment
 from app.services.auth import ensure_role
 from app.services.errors import Conflict, NotFound, ValidationError
 from app.services.validation import clean_text
@@ -10,15 +13,50 @@ from app.services.validation import clean_text
 COMMENT_MAX = 5_000
 
 ALREADY_REVIEWED = "У этой сдачи уже есть ревью."
+ASSIGNMENT_NOT_FOUND = "Задача не найдена"
+
+# Больше SQLite INTEGER не вместит: db.get упал бы с OverflowError (500).
+SQLITE_INT_MAX = 2**63 - 1
+# Явный [0-9], а не \d: \d в Python совпадает и с "٥".
+_CANONICAL_ID = re.compile(r"[1-9][0-9]*", re.ASCII)
 
 
-def pending_queue(db: Session, mentor: User) -> list[Submission]:
+def parse_assignment_filter(raw: str | None) -> int | None:
+    """None/"" -> None; каноничное целое <= 2^63-1 -> int; иначе NotFound."""
+    if raw is None or raw == "":
+        return None
+    if not _CANONICAL_ID.fullmatch(raw):
+        raise NotFound(ASSIGNMENT_NOT_FOUND)
+    value = int(raw)
+    if value > SQLITE_INT_MAX:
+        raise NotFound(ASSIGNMENT_NOT_FOUND)
+    return value
+
+
+def get_queue_filter(db: Session, raw: str | None) -> Assignment | None:
+    """Строго: None/"" -> None; невалидно или нет задачи -> NotFound."""
+    assignment_id = parse_assignment_filter(raw)
+    if assignment_id is None:
+        return None
+    return get_assignment(db, assignment_id)
+
+
+def queue_filter_or_none(db: Session, raw: str | None) -> Assignment | None:
+    """Мягко: как get_queue_filter, но невалидный фильтр просто отбрасывается."""
+    try:
+        return get_queue_filter(db, raw)
+    except NotFound:
+        return None
+
+
+def pending_queue(
+    db: Session, mentor: User, assignment: Assignment | None = None
+) -> list[Submission]:
     ensure_role(mentor, ROLE_MENTOR)
-    stmt = (
-        select(Submission)
-        .where(Submission.status == STATUS_PENDING)
-        .order_by(Submission.created_at.asc(), Submission.id.asc())
-    )
+    stmt = select(Submission).where(Submission.status == STATUS_PENDING)
+    if assignment is not None:
+        stmt = stmt.where(Submission.assignment_id == assignment.id)
+    stmt = stmt.order_by(Submission.created_at.asc(), Submission.id.asc())
     return list(db.scalars(stmt))
 
 

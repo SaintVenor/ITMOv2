@@ -3,7 +3,7 @@
 {% block title %}Попытка #{{ submission.attempt }} · {{ submission.assignment.title }}{% endblock %}
 {% block content %}
 <p>
-  {% if user.role == "mentor" %}<a href="/review">← Очередь ревью</a> · {% endif %}
+  {% if user.role == "mentor" %}<a href="{{ queue_url }}">← Очередь ревью</a> · {% endif %}
   <a href="/assignments/{{ submission.assignment_id }}">{{ submission.assignment.title }}</a>
 </p>
 <div class="page-head">
@@ -20,6 +20,7 @@
 <section class="card">
   <h2>Ревью</h2>
   <form method="post" action="/submissions/{{ submission.id }}/review" class="form">
+    {% if queue_filter %}<input type="hidden" name="assignment_id" value="{{ queue_filter.id }}">{% endif %}
     <fieldset class="verdicts">
       <legend>Вердикт</legend>
       <label class="radio"><input type="radio" name="verdict" value="accepted" required

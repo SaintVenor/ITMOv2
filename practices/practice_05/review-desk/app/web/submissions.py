@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
 from app.db import get_db
-from app.models import User
+from app.models import ROLE_MENTOR, Assignment, User
 from app.services import assignments as assignment_service
 from app.services import reviews as review_service
 from app.services import submissions as submission_service
@@ -34,7 +34,21 @@ def create_submission(
     return RedirectResponse(f"/assignments/{assignment_id}", status_code=303)
 
 
-def render_submission(request, user, submission, verdict="", comment="", errors=None, status_code=200):
+def review_queue_url(assignment: Assignment | None) -> str:
+    """URL очереди только из id проверенной задачи: сырой ввод сюда не попадает."""
+    return "/review" if assignment is None else f"/review?assignment_id={assignment.id}"
+
+
+def render_submission(
+    request,
+    user,
+    submission,
+    verdict="",
+    comment="",
+    errors=None,
+    status_code=200,
+    queue_filter: Assignment | None = None,
+):
     return templates.TemplateResponse(
         request,
         "submissions/detail.html",
@@ -45,6 +59,8 @@ def render_submission(request, user, submission, verdict="", comment="", errors=
             "verdict": verdict,
             "comment": comment,
             "errors": errors or {},
+            "queue_filter": queue_filter,
+            "queue_url": review_queue_url(queue_filter),
         },
         status_code=status_code,
     )
@@ -54,8 +70,12 @@ def render_submission(request, user, submission, verdict="", comment="", errors=
 def submission_detail(
     submission_id: int,
     request: Request,
+    assignment_id: str | None = None,
     user: User = Depends(current_user),
     db: Session = Depends(get_db),
 ):
     submission = submission_service.get_submission_for(db, user, submission_id)
-    return render_submission(request, user, submission)
+    queue_filter = None
+    if user.role == ROLE_MENTOR:
+        queue_filter = review_service.queue_filter_or_none(db, assignment_id)
+    return render_submission(request, user, submission, queue_filter=queue_filter)

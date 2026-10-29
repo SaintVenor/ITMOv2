@@ -1,7 +1,19 @@
 {% extends "base.html" %}
-{% block title %}Очередь ревью{% endblock %}
+{% block title %}Очередь ревью{% if queue_filter %} · {{ queue_filter.title }}{% endif %}{% endblock %}
 {% block content %}
-<h1>Очередь ревью</h1>
+<h1>Очередь ревью{% if queue_filter %} · {{ queue_filter.title }}{% endif %}</h1>
+<form method="get" action="/review" class="inline">
+  <label>Задача
+    <select name="assignment_id">
+      <option value=""{% if not queue_filter %} selected{% endif %}>Все задачи</option>
+      {% for a in assignments %}
+      <option value="{{ a.id }}"{% if queue_filter and queue_filter.id == a.id %} selected{% endif %}>{{ a.title }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <button type="submit" class="button button-small">Показать</button>
+  {% if queue_filter %}<a href="/review">Сбросить фильтр</a>{% endif %}
+</form>
 {% if queue %}
 <table class="table">
   <thead><tr><th>Сдана</th><th>Задача</th><th>Ученик</th><th>Попытка</th><th></th></tr></thead>
@@ -12,11 +24,13 @@
       <td>{{ s.assignment.title }}</td>
       <td>{{ s.student.display_name }}</td>
       <td>#{{ s.attempt }}</td>
-      <td><a class="button button-small" href="/submissions/{{ s.id }}">Открыть</a></td>
+      <td><a class="button button-small" href="/submissions/{{ s.id }}{% if queue_filter %}?assignment_id={{ queue_filter.id }}{% endif %}">Открыть</a></td>
     </tr>
   {% endfor %}
   </tbody>
 </table>
+{% elif queue_filter %}
+<p class="muted">Нет сдач, ждущих ревью, по задаче {{ queue_filter.title }}</p>
 {% else %}
 <p class="muted">Непроверенных сдач нет.</p>
 {% endif %}
