@@ -1,0 +1,4 @@
+{% macro code_block(code) -%}
+<pre class="code"><code>{% for line in code.split("\n") %}<span class="line">{{ line }}</span>
+{% endfor %}</code></pre>
+{%- endmacro %}

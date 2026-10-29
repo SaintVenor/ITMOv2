@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{% block title %}Review Desk{% endblock %} · Review Desk</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/assignments">Review Desk</a>
+    {% if user %}
+    <nav class="nav">
+      <a href="/assignments">Задачи</a>
+      {% if user.role == "mentor" %}
+      <a href="/review">Очередь ревью</a>
+      <a href="/assignments/new">Новая задача</a>
+      {% endif %}
+    </nav>
+    <div class="whoami">
+      <span>{{ user.display_name }} <span class="muted">· {{ "ментор" if user.role == "mentor" else "ученик" }}</span></span>
+      <form method="post" action="/logout" class="inline">
+        <button type="submit" class="link-button">Выйти</button>
+      </form>
+    </div>
+    {% endif %}
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

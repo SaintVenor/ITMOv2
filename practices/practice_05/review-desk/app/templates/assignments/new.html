@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Новая задача{% endblock %}
+{% block content %}
+<h1>Новая задача</h1>
+<form method="post" action="/assignments/new" class="form card">
+  <label>Название
+    <input type="text" name="title" value="{{ title }}" maxlength="200" required
+           {% if errors.title %}aria-invalid="true"{% endif %}>
+  </label>
+  {% with field = "title" %}{% include "_field_error.html" %}{% endwith %}
+  <label>Описание <span class="muted">(обычный текст)</span>
+    <textarea name="description" rows="12" maxlength="10000" required
+              {% if errors.description %}aria-invalid="true"{% endif %}>{{ description }}</textarea>
+  </label>
+  {% with field = "description" %}{% include "_field_error.html" %}{% endwith %}
+  <button type="submit" class="button">Создать</button>
+</form>
+{% endblock %}

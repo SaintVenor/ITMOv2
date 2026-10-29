@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ assignment.title }}{% endblock %}
+{% block content %}
+<p><a href="/assignments">← Все задачи</a></p>
+<article class="card">
+  <h1>{{ assignment.title }}</h1>
+  <p class="muted">{{ assignment.author.display_name }} · {{ assignment.created_at | dt }}</p>
+  <div class="prose">{{ assignment.description }}</div>
+</article>
+
+{% if user.role == "student" %}
+<section class="card">
+  <h2>Сдать решение</h2>
+  {% if message %}
+    <p class="alert alert-error" role="alert">{{ message }}</p>
+  {% elif block_reason %}
+    <p class="alert alert-info">{{ block_reason }}</p>
+  {% endif %}
+  {% if not block_reason %}
+  <form method="post" action="/assignments/{{ assignment.id }}/submissions" class="form">
+    <label>Код на C++
+      <textarea name="code" rows="16" class="code-input" spellcheck="false" required
+                {% if errors.code %}aria-invalid="true"{% endif %}>{{ code }}</textarea>
+    </label>
+    {% with field = "code" %}{% include "_field_error.html" %}{% endwith %}
+    <button type="submit" class="button">Отправить</button>
+  </form>
+  {% endif %}
+</section>
+
+<section class="card attempts">
+  <h2>Мои попытки</h2>
+  {% if attempts %}
+  <table class="table">
+    <thead><tr><th>№</th><th>Дата</th><th>Статус</th><th>Ревью</th></tr></thead>
+    <tbody>
+    {% for s in attempts %}
+      <tr class="attempt" data-attempt="{{ s.attempt }}">
+        <td><a href="/submissions/{{ s.id }}">#{{ s.attempt }}</a></td>
+        <td class="nowrap">{{ s.created_at | dt }}</td>
+        <td><span class="status status-{{ s.status }}">{{ STATUS_LABELS[s.status] }}</span></td>
+        <td>{% if s.review %}<div class="prose">{{ s.review.comment }}</div>
+            <span class="muted">{{ s.review.mentor.display_name }} · {{ s.review.created_at | dt }}</span>
+            {% else %}<span class="muted">—</span>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">Попыток пока нет.</p>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

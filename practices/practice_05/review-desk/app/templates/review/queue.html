@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Очередь ревью{% endblock %}
+{% block content %}
+<h1>Очередь ревью</h1>
+{% if queue %}
+<table class="table">
+  <thead><tr><th>Сдана</th><th>Задача</th><th>Ученик</th><th>Попытка</th><th></th></tr></thead>
+  <tbody>
+  {% for s in queue %}
+    <tr>
+      <td class="nowrap">{{ s.created_at | dt }}</td>
+      <td>{{ s.assignment.title }}</td>
+      <td>{{ s.student.display_name }}</td>
+      <td>#{{ s.attempt }}</td>
+      <td><a class="button button-small" href="/submissions/{{ s.id }}">Открыть</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="muted">Непроверенных сдач нет.</p>
+{% endif %}
+{% endblock %}

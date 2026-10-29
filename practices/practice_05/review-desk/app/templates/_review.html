@@ -1,0 +1,7 @@
+<section class="review review-{{ review.verdict }}">
+  <header class="review-head">
+    <span class="status status-{{ review.verdict }}">{{ STATUS_LABELS[review.verdict] }}</span>
+    <span class="muted">{{ review.mentor.display_name }} · {{ review.created_at | dt }}</span>
+  </header>
+  <div class="prose">{{ review.comment }}</div>
+</section>

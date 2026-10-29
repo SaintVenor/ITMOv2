@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from "_code.html" import code_block %}
+{% block title %}Попытка #{{ submission.attempt }} · {{ submission.assignment.title }}{% endblock %}
+{% block content %}
+<p>
+  {% if user.role == "mentor" %}<a href="/review">← Очередь ревью</a> · {% endif %}
+  <a href="/assignments/{{ submission.assignment_id }}">{{ submission.assignment.title }}</a>
+</p>
+<div class="page-head">
+  <h1>Попытка #{{ submission.attempt }}</h1>
+  <span class="status status-{{ submission.status }}">{{ STATUS_LABELS[submission.status] }}</span>
+</div>
+<p class="muted">{{ submission.student.display_name }} · {{ submission.created_at | dt }}</p>
+
+{{ code_block(submission.code) }}
+
+{% if submission.review %}
+  {% with review = submission.review %}{% include "_review.html" %}{% endwith %}
+{% elif can_review %}
+<section class="card">
+  <h2>Ревью</h2>
+  <form method="post" action="/submissions/{{ submission.id }}/review" class="form">
+    <fieldset class="verdicts">
+      <legend>Вердикт</legend>
+      <label class="radio"><input type="radio" name="verdict" value="accepted" required
+        {% if verdict == "accepted" %}checked{% endif %}> <span class="status status-accepted">Принять</span></label>
+      <label class="radio"><input type="radio" name="verdict" value="changes_requested"
+        {% if verdict == "changes_requested" %}checked{% endif %}> <span class="status status-changes_requested">На доработку</span></label>
+    </fieldset>
+    {% with field = "verdict" %}{% include "_field_error.html" %}{% endwith %}
+    <label>Комментарий
+      <textarea name="comment" rows="8" maxlength="5000" required
+                {% if errors.comment %}aria-invalid="true"{% endif %}>{{ comment }}</textarea>
+    </label>
+    {% with field = "comment" %}{% include "_field_error.html" %}{% endwith %}
+    <button type="submit" class="button">Отправить ревью</button>
+  </form>
+</section>
+{% else %}
+<p class="muted">Ревью ещё нет.</p>
+{% endif %}
+{% endblock %}
