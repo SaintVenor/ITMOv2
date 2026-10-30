@@ -9,7 +9,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from app.config import STATIC_DIR, get_secret_key
 from app.db import init_db
 from app.services.errors import Conflict, Forbidden, NotFound, ServiceError, ValidationError
-from app.web import assignments, auth, review, submissions
+from app.web import assignments, auth, line_comments, review, submissions
 from app.web.deps import SESSION_USER_KEY, LoginRequired
 from app.web.templating import templates
 
@@ -60,6 +60,7 @@ def create_app() -> FastAPI:
     app.include_router(assignments.router)
     app.include_router(submissions.router)
     app.include_router(review.router)
+    app.include_router(line_comments.router)
 
     @app.exception_handler(LoginRequired)
     async def handle_login_required(request: Request, exc: LoginRequired):

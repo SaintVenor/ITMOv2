@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, ForeignKey, String, Text, UniqueConstraint
+from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Index, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base
@@ -71,3 +71,21 @@ class Review(Base):
 
     submission: Mapped[Submission] = relationship(back_populates="review")
     mentor: Mapped[User] = relationship()
+
+
+class LineComment(Base):
+    __tablename__ = "line_comments"
+    __table_args__ = (
+        CheckConstraint("line >= 1", name="ck_line_comments_line_positive"),
+        Index("ix_line_comments_order", "submission_id", "line", "created_at", "id"),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    submission_id: Mapped[int] = mapped_column(ForeignKey("submissions.id"))
+    line: Mapped[int]
+    text: Mapped[str] = mapped_column(Text)
+    author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+    submission: Mapped[Submission] = relationship()
+    author: Mapped[User] = relationship()

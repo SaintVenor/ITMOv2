@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.db import get_db
 from app.models import ROLE_MENTOR, Assignment, User
 from app.services import assignments as assignment_service
+from app.services import line_comments as line_comment_service
 from app.services import reviews as review_service
 from app.services import submissions as submission_service
 from app.services.errors import Conflict, ValidationError
@@ -48,7 +49,12 @@ def render_submission(
     errors=None,
     status_code=200,
     queue_filter: Assignment | None = None,
+    *,
+    db,
+    line_comment_errors=None,
+    line_comment_form=None,
 ):
+    code_lines = line_comment_service.split_code_lines(submission.code)
     return templates.TemplateResponse(
         request,
         "submissions/detail.html",
@@ -61,6 +67,13 @@ def render_submission(
             "errors": errors or {},
             "queue_filter": queue_filter,
             "queue_url": review_queue_url(queue_filter),
+            "line_comments": line_comment_service.list_line_comments(db, user, submission.id),
+            "code_lines": code_lines,
+            "line_count": len(code_lines),
+            "can_comment": line_comment_service.can_comment(user, submission),
+            "line_comment_errors": line_comment_errors or {},
+            "line_comment_form": line_comment_form or {},
+            "line_comment_max": line_comment_service.LINE_COMMENT_MAX,
         },
         status_code=status_code,
     )
@@ -78,4 +91,4 @@ def submission_detail(
     queue_filter = None
     if user.role == ROLE_MENTOR:
         queue_filter = review_service.queue_filter_or_none(db, assignment_id)
-    return render_submission(request, user, submission, queue_filter=queue_filter)
+    return render_submission(request, user, submission, queue_filter=queue_filter, db=db)

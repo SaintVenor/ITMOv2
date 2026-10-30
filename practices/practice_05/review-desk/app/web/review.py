@@ -60,5 +60,6 @@ def create_review(
             exc.errors,
             status_code=400,
             queue_filter=queue_filter,
+            db=db,
         )
     return RedirectResponse(review_queue_url(queue_filter), status_code=303)
