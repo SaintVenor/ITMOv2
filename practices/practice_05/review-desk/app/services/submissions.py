@@ -14,7 +14,7 @@ from app.models import (
 from app.services.assignments import get_assignment
 from app.services.auth import ensure_role
 from app.services.errors import Conflict, NotFound, ValidationError
-from app.services.validation import clean_text
+from app.services.validation import clean_text, fits_sqlite_int
 
 CODE_MAX = 100_000
 
@@ -104,7 +104,7 @@ def get_submission_for(db: Session, user: User, submission_id: int) -> Submissio
 
     Чужая сдача для ученика неотличима от несуществующей (US-5 AC2).
     """
-    submission = db.get(Submission, submission_id)
+    submission = db.get(Submission, submission_id) if fits_sqlite_int(submission_id) else None
     if submission is None or (user.role != ROLE_MENTOR and submission.student_id != user.id):
         raise NotFound("Сдача не найдена")
     return submission

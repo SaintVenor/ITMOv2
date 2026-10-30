@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.models import ROLE_MENTOR, Assignment, User
 from app.services.auth import ensure_role
 from app.services.errors import NotFound, ValidationError
-from app.services.validation import clean_text
+from app.services.validation import clean_text, fits_sqlite_int
 
 TITLE_MAX = 200
 DESCRIPTION_MAX = 10_000
@@ -16,7 +16,7 @@ def list_assignments(db: Session) -> list[Assignment]:
 
 
 def get_assignment(db: Session, assignment_id: int) -> Assignment:
-    assignment = db.get(Assignment, assignment_id)
+    assignment = db.get(Assignment, assignment_id) if fits_sqlite_int(assignment_id) else None
     if assignment is None:
         raise NotFound("Задача не найдена")
     return assignment

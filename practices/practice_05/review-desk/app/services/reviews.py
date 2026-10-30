@@ -8,15 +8,13 @@ from app.models import ROLE_MENTOR, STATUS_PENDING, VERDICTS, Assignment, Review
 from app.services.assignments import get_assignment
 from app.services.auth import ensure_role
 from app.services.errors import Conflict, NotFound, ValidationError
-from app.services.validation import clean_text
+from app.services.validation import SQLITE_INT_MAX, clean_text, fits_sqlite_int
 
 COMMENT_MAX = 5_000
 
 ALREADY_REVIEWED = "У этой сдачи уже есть ревью."
 ASSIGNMENT_NOT_FOUND = "Задача не найдена"
 
-# Больше SQLite INTEGER не вместит: db.get упал бы с OverflowError (500).
-SQLITE_INT_MAX = 2**63 - 1
 # Явный [0-9], а не \d: \d в Python совпадает и с "٥".
 _CANONICAL_ID = re.compile(r"[1-9][0-9]*", re.ASCII)
 
@@ -68,7 +66,7 @@ def create_review(
     db: Session, mentor: User, submission_id: int, verdict: str, comment: str
 ) -> Review:
     ensure_role(mentor, ROLE_MENTOR)
-    submission = db.get(Submission, submission_id)
+    submission = db.get(Submission, submission_id) if fits_sqlite_int(submission_id) else None
     if submission is None:
         raise NotFound("Сдача не найдена")
     if submission.review is not None:

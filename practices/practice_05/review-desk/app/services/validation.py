@@ -6,3 +6,13 @@ def clean_text(value: str | None, max_length: int, label: str) -> tuple[str, str
     if len(cleaned) > max_length:
         return cleaned, f"{label}: не длиннее {max_length:,} символов (сейчас {len(cleaned):,})".replace(",", " ")
     return cleaned, None
+
+
+# Границы SQLite INTEGER (знаковое 64-битное целое): за ними db.get упал бы
+# с OverflowError (500) вместо обычного "строки нет" (404).
+SQLITE_INT_MIN = -(2**63)
+SQLITE_INT_MAX = 2**63 - 1
+
+
+def fits_sqlite_int(value: int) -> bool:
+    return SQLITE_INT_MIN <= value <= SQLITE_INT_MAX
