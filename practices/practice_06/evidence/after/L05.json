@@ -1,0 +1,134 @@
+{
+  "id": "L05",
+  "route": "POST /assistant/execute",
+  "category": "T, E",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "токеном alice read_file прочитал чек bob и служебную заметку private/ — путь не сверяется с файлами вызывающего",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"token\": \"70f1606349204e029351c7e2d3ee8041\"}",
+        "json": {
+          "token": "70f1606349204e029351c7e2d3ee8041"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/assistant/execute",
+        "headers": {
+          "X-Token": "70f1606349204e029351c7e2d3ee8041",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "decision": {
+            "tool": "read_file",
+            "arguments": {
+              "path": "files/bob/receipt.txt"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/assistant/execute",
+        "headers": {
+          "X-Token": "70f1606349204e029351c7e2d3ee8041",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "decision": {
+            "tool": "read_file",
+            "arguments": {
+              "path": "private/operator-note.txt"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/assistant/execute",
+        "headers": {
+          "X-Token": "70f1606349204e029351c7e2d3ee8041",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "decision": {
+            "tool": "read_file",
+            "arguments": {
+              "path": "files/alice/../../private/operator-note.txt"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    }
+  ],
+  "leaked_paths": []
+}

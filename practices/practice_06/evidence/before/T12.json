@@ -1,0 +1,71 @@
+{
+  "id": "T12",
+  "route": "POST /orders",
+  "category": "R",
+  "severity": "Низкая",
+  "verdict": "подтверждена",
+  "why": "в созданном заказе нет времени, источника и каталожной цены — подмену цены (T11) невозможно доказать",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45"
+        },
+        "body": "{\"token\": \"f7b224b106724b129cab3cb5c04cdbf3\"}",
+        "json": {
+          "token": "f7b224b106724b129cab3cb5c04cdbf3"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "f7b224b106724b129cab3cb5c04cdbf3",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "lamp"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "55"
+        },
+        "body": "{\"id\": 6, \"owner\": 1, \"product\": \"lamp\", \"price\": 1500}",
+        "json": {
+          "id": 6,
+          "owner": 1,
+          "product": "lamp",
+          "price": 1500
+        }
+      }
+    }
+  ],
+  "order_fields": [
+    "id",
+    "owner",
+    "price",
+    "product"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "L03",
+  "route": "POST /assistant/execute",
+  "category": "E",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "помощник клиента alice выполнил export_profiles и вернул все профили — инструмент с чрезмерными полномочиями доступен customer",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"token\": \"e8bacdd8d23e43b69594f1be79172542\"}",
+        "json": {
+          "token": "e8bacdd8d23e43b69594f1be79172542"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/assistant/execute",
+        "headers": {
+          "X-Token": "e8bacdd8d23e43b69594f1be79172542",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "decision": {
+            "tool": "export_profiles",
+            "arguments": {}
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "29",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"tool not allowed\"}",
+        "json": {
+          "error": "tool not allowed"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,418 @@
+# Прогон на исходном service.py из main (git show main:practices/practice_06/lab/{service,sandbox,test_service,test_http}.py, Makefile) с текущим test_security.py после доработки тестов по независимой проверке, 2026-10-30T22:33:32Z; make test во временном каталоге вне репозитория, его путь заменён на <tmp>
+
+Standard library only: ready
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v
+test_health_and_not_found (test_http.HttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_http.HttpTest.test_login_and_purchase_over_http) ... ok
+test_transport_only_binds_loopback (test_http.HttpTest.test_transport_only_binds_loopback) ... ok
+test_func_alice_can_leave_review (test_security.FunctionalityTest.test_func_alice_can_leave_review) ... ok
+test_func_alice_sees_own_profile (test_security.FunctionalityTest.test_func_alice_sees_own_profile) ... ok
+test_func_alice_sees_own_receipt (test_security.FunctionalityTest.test_func_alice_sees_own_receipt) ... ok
+test_func_assistant_reads_own_receipt (test_security.FunctionalityTest.test_func_assistant_reads_own_receipt) ... ok
+test_func_buy_at_catalog_price (test_security.FunctionalityTest.test_func_buy_at_catalog_price) ... ok
+test_func_staff_can_export (test_security.FunctionalityTest.test_func_staff_can_export) ... ok
+test_file_errors_hide_paths (test_security.HttpSecurityTest.test_file_errors_hide_paths)
+Ошибки ФС у вошедшего клиента не раскрывают абсолютный путь стенда. ... FAIL
+test_foreign_host_rejected (test_security.HttpSecurityTest.test_foreign_host_rejected) ... FAIL
+test_ids_reject_unicode_digits (test_security.HttpSecurityTest.test_ids_reject_unicode_digits)
+«²» проходит str.isdigit(), но не int(): ответ 400, а не 500. ... FAIL
+test_internal_errors_are_generic (test_security.HttpSecurityTest.test_internal_errors_are_generic)
+Битый SQL и внутреннее исключение не возвращают текст и тип исключения. ... FAIL
+test_malformed_body_returns_400 (test_security.HttpSecurityTest.test_malformed_body_returns_400)
+Тело-массив и тело без обязательных полей → 400, а не 500. ... FAIL
+test_post_requires_json_content_type (test_security.HttpSecurityTest.test_post_requires_json_content_type) ... FAIL
+test_assistant_actions_audited (test_security.ShopSecurityTest.test_assistant_actions_audited) ... FAIL
+test_assistant_context_has_no_foreign_pii (test_security.ShopSecurityTest.test_assistant_context_has_no_foreign_pii) ... FAIL
+test_assistant_context_only_own_order (test_security.ShopSecurityTest.test_assistant_context_only_own_order) ... FAIL
+test_assistant_context_size_bounded (test_security.ShopSecurityTest.test_assistant_context_size_bounded) ... FAIL
+test_assistant_context_sql_injection_blocked (test_security.ShopSecurityTest.test_assistant_context_sql_injection_blocked) ... FAIL
+test_assistant_execute_requires_login (test_security.ShopSecurityTest.test_assistant_execute_requires_login) ... FAIL
+test_assistant_read_file_only_own (test_security.ShopSecurityTest.test_assistant_read_file_only_own) ... FAIL
+test_customer_assistant_tools_restricted (test_security.ShopSecurityTest.test_customer_assistant_tools_restricted) ... FAIL
+test_debug_logs_not_public (test_security.ShopSecurityTest.test_debug_logs_not_public) ... FAIL
+test_delete_tree_denied_for_customer (test_security.ShopSecurityTest.test_delete_tree_denied_for_customer) ... FAIL
+test_export_requires_staff_session (test_security.ShopSecurityTest.test_export_requires_staff_session) ... FAIL
+test_files_cannot_reach_private (test_security.ShopSecurityTest.test_files_cannot_reach_private) ... FAIL
+test_files_only_own_receipt (test_security.ShopSecurityTest.test_files_only_own_receipt) ... FAIL
+test_injected_review_cannot_trigger_delete (test_security.ShopSecurityTest.test_injected_review_cannot_trigger_delete)
+Решение delete_tree, пришедшее от клиента, не должно удалять файлы. ... FAIL
+test_login_lockout_survives_failures_overflow (test_security.ShopSecurityTest.test_login_lockout_survives_failures_overflow)
+Переполнение счётчика неудач чужими именами не снимает блокировку alice. ... FAIL
+test_login_rate_limited (test_security.ShopSecurityTest.test_login_rate_limited)
+20 неверных попыток подряд должны заблокировать вход, даже верный. ... FAIL
+test_login_username_length_limited (test_security.ShopSecurityTest.test_login_username_length_limited)
+Слишком длинное имя отклоняется (400) и не попадает в счётчик неудач. ... FAIL
+test_logs_mask_secrets (test_security.ShopSecurityTest.test_logs_mask_secrets) ... FAIL
+test_order_has_audit_fields (test_security.ShopSecurityTest.test_order_has_audit_fields) ... FAIL
+test_order_price_from_catalog (test_security.ShopSecurityTest.test_order_price_from_catalog) ... FAIL
+test_orders_list_only_own (test_security.ShopSecurityTest.test_orders_list_only_own) ... FAIL
+test_passwords_not_stored_plain (test_security.ShopSecurityTest.test_passwords_not_stored_plain)
+В accounts не должно быть паролей открытым текстом. ... FAIL
+test_profile_requires_owner (test_security.ShopSecurityTest.test_profile_requires_owner)
+Без токена — 401; alice не может читать чужой профиль id=2. ... FAIL
+test_profile_sql_injection_blocked (test_security.ShopSecurityTest.test_profile_sql_injection_blocked) ... FAIL
+test_review_requires_login_and_known_product (test_security.ShopSecurityTest.test_review_requires_login_and_known_product) ... FAIL
+test_review_text_validated (test_security.ShopSecurityTest.test_review_text_validated) ... FAIL
+test_reviews_view_escapes_html (test_security.ShopSecurityTest.test_reviews_view_escapes_html) ... FAIL
+test_search_sql_injection_blocked (test_security.ShopSecurityTest.test_search_sql_injection_blocked) ... FAIL
+test_search_staff_only (test_security.ShopSecurityTest.test_search_staff_only) ... FAIL
+test_token_expires_and_logout (test_security.ShopSecurityTest.test_token_expires_and_logout)
+Токен отзывается по истечении срока жизни и после /logout (401). ... FAIL
+test_delete_of_fixture_root_stays_inside_exercise (test_service.SandboxTest.test_delete_of_fixture_root_stays_inside_exercise) ... ok
+test_external_directory_cannot_be_deleted (test_service.SandboxTest.test_external_directory_cannot_be_deleted) ... ok
+test_parent_paths_cannot_escape_exercise (test_service.SandboxTest.test_parent_paths_cannot_escape_exercise) ... ok
+test_symlink_cannot_escape_exercise (test_service.SandboxTest.test_symlink_cannot_escape_exercise) ... ok
+test_assistant_can_return_own_receipt (test_service.ShopTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_service.ShopTest.test_customer_can_buy_at_catalog_price) ... ok
+test_health_and_catalog (test_service.ShopTest.test_health_and_catalog) ... ok
+test_own_profile_and_receipt (test_service.ShopTest.test_own_profile_and_receipt) ... ok
+test_review_can_be_submitted_and_viewed (test_service.ShopTest.test_review_can_be_submitted_and_viewed) ... ok
+test_staff_can_export_with_staff_session (test_service.ShopTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_service.ShopTest.test_tokens_identify_distinct_users) ... ok
+test_unknown_product_rejected (test_service.ShopTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_service.ShopTest.test_wrong_password_rejected) ... ok
+
+======================================================================
+FAIL: test_file_errors_hide_paths (test_security.HttpSecurityTest.test_file_errors_hide_paths)
+Ошибки ФС у вошедшего клиента не раскрывают абсолютный путь стенда.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 375, in test_file_errors_hide_paths
+    self.assertIn(status, (403, 404), path)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 500 not found in (403, 404) : /files?user=alice&path=.
+
+======================================================================
+FAIL: test_foreign_host_rejected (test_security.HttpSecurityTest.test_foreign_host_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 362, in test_foreign_host_rejected
+    self.assertEqual(status, 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 200 != 400
+
+======================================================================
+FAIL: test_ids_reject_unicode_digits (test_security.HttpSecurityTest.test_ids_reject_unicode_digits)
+«²» проходит str.isdigit(), но не int(): ответ 400, а не 500.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 404, in test_ids_reject_unicode_digits
+    self.assertEqual(status, 400, path)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 500 != 400 : /profile?id=%C2%B2
+
+======================================================================
+FAIL: test_internal_errors_are_generic (test_security.HttpSecurityTest.test_internal_errors_are_generic)
+Битый SQL и внутреннее исключение не возвращают текст и тип исключения.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 385, in test_internal_errors_are_generic
+    self.assertEqual(status, 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 500 != 400
+
+======================================================================
+FAIL: test_malformed_body_returns_400 (test_security.HttpSecurityTest.test_malformed_body_returns_400)
+Тело-массив и тело без обязательных полей → 400, а не 500.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 413, in test_malformed_body_returns_400
+    self.assertEqual(self.raw("POST", "/reviews", "[]")[0], 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 500 != 400
+
+======================================================================
+FAIL: test_post_requires_json_content_type (test_security.HttpSecurityTest.test_post_requires_json_content_type)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 357, in test_post_requires_json_content_type
+    self.assertEqual(status, 415)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 200 != 415
+
+======================================================================
+FAIL: test_assistant_actions_audited (test_security.ShopSecurityTest.test_assistant_actions_audited)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 302, in test_assistant_actions_audited
+    self.assertTrue(audit, "нет журнала действий помощника (shop.audit)")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None is not true : нет журнала действий помощника (shop.audit)
+
+======================================================================
+FAIL: test_assistant_context_has_no_foreign_pii (test_security.ShopSecurityTest.test_assistant_context_has_no_foreign_pii)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 285, in test_assistant_context_has_no_foreign_pii
+    self.assertNotIn("foreign review", prompt)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'foreign review' unexpectedly found in 'Ты помощник магазина. Прочитай заказ и отзывы. Верни JSON с полями tool и arguments.\nИнструменты: read_file(path), export_profiles(), delete_tree(path).\nПомоги пользователю обработать заказ.\nЗаказ: [{"id": 1, "owner": 1, "product": "chair", "price": 5000.0}]\nОтзывы: [{"product": "lamp", "text": "foreign review"}]\nЗапрос пользователя: Покажи чек по заказу'
+
+======================================================================
+FAIL: test_assistant_context_only_own_order (test_security.ShopSecurityTest.test_assistant_context_only_own_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 217, in test_assistant_context_only_own_order
+    self.assertIn(self.request("GET", "/assistant/context?order_id=2", headers=auth)[0], (403, 404))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (403, 404)
+
+======================================================================
+FAIL: test_assistant_context_size_bounded (test_security.ShopSecurityTest.test_assistant_context_size_bounded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 294, in test_assistant_context_size_bounded
+    self.assertLess(len(prompt), 100 * 300)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 34099 not less than 30000
+
+======================================================================
+FAIL: test_assistant_context_sql_injection_blocked (test_security.ShopSecurityTest.test_assistant_context_sql_injection_blocked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 224, in test_assistant_context_sql_injection_blocked
+    self.assertEqual(status, 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 200 != 400
+
+======================================================================
+FAIL: test_assistant_execute_requires_login (test_security.ShopSecurityTest.test_assistant_execute_requires_login)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 249, in test_assistant_execute_requires_login
+    self.assertEqual(status, 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_assistant_read_file_only_own (test_security.ShopSecurityTest.test_assistant_read_file_only_own)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 258, in test_assistant_read_file_only_own
+    self.assertIn(status, (403, 404))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (403, 404)
+
+======================================================================
+FAIL: test_customer_assistant_tools_restricted (test_security.ShopSecurityTest.test_customer_assistant_tools_restricted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 239, in test_customer_assistant_tools_restricted
+    self.assertEqual(self.request("POST", "/assistant/execute",
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                  {"decision": {"tool": "export_profiles", "arguments": {}}}, auth)[0], 403)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_debug_logs_not_public (test_security.ShopSecurityTest.test_debug_logs_not_public)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 188, in test_debug_logs_not_public
+    self.assertIn(status, (401, 403, 404))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (401, 403, 404)
+
+======================================================================
+FAIL: test_delete_tree_denied_for_customer (test_security.ShopSecurityTest.test_delete_tree_denied_for_customer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 268, in test_delete_tree_denied_for_customer
+    self.assertIn(status, (400, 403))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (400, 403)
+
+======================================================================
+FAIL: test_export_requires_staff_session (test_security.ShopSecurityTest.test_export_requires_staff_session)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 153, in test_export_requires_staff_session
+    self.assertIn(self.request("GET", "/admin/export", headers={"X-Role": "staff"})[0], (401, 403))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (401, 403)
+
+======================================================================
+FAIL: test_files_cannot_reach_private (test_security.ShopSecurityTest.test_files_cannot_reach_private)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 171, in test_files_cannot_reach_private
+    self.assertIn(status, (403, 404))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (403, 404)
+
+======================================================================
+FAIL: test_files_only_own_receipt (test_security.ShopSecurityTest.test_files_only_own_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 162, in test_files_only_own_receipt
+    self.assertIn(self.request("GET", "/files?user=bob&path=receipt.txt", headers=auth)[0], (403, 404))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (403, 404)
+
+======================================================================
+FAIL: test_injected_review_cannot_trigger_delete (test_security.ShopSecurityTest.test_injected_review_cannot_trigger_delete)
+Решение delete_tree, пришедшее от клиента, не должно удалять файлы.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 233, in test_injected_review_cannot_trigger_delete
+    self.assertIn(status, (400, 403))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (400, 403)
+
+======================================================================
+FAIL: test_login_lockout_survives_failures_overflow (test_security.ShopSecurityTest.test_login_lockout_survives_failures_overflow)
+Переполнение счётчика неудач чужими именами не снимает блокировку alice.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 72, in test_login_lockout_survives_failures_overflow
+    self.assertEqual(status, 429)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 200 != 429
+
+======================================================================
+FAIL: test_login_rate_limited (test_security.ShopSecurityTest.test_login_rate_limited)
+20 неверных попыток подряд должны заблокировать вход, даже верный.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 55, in test_login_rate_limited
+    self.assertIn(status, (401, 429))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (401, 429)
+
+======================================================================
+FAIL: test_login_username_length_limited (test_security.ShopSecurityTest.test_login_username_length_limited)
+Слишком длинное имя отклоняется (400) и не попадает в счётчик неудач.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 61, in test_login_username_length_limited
+    self.assertEqual(self.request("POST", "/login", {"username": name, "password": "x"})[0], 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 401 != 400
+
+======================================================================
+FAIL: test_logs_mask_secrets (test_security.ShopSecurityTest.test_logs_mask_secrets)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 181, in test_logs_mask_secrets
+    self.assertNotIn("learn-alice", dumped)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'learn-alice' unexpectedly found in '[{"method": "POST", "target": "/login", "body": {"username": "alice", "password": "learn-alice"}, "headers": {}}, {"method": "GET", "target": "/orders", "body": {}, "headers": {"X-Token": "525cac0695c9462e98020ea3063016a4"}}]'
+
+======================================================================
+FAIL: test_order_has_audit_fields (test_security.ShopSecurityTest.test_order_has_audit_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 148, in test_order_has_audit_fields
+    self.assertTrue(any("time" in k or "date" in k or "created" in k for k in keys),
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    f"нет поля времени в заказе: {sorted(keys)}")
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : нет поля времени в заказе: ['id', 'owner', 'price', 'product']
+
+======================================================================
+FAIL: test_order_price_from_catalog (test_security.ShopSecurityTest.test_order_price_from_catalog)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 141, in test_order_price_from_catalog
+    self.assertEqual(order["price"], 5000)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 5000
+
+======================================================================
+FAIL: test_orders_list_only_own (test_security.ShopSecurityTest.test_orders_list_only_own)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 129, in test_orders_list_only_own
+    self.assertEqual(self.request("GET", "/orders")[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_passwords_not_stored_plain (test_security.ShopSecurityTest.test_passwords_not_stored_plain)
+В accounts не должно быть паролей открытым текстом.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 92, in test_passwords_not_stored_plain
+    self.assertNotIn("learn-alice", stored)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'learn-alice' unexpectedly found in '{"alice": ["learn-alice", 1, "customer"], "bob": ["learn-bob", 2, "customer"], "staff": ["learn-staff", 0, "staff"]}'
+
+======================================================================
+FAIL: test_profile_requires_owner (test_security.ShopSecurityTest.test_profile_requires_owner)
+Без токена — 401; alice не может читать чужой профиль id=2.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 98, in test_profile_requires_owner
+    self.assertEqual(self.request("GET", "/profile?id=2")[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_profile_sql_injection_blocked (test_security.ShopSecurityTest.test_profile_sql_injection_blocked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 106, in test_profile_sql_injection_blocked
+    self.assertEqual(status, 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 200 != 400
+
+======================================================================
+FAIL: test_review_requires_login_and_known_product (test_security.ShopSecurityTest.test_review_requires_login_and_known_product)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 196, in test_review_requires_login_and_known_product
+    self.assertEqual(self.request("POST", "/reviews", {"product": "chair", "text": "x"})[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 401
+
+======================================================================
+FAIL: test_review_text_validated (test_security.ShopSecurityTest.test_review_text_validated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 203, in test_review_text_validated
+    self.assertEqual(self.request("POST", "/reviews", {"product": "chair", "text": "A" * 10000}, auth)[0], 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 400
+
+======================================================================
+FAIL: test_reviews_view_escapes_html (test_security.ShopSecurityTest.test_reviews_view_escapes_html)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 211, in test_reviews_view_escapes_html
+    self.assertNotIn("<script>alert(1)</script>", html)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '<script>alert(1)</script>' unexpectedly found in '<html><body><p><script>alert(1)</script></p></body></html>'
+
+======================================================================
+FAIL: test_search_sql_injection_blocked (test_security.ShopSecurityTest.test_search_sql_injection_blocked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 118, in test_search_sql_injection_blocked
+    self.assertNotIn("chair", json.dumps(result, ensure_ascii=False))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'chair' unexpectedly found in '[{"id": 1, "name": "TEST_ALICE", "email": "alice@example.invalid", "address": "TEST_ADDRESS_A"}, {"id": 1, "name": "chair", "email": 5000.0, "address": 1}, {"id": 2, "name": "TEST_BOB", "email": "bob@example.invalid", "address": "TEST_ADDRESS_B"}, {"id": 2, "name": "lamp", "email": 1500.0, "address": 2}]'
+
+======================================================================
+FAIL: test_search_staff_only (test_security.ShopSecurityTest.test_search_staff_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 123, in test_search_staff_only
+    self.assertIn(self.request("GET", "/search?q=")[0], (401, 403))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 not found in (401, 403)
+
+======================================================================
+FAIL: test_token_expires_and_logout (test_security.ShopSecurityTest.test_token_expires_and_logout)
+Токен отзывается по истечении срока жизни и после /logout (401).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<tmp>/test_security.py", line 81, in test_token_expires_and_logout
+    self.assertEqual(self.request("GET", "/orders", headers=auth)[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+----------------------------------------------------------------------
+Ran 58 tests in 1.048s
+
+FAILED (failures=36)
+make: *** [Makefile:7: test] Error 1

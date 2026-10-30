@@ -1,0 +1,249 @@
+# Тесты после исправлений service.py и доработки тестов по независимой проверке (2026-10-30T22:33:32Z, ветка homework-06)
+
+## make test (practices/practice_06)
+
+Standard library only: ready
+test_health_and_not_found (test_http.HttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_http.HttpTest.test_login_and_purchase_over_http) ... ok
+test_transport_only_binds_loopback (test_http.HttpTest.test_transport_only_binds_loopback) ... ok
+test_func_alice_can_leave_review (test_security.FunctionalityTest.test_func_alice_can_leave_review) ... ok
+test_func_alice_sees_own_profile (test_security.FunctionalityTest.test_func_alice_sees_own_profile) ... ok
+test_func_alice_sees_own_receipt (test_security.FunctionalityTest.test_func_alice_sees_own_receipt) ... ok
+test_func_assistant_reads_own_receipt (test_security.FunctionalityTest.test_func_assistant_reads_own_receipt) ... ok
+test_func_buy_at_catalog_price (test_security.FunctionalityTest.test_func_buy_at_catalog_price) ... ok
+test_func_staff_can_export (test_security.FunctionalityTest.test_func_staff_can_export) ... ok
+test_file_errors_hide_paths (test_security.HttpSecurityTest.test_file_errors_hide_paths)
+Ошибки ФС у вошедшего клиента не раскрывают абсолютный путь стенда. ... ok
+test_foreign_host_rejected (test_security.HttpSecurityTest.test_foreign_host_rejected) ... ok
+test_ids_reject_unicode_digits (test_security.HttpSecurityTest.test_ids_reject_unicode_digits)
+«²» проходит str.isdigit(), но не int(): ответ 400, а не 500. ... ok
+test_internal_errors_are_generic (test_security.HttpSecurityTest.test_internal_errors_are_generic)
+Битый SQL и внутреннее исключение не возвращают текст и тип исключения. ... ok
+test_malformed_body_returns_400 (test_security.HttpSecurityTest.test_malformed_body_returns_400)
+Тело-массив и тело без обязательных полей → 400, а не 500. ... ok
+test_post_requires_json_content_type (test_security.HttpSecurityTest.test_post_requires_json_content_type) ... ok
+test_assistant_actions_audited (test_security.ShopSecurityTest.test_assistant_actions_audited) ... ok
+test_assistant_context_has_no_foreign_pii (test_security.ShopSecurityTest.test_assistant_context_has_no_foreign_pii) ... ok
+test_assistant_context_only_own_order (test_security.ShopSecurityTest.test_assistant_context_only_own_order) ... ok
+test_assistant_context_size_bounded (test_security.ShopSecurityTest.test_assistant_context_size_bounded) ... ok
+test_assistant_context_sql_injection_blocked (test_security.ShopSecurityTest.test_assistant_context_sql_injection_blocked) ... ok
+test_assistant_execute_requires_login (test_security.ShopSecurityTest.test_assistant_execute_requires_login) ... ok
+test_assistant_read_file_only_own (test_security.ShopSecurityTest.test_assistant_read_file_only_own) ... ok
+test_customer_assistant_tools_restricted (test_security.ShopSecurityTest.test_customer_assistant_tools_restricted) ... ok
+test_debug_logs_not_public (test_security.ShopSecurityTest.test_debug_logs_not_public) ... ok
+test_delete_tree_denied_for_customer (test_security.ShopSecurityTest.test_delete_tree_denied_for_customer) ... ok
+test_export_requires_staff_session (test_security.ShopSecurityTest.test_export_requires_staff_session) ... ok
+test_files_cannot_reach_private (test_security.ShopSecurityTest.test_files_cannot_reach_private) ... ok
+test_files_only_own_receipt (test_security.ShopSecurityTest.test_files_only_own_receipt) ... ok
+test_injected_review_cannot_trigger_delete (test_security.ShopSecurityTest.test_injected_review_cannot_trigger_delete)
+Решение delete_tree, пришедшее от клиента, не должно удалять файлы. ... ok
+test_login_lockout_survives_failures_overflow (test_security.ShopSecurityTest.test_login_lockout_survives_failures_overflow)
+Переполнение счётчика неудач чужими именами не снимает блокировку alice. ... ok
+test_login_rate_limited (test_security.ShopSecurityTest.test_login_rate_limited)
+20 неверных попыток подряд должны заблокировать вход, даже верный. ... ok
+test_login_username_length_limited (test_security.ShopSecurityTest.test_login_username_length_limited)
+Слишком длинное имя отклоняется (400) и не попадает в счётчик неудач. ... ok
+test_logs_mask_secrets (test_security.ShopSecurityTest.test_logs_mask_secrets) ... ok
+test_order_has_audit_fields (test_security.ShopSecurityTest.test_order_has_audit_fields) ... ok
+test_order_price_from_catalog (test_security.ShopSecurityTest.test_order_price_from_catalog) ... ok
+test_orders_list_only_own (test_security.ShopSecurityTest.test_orders_list_only_own) ... ok
+test_passwords_not_stored_plain (test_security.ShopSecurityTest.test_passwords_not_stored_plain)
+В accounts не должно быть паролей открытым текстом. ... ok
+test_profile_requires_owner (test_security.ShopSecurityTest.test_profile_requires_owner)
+Без токена — 401; alice не может читать чужой профиль id=2. ... ok
+test_profile_sql_injection_blocked (test_security.ShopSecurityTest.test_profile_sql_injection_blocked) ... ok
+test_review_requires_login_and_known_product (test_security.ShopSecurityTest.test_review_requires_login_and_known_product) ... ok
+test_review_text_validated (test_security.ShopSecurityTest.test_review_text_validated) ... ok
+test_reviews_view_escapes_html (test_security.ShopSecurityTest.test_reviews_view_escapes_html) ... ok
+test_search_sql_injection_blocked (test_security.ShopSecurityTest.test_search_sql_injection_blocked) ... ok
+test_search_staff_only (test_security.ShopSecurityTest.test_search_staff_only) ... ok
+test_token_expires_and_logout (test_security.ShopSecurityTest.test_token_expires_and_logout)
+Токен отзывается по истечении срока жизни и после /logout (401). ... ok
+test_delete_of_fixture_root_stays_inside_exercise (test_service.SandboxTest.test_delete_of_fixture_root_stays_inside_exercise) ... ok
+test_external_directory_cannot_be_deleted (test_service.SandboxTest.test_external_directory_cannot_be_deleted) ... ok
+test_parent_paths_cannot_escape_exercise (test_service.SandboxTest.test_parent_paths_cannot_escape_exercise) ... ok
+test_symlink_cannot_escape_exercise (test_service.SandboxTest.test_symlink_cannot_escape_exercise) ... ok
+test_assistant_can_return_own_receipt (test_service.ShopTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_service.ShopTest.test_customer_can_buy_at_catalog_price) ... ok
+test_health_and_catalog (test_service.ShopTest.test_health_and_catalog) ... ok
+test_own_profile_and_receipt (test_service.ShopTest.test_own_profile_and_receipt) ... ok
+test_review_can_be_submitted_and_viewed (test_service.ShopTest.test_review_can_be_submitted_and_viewed) ... ok
+test_staff_can_export_with_staff_session (test_service.ShopTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_service.ShopTest.test_tokens_identify_distinct_users) ... ok
+test_unknown_product_rejected (test_service.ShopTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_service.ShopTest.test_wrong_password_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 58 tests in 4.990s
+
+OK
+exit: 0
+
+## make step6 (корень)
+
+Standard library only: ready
+test_health_and_not_found (test_http.HttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_http.HttpTest.test_login_and_purchase_over_http) ... ok
+test_transport_only_binds_loopback (test_http.HttpTest.test_transport_only_binds_loopback) ... ok
+test_func_alice_can_leave_review (test_security.FunctionalityTest.test_func_alice_can_leave_review) ... ok
+test_func_alice_sees_own_profile (test_security.FunctionalityTest.test_func_alice_sees_own_profile) ... ok
+test_func_alice_sees_own_receipt (test_security.FunctionalityTest.test_func_alice_sees_own_receipt) ... ok
+test_func_assistant_reads_own_receipt (test_security.FunctionalityTest.test_func_assistant_reads_own_receipt) ... ok
+test_func_buy_at_catalog_price (test_security.FunctionalityTest.test_func_buy_at_catalog_price) ... ok
+test_func_staff_can_export (test_security.FunctionalityTest.test_func_staff_can_export) ... ok
+test_file_errors_hide_paths (test_security.HttpSecurityTest.test_file_errors_hide_paths)
+Ошибки ФС у вошедшего клиента не раскрывают абсолютный путь стенда. ... ok
+test_foreign_host_rejected (test_security.HttpSecurityTest.test_foreign_host_rejected) ... ok
+test_ids_reject_unicode_digits (test_security.HttpSecurityTest.test_ids_reject_unicode_digits)
+«²» проходит str.isdigit(), но не int(): ответ 400, а не 500. ... ok
+test_internal_errors_are_generic (test_security.HttpSecurityTest.test_internal_errors_are_generic)
+Битый SQL и внутреннее исключение не возвращают текст и тип исключения. ... ok
+test_malformed_body_returns_400 (test_security.HttpSecurityTest.test_malformed_body_returns_400)
+Тело-массив и тело без обязательных полей → 400, а не 500. ... ok
+test_post_requires_json_content_type (test_security.HttpSecurityTest.test_post_requires_json_content_type) ... ok
+test_assistant_actions_audited (test_security.ShopSecurityTest.test_assistant_actions_audited) ... ok
+test_assistant_context_has_no_foreign_pii (test_security.ShopSecurityTest.test_assistant_context_has_no_foreign_pii) ... ok
+test_assistant_context_only_own_order (test_security.ShopSecurityTest.test_assistant_context_only_own_order) ... ok
+test_assistant_context_size_bounded (test_security.ShopSecurityTest.test_assistant_context_size_bounded) ... ok
+test_assistant_context_sql_injection_blocked (test_security.ShopSecurityTest.test_assistant_context_sql_injection_blocked) ... ok
+test_assistant_execute_requires_login (test_security.ShopSecurityTest.test_assistant_execute_requires_login) ... ok
+test_assistant_read_file_only_own (test_security.ShopSecurityTest.test_assistant_read_file_only_own) ... ok
+test_customer_assistant_tools_restricted (test_security.ShopSecurityTest.test_customer_assistant_tools_restricted) ... ok
+test_debug_logs_not_public (test_security.ShopSecurityTest.test_debug_logs_not_public) ... ok
+test_delete_tree_denied_for_customer (test_security.ShopSecurityTest.test_delete_tree_denied_for_customer) ... ok
+test_export_requires_staff_session (test_security.ShopSecurityTest.test_export_requires_staff_session) ... ok
+test_files_cannot_reach_private (test_security.ShopSecurityTest.test_files_cannot_reach_private) ... ok
+test_files_only_own_receipt (test_security.ShopSecurityTest.test_files_only_own_receipt) ... ok
+test_injected_review_cannot_trigger_delete (test_security.ShopSecurityTest.test_injected_review_cannot_trigger_delete)
+Решение delete_tree, пришедшее от клиента, не должно удалять файлы. ... ok
+test_login_lockout_survives_failures_overflow (test_security.ShopSecurityTest.test_login_lockout_survives_failures_overflow)
+Переполнение счётчика неудач чужими именами не снимает блокировку alice. ... ok
+test_login_rate_limited (test_security.ShopSecurityTest.test_login_rate_limited)
+20 неверных попыток подряд должны заблокировать вход, даже верный. ... ok
+test_login_username_length_limited (test_security.ShopSecurityTest.test_login_username_length_limited)
+Слишком длинное имя отклоняется (400) и не попадает в счётчик неудач. ... ok
+test_logs_mask_secrets (test_security.ShopSecurityTest.test_logs_mask_secrets) ... ok
+test_order_has_audit_fields (test_security.ShopSecurityTest.test_order_has_audit_fields) ... ok
+test_order_price_from_catalog (test_security.ShopSecurityTest.test_order_price_from_catalog) ... ok
+test_orders_list_only_own (test_security.ShopSecurityTest.test_orders_list_only_own) ... ok
+test_passwords_not_stored_plain (test_security.ShopSecurityTest.test_passwords_not_stored_plain)
+В accounts не должно быть паролей открытым текстом. ... ok
+test_profile_requires_owner (test_security.ShopSecurityTest.test_profile_requires_owner)
+Без токена — 401; alice не может читать чужой профиль id=2. ... ok
+test_profile_sql_injection_blocked (test_security.ShopSecurityTest.test_profile_sql_injection_blocked) ... ok
+test_review_requires_login_and_known_product (test_security.ShopSecurityTest.test_review_requires_login_and_known_product) ... ok
+test_review_text_validated (test_security.ShopSecurityTest.test_review_text_validated) ... ok
+test_reviews_view_escapes_html (test_security.ShopSecurityTest.test_reviews_view_escapes_html) ... ok
+test_search_sql_injection_blocked (test_security.ShopSecurityTest.test_search_sql_injection_blocked) ... ok
+test_search_staff_only (test_security.ShopSecurityTest.test_search_staff_only) ... ok
+test_token_expires_and_logout (test_security.ShopSecurityTest.test_token_expires_and_logout)
+Токен отзывается по истечении срока жизни и после /logout (401). ... ok
+test_delete_of_fixture_root_stays_inside_exercise (test_service.SandboxTest.test_delete_of_fixture_root_stays_inside_exercise) ... ok
+test_external_directory_cannot_be_deleted (test_service.SandboxTest.test_external_directory_cannot_be_deleted) ... ok
+test_parent_paths_cannot_escape_exercise (test_service.SandboxTest.test_parent_paths_cannot_escape_exercise) ... ok
+test_symlink_cannot_escape_exercise (test_service.SandboxTest.test_symlink_cannot_escape_exercise) ... ok
+test_assistant_can_return_own_receipt (test_service.ShopTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_service.ShopTest.test_customer_can_buy_at_catalog_price) ... ok
+test_health_and_catalog (test_service.ShopTest.test_health_and_catalog) ... ok
+test_own_profile_and_receipt (test_service.ShopTest.test_own_profile_and_receipt) ... ok
+test_review_can_be_submitted_and_viewed (test_service.ShopTest.test_review_can_be_submitted_and_viewed) ... ok
+test_staff_can_export_with_staff_session (test_service.ShopTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_service.ShopTest.test_tokens_identify_distinct_users) ... ok
+test_unknown_product_rejected (test_service.ShopTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_service.ShopTest.test_wrong_password_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 58 tests in 4.995s
+
+OK
+exit: 0
+
+## make test (корень)
+
+Practice 1 artifacts: OK
+Practice 2 artifacts: OK
+Standard library only: ready
+test_duplicate (test_service.SubscribeTest.test_duplicate) ... ok
+test_empty (test_service.SubscribeTest.test_empty) ... ok
+test_subscribe (test_service.SubscribeTest.test_subscribe) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+Standard library only: ready
+test_health_and_not_found (test_http.HttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_http.HttpTest.test_login_and_purchase_over_http) ... ok
+test_transport_only_binds_loopback (test_http.HttpTest.test_transport_only_binds_loopback) ... ok
+test_func_alice_can_leave_review (test_security.FunctionalityTest.test_func_alice_can_leave_review) ... ok
+test_func_alice_sees_own_profile (test_security.FunctionalityTest.test_func_alice_sees_own_profile) ... ok
+test_func_alice_sees_own_receipt (test_security.FunctionalityTest.test_func_alice_sees_own_receipt) ... ok
+test_func_assistant_reads_own_receipt (test_security.FunctionalityTest.test_func_assistant_reads_own_receipt) ... ok
+test_func_buy_at_catalog_price (test_security.FunctionalityTest.test_func_buy_at_catalog_price) ... ok
+test_func_staff_can_export (test_security.FunctionalityTest.test_func_staff_can_export) ... ok
+test_file_errors_hide_paths (test_security.HttpSecurityTest.test_file_errors_hide_paths)
+Ошибки ФС у вошедшего клиента не раскрывают абсолютный путь стенда. ... ok
+test_foreign_host_rejected (test_security.HttpSecurityTest.test_foreign_host_rejected) ... ok
+test_ids_reject_unicode_digits (test_security.HttpSecurityTest.test_ids_reject_unicode_digits)
+«²» проходит str.isdigit(), но не int(): ответ 400, а не 500. ... ok
+test_internal_errors_are_generic (test_security.HttpSecurityTest.test_internal_errors_are_generic)
+Битый SQL и внутреннее исключение не возвращают текст и тип исключения. ... ok
+test_malformed_body_returns_400 (test_security.HttpSecurityTest.test_malformed_body_returns_400)
+Тело-массив и тело без обязательных полей → 400, а не 500. ... ok
+test_post_requires_json_content_type (test_security.HttpSecurityTest.test_post_requires_json_content_type) ... ok
+test_assistant_actions_audited (test_security.ShopSecurityTest.test_assistant_actions_audited) ... ok
+test_assistant_context_has_no_foreign_pii (test_security.ShopSecurityTest.test_assistant_context_has_no_foreign_pii) ... ok
+test_assistant_context_only_own_order (test_security.ShopSecurityTest.test_assistant_context_only_own_order) ... ok
+test_assistant_context_size_bounded (test_security.ShopSecurityTest.test_assistant_context_size_bounded) ... ok
+test_assistant_context_sql_injection_blocked (test_security.ShopSecurityTest.test_assistant_context_sql_injection_blocked) ... ok
+test_assistant_execute_requires_login (test_security.ShopSecurityTest.test_assistant_execute_requires_login) ... ok
+test_assistant_read_file_only_own (test_security.ShopSecurityTest.test_assistant_read_file_only_own) ... ok
+test_customer_assistant_tools_restricted (test_security.ShopSecurityTest.test_customer_assistant_tools_restricted) ... ok
+test_debug_logs_not_public (test_security.ShopSecurityTest.test_debug_logs_not_public) ... ok
+test_delete_tree_denied_for_customer (test_security.ShopSecurityTest.test_delete_tree_denied_for_customer) ... ok
+test_export_requires_staff_session (test_security.ShopSecurityTest.test_export_requires_staff_session) ... ok
+test_files_cannot_reach_private (test_security.ShopSecurityTest.test_files_cannot_reach_private) ... ok
+test_files_only_own_receipt (test_security.ShopSecurityTest.test_files_only_own_receipt) ... ok
+test_injected_review_cannot_trigger_delete (test_security.ShopSecurityTest.test_injected_review_cannot_trigger_delete)
+Решение delete_tree, пришедшее от клиента, не должно удалять файлы. ... ok
+test_login_lockout_survives_failures_overflow (test_security.ShopSecurityTest.test_login_lockout_survives_failures_overflow)
+Переполнение счётчика неудач чужими именами не снимает блокировку alice. ... ok
+test_login_rate_limited (test_security.ShopSecurityTest.test_login_rate_limited)
+20 неверных попыток подряд должны заблокировать вход, даже верный. ... ok
+test_login_username_length_limited (test_security.ShopSecurityTest.test_login_username_length_limited)
+Слишком длинное имя отклоняется (400) и не попадает в счётчик неудач. ... ok
+test_logs_mask_secrets (test_security.ShopSecurityTest.test_logs_mask_secrets) ... ok
+test_order_has_audit_fields (test_security.ShopSecurityTest.test_order_has_audit_fields) ... ok
+test_order_price_from_catalog (test_security.ShopSecurityTest.test_order_price_from_catalog) ... ok
+test_orders_list_only_own (test_security.ShopSecurityTest.test_orders_list_only_own) ... ok
+test_passwords_not_stored_plain (test_security.ShopSecurityTest.test_passwords_not_stored_plain)
+В accounts не должно быть паролей открытым текстом. ... ok
+test_profile_requires_owner (test_security.ShopSecurityTest.test_profile_requires_owner)
+Без токена — 401; alice не может читать чужой профиль id=2. ... ok
+test_profile_sql_injection_blocked (test_security.ShopSecurityTest.test_profile_sql_injection_blocked) ... ok
+test_review_requires_login_and_known_product (test_security.ShopSecurityTest.test_review_requires_login_and_known_product) ... ok
+test_review_text_validated (test_security.ShopSecurityTest.test_review_text_validated) ... ok
+test_reviews_view_escapes_html (test_security.ShopSecurityTest.test_reviews_view_escapes_html) ... ok
+test_search_sql_injection_blocked (test_security.ShopSecurityTest.test_search_sql_injection_blocked) ... ok
+test_search_staff_only (test_security.ShopSecurityTest.test_search_staff_only) ... ok
+test_token_expires_and_logout (test_security.ShopSecurityTest.test_token_expires_and_logout)
+Токен отзывается по истечении срока жизни и после /logout (401). ... ok
+test_delete_of_fixture_root_stays_inside_exercise (test_service.SandboxTest.test_delete_of_fixture_root_stays_inside_exercise) ... ok
+test_external_directory_cannot_be_deleted (test_service.SandboxTest.test_external_directory_cannot_be_deleted) ... ok
+test_parent_paths_cannot_escape_exercise (test_service.SandboxTest.test_parent_paths_cannot_escape_exercise) ... ok
+test_symlink_cannot_escape_exercise (test_service.SandboxTest.test_symlink_cannot_escape_exercise) ... ok
+test_assistant_can_return_own_receipt (test_service.ShopTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_service.ShopTest.test_customer_can_buy_at_catalog_price) ... ok
+test_health_and_catalog (test_service.ShopTest.test_health_and_catalog) ... ok
+test_own_profile_and_receipt (test_service.ShopTest.test_own_profile_and_receipt) ... ok
+test_review_can_be_submitted_and_viewed (test_service.ShopTest.test_review_can_be_submitted_and_viewed) ... ok
+test_staff_can_export_with_staff_session (test_service.ShopTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_service.ShopTest.test_tokens_identify_distinct_users) ... ok
+test_unknown_product_rejected (test_service.ShopTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_service.ShopTest.test_wrong_password_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 58 tests in 4.994s
+
+OK
+exit: 0

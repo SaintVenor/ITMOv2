@@ -1,0 +1,250 @@
+{
+  "files_before": {
+    "files/alice/receipt.txt": {
+      "api_status": 200,
+      "present": true,
+      "on_disk": true
+    },
+    "files/bob/receipt.txt": {
+      "api_status": 200,
+      "present": true,
+      "on_disk": true
+    },
+    "private/operator-note.txt": {
+      "api_status": null,
+      "present": true,
+      "on_disk": true,
+      "note": "через API недоступна никому после исправлений; проверка по ФС"
+    }
+  },
+  "cases": [
+    {
+      "desc": "export_profiles {}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "export_profiles",
+        "arguments": {}
+      },
+      "status": 403,
+      "body": "{\"error\": \"tool not allowed\"}"
+    },
+    {
+      "desc": "export_profiles {}, токен нет",
+      "auth": "нет",
+      "decision": {
+        "tool": "export_profiles",
+        "arguments": {}
+      },
+      "status": 401,
+      "body": "{\"error\": \"login required\"}"
+    },
+    {
+      "desc": "read_file {\"path\": \"files/bob/receipt.txt\"}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "files/bob/receipt.txt"
+        }
+      },
+      "status": 403,
+      "body": "{\"error\": \"forbidden\"}"
+    },
+    {
+      "desc": "read_file {\"path\": \"files/bob/receipt.txt\"}, токен нет",
+      "auth": "нет",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "files/bob/receipt.txt"
+        }
+      },
+      "status": 401,
+      "body": "{\"error\": \"login required\"}"
+    },
+    {
+      "desc": "read_file {\"path\": \"private/operator-note.txt\"}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "private/operator-note.txt"
+        }
+      },
+      "status": 403,
+      "body": "{\"error\": \"forbidden\"}"
+    },
+    {
+      "desc": "read_file {\"path\": \"private/operator-note.txt\"}, токен нет",
+      "auth": "нет",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "private/operator-note.txt"
+        }
+      },
+      "status": 401,
+      "body": "{\"error\": \"login required\"}"
+    },
+    {
+      "desc": "read_file {\"path\": \"files/alice/../../private/operator-note.txt\"}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "files/alice/../../private/operator-note.txt"
+        }
+      },
+      "status": 403,
+      "body": "{\"error\": \"forbidden\"}"
+    },
+    {
+      "desc": "read_file {\"path\": \"files/alice/receipt.txt\"}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "files/alice/receipt.txt"
+        }
+      },
+      "status": 200,
+      "body": "{\"content\": \"TEST_ALICE receipt: chair, 5000 RUB\"}"
+    },
+    {
+      "desc": "read_file {\"path\": \"files/alice/receipt.txt\"}, токен нет",
+      "auth": "нет",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "files/alice/receipt.txt"
+        }
+      },
+      "status": 401,
+      "body": "{\"error\": \"login required\"}"
+    },
+    {
+      "desc": "delete_tree {\"path\": \"files\"}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "delete_tree",
+        "arguments": {
+          "path": "files"
+        }
+      },
+      "status": 403,
+      "body": "{\"error\": \"tool not allowed\"}"
+    },
+    {
+      "desc": "delete_tree {\"path\": \"files\"}, токен нет",
+      "auth": "нет",
+      "decision": {
+        "tool": "delete_tree",
+        "arguments": {
+          "path": "files"
+        }
+      },
+      "status": 401,
+      "body": "{\"error\": \"login required\"}"
+    },
+    {
+      "desc": "delete_tree {\"path\": \".\"}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "delete_tree",
+        "arguments": {
+          "path": "."
+        }
+      },
+      "status": 403,
+      "body": "{\"error\": \"tool not allowed\"}"
+    },
+    {
+      "desc": "delete_tree {\"path\": \".\"}, токен нет",
+      "auth": "нет",
+      "decision": {
+        "tool": "delete_tree",
+        "arguments": {
+          "path": "."
+        }
+      },
+      "status": 401,
+      "body": "{\"error\": \"login required\"}"
+    },
+    {
+      "desc": "delete_tree {\"path\": \"\"}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "delete_tree",
+        "arguments": {
+          "path": ""
+        }
+      },
+      "status": 403,
+      "body": "{\"error\": \"tool not allowed\"}"
+    },
+    {
+      "desc": "run_shell {\"cmd\": \"id\"}, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "run_shell",
+        "arguments": {
+          "cmd": "id"
+        }
+      },
+      "status": 400,
+      "body": "{\"error\": \"unknown tool\"}"
+    },
+    {
+      "desc": "export_profiles {}, токен staff",
+      "auth": "staff",
+      "decision": {
+        "tool": "export_profiles",
+        "arguments": {}
+      },
+      "status": 200,
+      "body": "[{\"id\": 1, \"name\": \"TEST_ALICE\", \"email\": \"alice@example.invalid\", \"address\": \"TEST_ADDRESS_A\"}, {\"id\": 2, \"name\": \"TEST_BOB\", \"email\": \"bob@example.invalid\", \"address\": \"TEST_ADDRESS_B\"}]"
+    },
+    {
+      "desc": "delete_tree {\"path\": \"files\"}, токен staff",
+      "auth": "staff",
+      "decision": {
+        "tool": "delete_tree",
+        "arguments": {
+          "path": "files"
+        }
+      },
+      "status": 403,
+      "body": "{\"error\": \"tool not allowed\"}"
+    },
+    {
+      "desc": "read_file {\"path\": \"private/operator-note.txt\"}, токен staff",
+      "auth": "staff",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "private/operator-note.txt"
+        }
+      },
+      "status": 403,
+      "body": "{\"error\": \"forbidden\"}"
+    }
+  ],
+  "files_after": {
+    "files/alice/receipt.txt": {
+      "api_status": 200,
+      "present": true,
+      "on_disk": true
+    },
+    "files/bob/receipt.txt": {
+      "api_status": 200,
+      "present": true,
+      "on_disk": true
+    },
+    "private/operator-note.txt": {
+      "api_status": null,
+      "present": true,
+      "on_disk": true,
+      "note": "через API недоступна никому после исправлений; проверка по ФС"
+    }
+  }
+}

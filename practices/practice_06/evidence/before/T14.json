@@ -1,0 +1,31 @@
+{
+  "id": "T14",
+  "route": "GET /files",
+  "category": "I, E",
+  "severity": "Высокая",
+  "verdict": "подтверждена",
+  "why": "user=bob без токена вернул чек bob (TEST_BOB)",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=bob&path=receipt.txt",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "47"
+        },
+        "body": "{\"content\": \"TEST_BOB receipt: lamp, 1500 RUB\"}",
+        "json": {
+          "content": "TEST_BOB receipt: lamp, 1500 RUB"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "T25",
+  "route": "HTTP-обработчик",
+  "category": "T, S",
+  "severity": "Средняя",
+  "verdict": "подтверждена",
+  "why": "POST с Content-Type text/plain разобран как JSON (CSRF без preflight), запрос с Host: evil.example принят — нет защиты от DNS rebinding",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/reviews",
+        "headers": {
+          "Content-Type": "text/plain"
+        },
+        "body": "{\"product\": \"chair\", \"text\": \"csrf-text-plain\"}"
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "15"
+        },
+        "body": "{\"saved\": true}",
+        "json": {
+          "saved": true
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/health",
+        "headers": {
+          "Host": "evil.example"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "16"
+        },
+        "body": "{\"status\": \"ok\"}",
+        "json": {
+          "status": "ok"
+        }
+      }
+    }
+  ]
+}

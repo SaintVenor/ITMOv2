@@ -1,0 +1,308 @@
+[
+  {
+    "id": "T02",
+    "route": "POST /login",
+    "category": "S",
+    "severity": "Средняя",
+    "verdict": "подтверждена",
+    "why": "20 неверных паролей подряд не вызвали блокировку, 21-я верная попытка сразу выдала токен — подбор ничем не ограничен",
+    "evidence": "T02.json"
+  },
+  {
+    "id": "T03",
+    "route": "POST /login, sessions",
+    "category": "S, E",
+    "severity": "Средняя",
+    "verdict": "подтверждена",
+    "why": "маршрута /logout нет (404), токен продолжает работать после попытки выхода — отозвать сессию нельзя",
+    "evidence": "T03.json"
+  },
+  {
+    "id": "T06",
+    "route": "GET /profile",
+    "category": "I, E",
+    "severity": "Высокая",
+    "verdict": "подтверждена",
+    "why": "без токена id=2 вернул профиль bob (TEST_BOB) — чтение чужих ПДн анонимно",
+    "evidence": "T06.json"
+  },
+  {
+    "id": "T07",
+    "route": "GET /profile",
+    "category": "I, T, D",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "id=1 OR 1=1 вернул все профили, UNION SELECT подтянул строки таблицы orders — произвольное чтение БД через f-строку",
+    "evidence": "T07.json"
+  },
+  {
+    "id": "T08",
+    "route": "GET /search",
+    "category": "I, D",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "UNION SELECT в q вытащил строки таблицы orders в выдачу /search",
+    "evidence": "T08.json"
+  },
+  {
+    "id": "T09",
+    "route": "GET /search",
+    "category": "I",
+    "severity": "Высокая",
+    "verdict": "подтверждена",
+    "why": "пустой q без токена вернул все профили клиентов (ПДн)",
+    "evidence": "T09.json"
+  },
+  {
+    "id": "T10",
+    "route": "GET /orders",
+    "category": "I",
+    "severity": "Высокая",
+    "verdict": "подтверждена",
+    "why": "без токена /orders вернул заказы всех владельцев (owner 1 и 2)",
+    "evidence": "T10.json"
+  },
+  {
+    "id": "T11",
+    "route": "POST /orders",
+    "category": "T",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "сервер принял цену из тела: 1, -5000 и строку 'free' вместо каталожной 5000 — подмена и отрицательная сумма",
+    "evidence": "T11.json"
+  },
+  {
+    "id": "T12",
+    "route": "POST /orders",
+    "category": "R",
+    "severity": "Низкая",
+    "verdict": "подтверждена",
+    "why": "в созданном заказе нет времени, источника и каталожной цены — подмену цены (T11) невозможно доказать",
+    "evidence": "T12.json"
+  },
+  {
+    "id": "T13",
+    "route": "GET /admin/export",
+    "category": "E, S, I",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "curl с X-Role: staff без токена выгрузил все профили — авторизация по заголовку клиента",
+    "evidence": "T13.json"
+  },
+  {
+    "id": "T14",
+    "route": "GET /files",
+    "category": "I, E",
+    "severity": "Высокая",
+    "verdict": "подтверждена",
+    "why": "user=bob без токена вернул чек bob (TEST_BOB)",
+    "evidence": "T14.json"
+  },
+  {
+    "id": "T15",
+    "route": "GET /files",
+    "category": "I, E",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "параметры user/path с .. вывели за files/<user> и прочитали private/operator-note.txt (TEST_ONLY_OPERATOR_SECRET)",
+    "evidence": "T15.json"
+  },
+  {
+    "id": "T16",
+    "route": "GET /files",
+    "category": "I",
+    "severity": "Средняя",
+    "verdict": "подтверждена",
+    "why": "ошибки path=. и несуществующего файла вернули абсолютный путь /tmp/... стенда",
+    "evidence": "T16.json"
+  },
+  {
+    "id": "T17",
+    "route": "Обработчик ошибок",
+    "category": "I",
+    "severity": "Средняя",
+    "verdict": "подтверждена",
+    "why": "битый SQL вернул 500 с текстом исключения SQLite и его типом — разведка для инъекций",
+    "evidence": "T17.json"
+  },
+  {
+    "id": "T18+T19",
+    "route": "GET /debug/logs",
+    "category": "I, S, E",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "/debug/logs без токена отдал журнал с паролем 'learn-alice' в теле /login и токеном сессии из заголовка X-Token в открытом виде",
+    "evidence": "T18+T19.json"
+  },
+  {
+    "id": "T20",
+    "route": "POST /reviews",
+    "category": "S, R",
+    "severity": "Средняя",
+    "verdict": "подтверждена",
+    "why": "отзыв принят без токена и с несуществующим product; автор нигде не сохраняется — поддельные анонимные отзывы",
+    "evidence": "T20.json"
+  },
+  {
+    "id": "T21",
+    "route": "POST /reviews",
+    "category": "T, D",
+    "severity": "Низкая",
+    "verdict": "подтверждена",
+    "why": "принят отзыв 10 000 символов и отзыв, где text — объект, а не строка",
+    "evidence": "T21.json"
+  },
+  {
+    "id": "T22",
+    "route": "GET /reviews/view",
+    "category": "T, I, E",
+    "severity": "Высокая",
+    "verdict": "подтверждена",
+    "why": "отзыв <script> вернулся в /reviews/view без экранирования с Content-Type text/html — хранимый XSS в источнике сервиса",
+    "evidence": "T22.json"
+  },
+  {
+    "id": "T23",
+    "route": "GET /assistant/context",
+    "category": "I",
+    "severity": "Высокая",
+    "verdict": "подтверждена",
+    "why": "без токена order_id=2 (заказ bob, lamp) попал в контекст помощника",
+    "evidence": "T23.json"
+  },
+  {
+    "id": "T24",
+    "route": "GET /assistant/context",
+    "category": "I",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "UNION SELECT в order_id подставил имена и email всех профилей прямо в промпт для внешней LLM",
+    "evidence": "T24.json"
+  },
+  {
+    "id": "T25",
+    "route": "HTTP-обработчик",
+    "category": "T, S",
+    "severity": "Средняя",
+    "verdict": "подтверждена",
+    "why": "POST с Content-Type text/plain разобран как JSON (CSRF без preflight), запрос с Host: evil.example принят — нет защиты от DNS rebinding",
+    "evidence": "T25.json"
+  },
+  {
+    "id": "T27",
+    "route": "Разбор тела",
+    "category": "D",
+    "severity": "Низкая",
+    "verdict": "подтверждена",
+    "why": "тело-массив и тело без обязательных полей вызвали 500 с текстом исключения",
+    "evidence": "T27.json"
+  },
+  {
+    "id": "L03",
+    "route": "POST /assistant/execute",
+    "category": "E",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "помощник клиента alice выполнил export_profiles и вернул все профили — инструмент с чрезмерными полномочиями доступен customer",
+    "evidence": "L03.json"
+  },
+  {
+    "id": "L04",
+    "route": "POST /assistant/execute",
+    "category": "S, E",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "export_profiles выполнен анонимно без X-Token — исполнитель не проверяет аутентификацию",
+    "evidence": "L04.json"
+  },
+  {
+    "id": "L05",
+    "route": "POST /assistant/execute",
+    "category": "T, E",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "токеном alice read_file прочитал чек bob и служебную заметку private/ — путь не сверяется с файлами вызывающего",
+    "evidence": "L05.json"
+  },
+  {
+    "id": "L07",
+    "route": "GET /assistant/context",
+    "category": "I",
+    "severity": "Высокая",
+    "verdict": "подтверждена",
+    "why": "в контекст заказа alice попали отзывы по чужому товару (lamp) — в промпт склеиваются все отзывы всех пользователей",
+    "evidence": "L07.json"
+  },
+  {
+    "id": "L08",
+    "route": "GET /assistant/context",
+    "category": "D",
+    "severity": "Средняя",
+    "verdict": "подтверждена",
+    "why": "50 отзывов раздули промпт помощника с 10680 до 22820 символов — потребление контекста не ограничено",
+    "evidence": "L08.json"
+  },
+  {
+    "id": "L06",
+    "route": "POST /assistant/execute",
+    "category": "D, T",
+    "severity": "Критическая",
+    "verdict": "подтверждена",
+    "why": "анонимный delete_tree path='files' удалил чеки всех клиентов; до — присутствовали, после — /files отдаёт ошибку",
+    "evidence": "L06.json"
+  },
+  {
+    "id": "T04",
+    "route": "POST /login",
+    "category": "I",
+    "severity": "Низкая",
+    "verdict": "подтверждена чтением кода",
+    "why": "сравнение пароля '!=' не за постоянное время",
+    "evidence": "service.py:51"
+  },
+  {
+    "id": "T05",
+    "route": "accounts",
+    "category": "I, S",
+    "severity": "Низкая",
+    "verdict": "подтверждена чтением кода",
+    "why": "пароли захардкожены открытым текстом без хеширования",
+    "evidence": "service.py:28-32"
+  },
+  {
+    "id": "T26",
+    "route": "Глобальная блокировка/память",
+    "category": "D",
+    "severity": "Средняя",
+    "verdict": "подтверждена чтением кода",
+    "why": "все запросы под одной RLock; logs/reviews/sessions растут без лимита (DoS специально не исполняется)",
+    "evidence": "service.py:126,33-36,44"
+  },
+  {
+    "id": "L01",
+    "route": "/reviews → /assistant/context",
+    "category": "T, E",
+    "severity": "Высокая",
+    "verdict": "проверяется на реальной модели",
+    "why": "косвенная prompt injection — см. evidence/before/pi-*",
+    "evidence": "service.py:84,95"
+  },
+  {
+    "id": "L02",
+    "route": "/assistant/context question",
+    "category": "T",
+    "severity": "Средняя",
+    "verdict": "подтверждена чтением кода",
+    "why": "question склеивается в промпт без разделителя (service.py:96); серверная защита — L03–L05",
+    "evidence": "service.py:96"
+  },
+  {
+    "id": "L09",
+    "route": "/assistant/execute, журнал",
+    "category": "R",
+    "severity": "Средняя",
+    "verdict": "подтверждена чтением кода",
+    "why": "нет аудита действий помощника: журнал хранит только сырые запросы без пользователя/заказа/инструмента",
+    "evidence": "service.py:44,99-109"
+  }
+]

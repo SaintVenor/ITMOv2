@@ -1,0 +1,78 @@
+{
+  "id": "T08",
+  "route": "GET /search",
+  "category": "I, D",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "UNION SELECT в q вытащил строки таблицы orders в выдачу /search",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/search?q=' UNION SELECT id,product,price,owner FROM orders --",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/search?q=' UNION SELECT id,product,price,owner FROM orders --",
+        "headers": {
+          "X-Token": "cd0e222d0aab4ea5ae6c25871239f70f"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/search?q=' UNION SELECT id,product,price,owner FROM orders --",
+        "headers": {
+          "X-Token": "cac8ce51dff145e6a7c6c6339b70c219"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "2",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "[]",
+        "json": []
+      }
+    }
+  ]
+}

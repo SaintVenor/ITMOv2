@@ -1,0 +1,77 @@
+{
+  "id": "T12",
+  "route": "POST /orders",
+  "category": "R",
+  "severity": "Низкая",
+  "verdict": "не подтверждена",
+  "why": "в созданном заказе нет времени, источника и каталожной цены — подмену цены (T11) невозможно доказать",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"token\": \"0ab047a0c2974bf49d0f46a71f1aeb6b\"}",
+        "json": {
+          "token": "0ab047a0c2974bf49d0f46a71f1aeb6b"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "0ab047a0c2974bf49d0f46a71f1aeb6b",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "lamp"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "115",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"id\": 6, \"owner\": 1, \"product\": \"lamp\", \"price\": 1500, \"created_at\": \"2026-10-30T22:08:48+00:00\", \"source\": \"api\"}",
+        "json": {
+          "id": 6,
+          "owner": 1,
+          "product": "lamp",
+          "price": 1500,
+          "created_at": "2026-10-30T22:08:48+00:00",
+          "source": "api"
+        }
+      }
+    }
+  ],
+  "order_fields": [
+    "created_at",
+    "id",
+    "owner",
+    "price",
+    "product",
+    "source"
+  ]
+}

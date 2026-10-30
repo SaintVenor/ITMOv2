@@ -1,0 +1,117 @@
+{
+  "id": "L06",
+  "route": "POST /assistant/execute",
+  "category": "D, T",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "анонимный delete_tree path='files' удалил чеки всех клиентов; до — присутствовали, после — /files отдаёт ошибку",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/assistant/execute",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "decision": {
+            "tool": "delete_tree",
+            "arguments": {
+              "path": "files"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:50 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/assistant/execute",
+        "headers": {
+          "X-Token": "2aa1a3b0472743689e1eced12fcddb52",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "decision": {
+            "tool": "delete_tree",
+            "arguments": {
+              "path": "files"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:50 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "29",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"tool not allowed\"}",
+        "json": {
+          "error": "tool not allowed"
+        }
+      }
+    }
+  ],
+  "files_before": {
+    "files/alice/receipt.txt": {
+      "status": 200,
+      "present": true,
+      "content": "TEST_ALICE receipt: chair, 5000 RUB",
+      "on_disk": true
+    },
+    "files/bob/receipt.txt": {
+      "status": 200,
+      "present": true,
+      "content": "TEST_BOB receipt: lamp, 1500 RUB",
+      "on_disk": true
+    },
+    "private/operator-note.txt": {
+      "status": 401,
+      "present": false,
+      "content": {
+        "error": "login required"
+      },
+      "on_disk": true
+    }
+  },
+  "files_after": {
+    "files/alice/receipt.txt": {
+      "status": 200,
+      "present": true,
+      "content": "TEST_ALICE receipt: chair, 5000 RUB",
+      "on_disk": true
+    },
+    "files/bob/receipt.txt": {
+      "status": 200,
+      "present": true,
+      "content": "TEST_BOB receipt: lamp, 1500 RUB",
+      "on_disk": true
+    },
+    "private/operator-note.txt": {
+      "status": 401,
+      "present": false,
+      "content": {
+        "error": "login required"
+      },
+      "on_disk": true
+    }
+  }
+}

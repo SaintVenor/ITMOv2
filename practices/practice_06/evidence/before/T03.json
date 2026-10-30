@@ -1,0 +1,128 @@
+{
+  "id": "T03",
+  "route": "POST /login, sessions",
+  "category": "S, E",
+  "severity": "Средняя",
+  "verdict": "подтверждена",
+  "why": "маршрута /logout нет (404), токен продолжает работать после попытки выхода — отозвать сессию нельзя",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45"
+        },
+        "body": "{\"token\": \"02115c10de9141e38a3b832fc264a270\"}",
+        "json": {
+          "token": "02115c10de9141e38a3b832fc264a270"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "02115c10de9141e38a3b832fc264a270"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "119"
+        },
+        "body": "[{\"id\": 1, \"owner\": 1, \"product\": \"chair\", \"price\": 5000.0}, {\"id\": 2, \"owner\": 2, \"product\": \"lamp\", \"price\": 1500.0}]",
+        "json": [
+          {
+            "id": 1,
+            "owner": 1,
+            "product": "chair",
+            "price": 5000.0
+          },
+          {
+            "id": 2,
+            "owner": 2,
+            "product": "lamp",
+            "price": 1500.0
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/logout",
+        "headers": {
+          "X-Token": "02115c10de9141e38a3b832fc264a270",
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22"
+        },
+        "body": "{\"error\": \"not found\"}",
+        "json": {
+          "error": "not found"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "02115c10de9141e38a3b832fc264a270"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "119"
+        },
+        "body": "[{\"id\": 1, \"owner\": 1, \"product\": \"chair\", \"price\": 5000.0}, {\"id\": 2, \"owner\": 2, \"product\": \"lamp\", \"price\": 1500.0}]",
+        "json": [
+          {
+            "id": 1,
+            "owner": 1,
+            "product": "chair",
+            "price": 5000.0
+          },
+          {
+            "id": 2,
+            "owner": 2,
+            "product": "lamp",
+            "price": 1500.0
+          }
+        ]
+      }
+    }
+  ]
+}

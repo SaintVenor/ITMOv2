@@ -1,0 +1,56 @@
+{
+  "id": "T23",
+  "route": "GET /assistant/context",
+  "category": "I",
+  "severity": "Высокая",
+  "verdict": "не подтверждена",
+  "why": "без токена order_id=2 (заказ bob, lamp) попал в контекст помощника",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/assistant/context?order_id=2",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/assistant/context?order_id=2",
+        "headers": {
+          "X-Token": "a087f586dce440f3aae7682b4643bb57"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    }
+  ]
+}

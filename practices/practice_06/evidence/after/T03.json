@@ -1,0 +1,117 @@
+{
+  "id": "T03",
+  "route": "POST /login, sessions",
+  "category": "S, E",
+  "severity": "Средняя",
+  "verdict": "не подтверждена",
+  "why": "маршрута /logout нет (404), токен продолжает работать после попытки выхода — отозвать сессию нельзя",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"token\": \"660df3db08c94a809cdaf13f3eefbc96\"}",
+        "json": {
+          "token": "660df3db08c94a809cdaf13f3eefbc96"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "660df3db08c94a809cdaf13f3eefbc96"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "121",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "[{\"id\": 1, \"owner\": 1, \"product\": \"chair\", \"price\": 5000.0, \"created_at\": \"2026-10-01T00:00:00+00:00\", \"source\": \"seed\"}]",
+        "json": [
+          {
+            "id": 1,
+            "owner": 1,
+            "product": "chair",
+            "price": 5000.0,
+            "created_at": "2026-10-01T00:00:00+00:00",
+            "source": "seed"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/logout",
+        "headers": {
+          "X-Token": "660df3db08c94a809cdaf13f3eefbc96",
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "20",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"logged_out\": true}",
+        "json": {
+          "logged_out": true
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "660df3db08c94a809cdaf13f3eefbc96"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "id": "T07",
+  "route": "GET /profile",
+  "category": "I, T, D",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "id=1 OR 1=1 вернул все профили, UNION SELECT подтянул строки таблицы orders — произвольное чтение БД через f-строку",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/profile?id=1 OR 1=1",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/profile?id=0 UNION SELECT id,product,price,owner FROM orders",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/profile?id=1 OR 1=1",
+        "headers": {
+          "X-Token": "1e797ffaf1794dbc89e11a7bdb2c8d1b"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "23",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"invalid id\"}",
+        "json": {
+          "error": "invalid id"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/profile?id=0 UNION SELECT id,product,price,owner FROM orders",
+        "headers": {
+          "X-Token": "1e797ffaf1794dbc89e11a7bdb2c8d1b"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "23",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"invalid id\"}",
+        "json": {
+          "error": "invalid id"
+        }
+      }
+    }
+  ]
+}

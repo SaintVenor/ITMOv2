@@ -1,0 +1,148 @@
+{
+  "id": "T15",
+  "route": "GET /files",
+  "category": "I, E",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "параметры user/path с .. вывели за files/<user> и прочитали private/operator-note.txt (TEST_ONLY_OPERATOR_SECRET)",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=..&path=private/operator-note.txt",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=alice&path=../../private/operator-note.txt",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=../private&path=operator-note.txt",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=..&path=private/operator-note.txt",
+        "headers": {
+          "X-Token": "a55474a2e6444faa938bd656c8bf8565"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=alice&path=../../private/operator-note.txt",
+        "headers": {
+          "X-Token": "a55474a2e6444faa938bd656c8bf8565"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=../private&path=operator-note.txt",
+        "headers": {
+          "X-Token": "a55474a2e6444faa938bd656c8bf8565"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    }
+  ]
+}
