@@ -1,0 +1,165 @@
+ ▐▛███▛█   Claude Code v2.1.312
+▝▜██████▀  Sonnet 5 · Claude Pro
+ ▝▝   ▝▝   ~/ITMOv2/practices/practice_05/review-desk
+
+
+❯ /opsx:propose path-id-overflow-404                                            
+                                                                                
+  Связанная с review-queue-task-filter фича: исправить известную проблему B,    
+  записанную в                                                                  
+  openspec/changes/archive/2026-10-30-review-queue-task-filter/proposal.md.     
+  Сейчас сверхбольшие числовые id в путях (больше 2^63-1), например             
+  /assignments/99999999999999999999, /submissions/99999999999999999999 и        
+  POST /submissions/99999999999999999999/review, падают с 500 (OverflowError    
+  в SQLite). Должно быть 404 «Не найдено» - так же, как сейчас для нечислового  
+  id (handle_bad_path в app/main.py).                                           
+                                                                                
+  Сначала сам найди все маршруты с числовыми параметрами пути и проверь         
+  текущее поведение на .venv (без записи файлов вне change).                    
+                                                                                
+  Требования к артефактам:                                                      
+  - спека: новая capability, только ADDED; сценарии WHEN/THEN для каждого       
+    маршрута, граница 2^63-1 (существует ли - 404 как несуществующий) и 2^63;   
+    сохраняемое поведение: все тесты baseline и                                 
+  tests/test_review_queue_task_filter.py;                                       
+  - proposal: что вне рамок (другие ошибки, docs/baseline.md не меняем);        
+  - design.md обязателен; в нём должен быть раздел «Поток обработки запроса»,   
+    где текстом описано взаимодействие: запрос -> middleware сессии ->          
+    разбор параметра пути -> обработчик ошибок / сервис -> SQLite, и где        
+    именно отсекается переполнение;                                             
+  - tasks.md: тест -> падение -> реализация -> sh scripts/check.sh.             
+                                                                                
+  Остановись до apply, код не меняй. В конце openspec validate                  
+  path-id-overflow-404 --strict.                                                
+
+● Skill(opsx:propose)
+  ⎿  Successfully loaded skill · 1 tool allowed
+
+● I'll start by loading OpenSpec context and exploring the codebase for routes
+  with numeric path params.
+
+  Searched for 2 patterns, ran 1 shell command (ctrl+o to expand)
+
+● Root resolved. Let me look at the full project structure and routing files.
+
+  Made 4 scratchpad edits +61 -4, searched for 5 patterns, read 6 files, listed 1 directory, ran 9 shell commands (ctrl+o to expand)
+
+● Schema is spec-driven, context mandates Russian artifacts. Now creating the
+  change directory.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Required set: proposal → specs, design → tasks. Let's get proposal
+  instructions first.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Write(openspec/changes/path-id-overflow-404/proposal.md)
+  ⎿  Wrote 27 lines to openspec/changes/path-id-overflow-404/proposal.md
+      1 # Proposal
+      2 
+      3 ## Why
+      4 
+      5 Известная проблема B из архива `2026-10-30-review-queue-task-filt
+        er`: сверхбольшие числовые id в пути (`> 2^63-1`) приводят к `500
+        ` (`OverflowError` в SQLite) вместо `404` «Не найдено». Для нечис
+        ловых id (`/assignments/abc`) приложение уже отдаёт `404` через `
+        handle_bad_path`; переполняющие числовые id ведут себя иначе, пот
+        ому что `OverflowError` возникает позже — при обращении к SQLite,
+     … +23 lines (~2 KB) (ctrl+o to expand)
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Now specs and design are both ready. Let's fetch instructions for both.
+
+  Ran 4 shell commands (ctrl+o to expand)
+
+● Write(openspec/changes/path-id-overflow-404/specs/path-id-bounds/spec.md)
+  ⎿  Wrote 71 lines to
+     openspec/changes/path-id-overflow-404/specs/path-id-bounds/spec.md
+       1 # Spec Delta
+       2 
+       3 ## Purpose
+       4 
+       5 Эта capability описывает, как система отвечает на запросы с числ
+         овым id в пути (`assignment_id`, `submission_id`), который не ук
+         ладывается в диапазон `INTEGER` SQLite: такой id SHALL считаться
+          несуществующим ресурсом.
+       6 
+       7 ## ADDED Requirements
+     … +64 lines (ctrl+o to expand)
+
+● Spec written. Now design.md with the required "Поток обработки запроса"
+  section.
+
+● Write(openspec/changes/path-id-overflow-404/design.md)
+  ⎿  Wrote 61 lines to openspec/changes/path-id-overflow-404/design.md
+      1 # Design
+      2 
+      3 ## Context
+      4 
+      5 См. `proposal.md` — Why. Текущее поведение проверено на `.venv` (
+        TestClient, in-memory SQLite):
+      6 
+      7 - `GET /assignments/{id}`, `POST /assignments/{id}/submissions`, 
+        `GET /submissions/{id}`, `POST /submissions/{id}/review` — все че
+        тыре маршрута с числовым id в пути падают с `500`, если id вне `-
+     … +55 lines (~9 KB) (ctrl+o to expand)
+
+● Now checking status before tasks.md.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Write(openspec/changes/path-id-overflow-404/tasks.md)
+  ⎿  Wrote 22 lines to openspec/changes/path-id-overflow-404/tasks.md
+      1 # Tasks
+      2 
+      3 ## 1. Тест, фиксирующий известную проблему B (red)
+      4 
+      5 - [ ] 1.1 Написать `tests/test_path_id_overflow_404.py`: параметр
+        изованные кейсы для всех четырёх маршрутов (`GET /assignments/{id
+        }`, `POST /assignments/{id}/submissions`, `GET /submissions/{id}`
+        , `POST /submissions/{id}/review`) на значениях `2**63-1` (сущест
+        вующий baseline-сценарий: обычный `404`, если такой строки нет), 
+        `2**63`, `99999999999999999999`, `-(2**63)` и `-(2**63)-1`/`-9999
+     … +18 lines (~2 KB) (ctrl+o to expand)
+
+● All artifacts written. Final status check and strict validation.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+● Все четыре артефакта готовы и прошли openspec validate path-id-overflow-404 
+  --strict.
+
+  Изначальное исследование (на .venv, без правок кода):
+  Нашёл 4 маршрута с числовым id в пути — GET /assignments/{id}, POST 
+  /assignments/{id}/submissions, GET /submissions/{id}, POST 
+  /submissions/{id}/review. Все четыре падают с 500 при id вне -2^63 … 2^63-1
+  (подтверждено трассировкой: OverflowError возникает глубоко в cursor.execute,
+  минуя все обработчики в app/main.py). Граница 2^63-1 сама по себе работает
+  нормально (обычный 404, если строки нет); 2^63 и дальше — уже 500. Поведение
+  симметрично и на отрицательной стороне (-2^63 ок, -2^63-1 уже 500).
+
+  Артефакты (openspec/changes/path-id-overflow-404/):
+  - proposal.md — новая capability path-id-bounds, только ADDED; явно вне рамок:
+    другие ошибки, docs/baseline.md, query-фильтр /review (уже защищён).
+  - specs/path-id-bounds/spec.md — 4 requirement (по одному на маршрут), в
+    каждом сценарии на границе 2^63-1, 2^63, сверхбольшой и сверхотрицательный
+    id.
+  - design.md — решение проверять диапазон в сервисном слое (get_assignment,
+    get_submission_for, create_review), общая константа SQLITE_INT_MIN/MAX в
+    app/services/validation.py (заменяет локальную в reviews.py); раздел «Поток
+    обработки запроса» описывает цепочку запрос →
+    SessionMiddleware/require_session → разбор path-параметра pydantic'ом
+    (который не ограничивает разрядность) → сервисная функция → новая проверка
+    диапазона (здесь отсекается переполнение, до db.get) → при выходе за
+    диапазон NotFound → handle_service_error → 404.
+  - tasks.md — тест (red) → общая граница в validation.py → применение проверки
+    в 3 точках входа → регрессия baseline + review_queue_task_filter → sh 
+    scripts/check.sh.
+
+  Код не менял, apply не запускал. Готово к /opsx:apply, когда скажешь.
+
+✻ Crunched for 6m 51s · done 2:34 AM
+
+※ recap: Planning the path-id-overflow-404 fix for oversized path ids crashing with 500 instead of 404; all OpenSpec artifacts are written and validated. Next: you say go, then I run /opsx:apply to implement and test it. (disable recaps in /config)
