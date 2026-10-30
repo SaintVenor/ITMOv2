@@ -26,3 +26,7 @@ context: |
 #     archive:
 #       guidance:
 #         - Summarize the archive outcome before finishing
+
+rules:
+  design:
+    - Объясни взаимодействие диаграммой Mermaid.
