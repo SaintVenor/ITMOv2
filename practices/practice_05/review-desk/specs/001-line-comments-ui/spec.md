@@ -4,7 +4,7 @@
 
 **Created**: 2026-10-30
 
-**Status**: Draft
+**Status**: Implemented
 
 **Input**: User description: «Построчные комментарии ментора к коду сдачи: интерфейс» (бриф: `course/homework-05/01-brief.md`)
 

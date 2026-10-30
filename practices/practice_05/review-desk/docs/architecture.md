@@ -15,18 +15,20 @@ app/
   main.py          # создание приложения, middleware, подключение роутеров
   config.py        # настройки из окружения: SECRET_KEY, DATABASE_URL
   db.py            # engine, SessionLocal, get_db
-  models.py        # User, Assignment, Submission, Review
+  models.py        # User, Assignment, Submission, Review, LineComment
   services/        # вся бизнес-логика; не знает про HTTP и шаблоны
     auth.py
     assignments.py
     submissions.py
     reviews.py
+    line_comments.py   # построчные комментарии: строки кода, права, разбор номера
   web/             # HTTP-роуты: разбор формы → вызов сервиса → шаблон или редирект
     deps.py        # current_user, require_mentor, require_student
     auth.py
     assignments.py
     submissions.py
     review.py
+    line_comments.py   # POST /submissions/{id}/line-comments
   templates/
   static/style.css
   cli.py           # create-user
@@ -44,6 +46,7 @@ scripts/check.sh   # единая команда проверки
 | `assignments` | `id`, `title`, `description`, `author_id` → users, `created_at` |
 | `submissions` | `id`, `assignment_id` → assignments, `student_id` → users, `attempt`, `code`, `status` (`pending`/`accepted`/`changes_requested`), `created_at`; unique (`assignment_id`, `student_id`, `attempt`) |
 | `reviews` | `id`, `submission_id` → submissions (unique), `mentor_id` → users, `verdict`, `comment`, `created_at` |
+| `line_comments` | `id`, `submission_id` → submissions, `line` (≥ 1), `text`, `author_id` → users, `created_at`; без unique: на строку можно несколько комментариев (`specs/line-comments-contract.md`, LC-01) |
 
 ## Страницы
 
