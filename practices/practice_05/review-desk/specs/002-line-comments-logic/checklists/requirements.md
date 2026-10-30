@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [x] No [NEEDS CLARIFICATION] markers remain (0 осталось: FR-016 и FR-017 сняты на шаге clarify)
+- [x] No unresolved-question markers remain (0 осталось: FR-016 и FR-017 сняты на шаге clarify)
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -31,6 +31,7 @@
 
 ## Notes
 
-- Маркеров [NEEDS CLARIFICATION] нет (0): FR-016 (статусы сдачи — любой) и FR-017 (видимость ученику — сразу) сняты на шаге clarify, см. раздел Clarifications в spec.md.
+- Перепроверено против спеки, приведённой к общему контракту `specs/line-comments-contract.md`: все пункты по-прежнему выполнены; открытых вопросов не осталось (0): FR-016 (статусы сдачи — любой) и FR-017 (видимость ученику — сразу) сняты на шаге clarify, см. раздел Clarifications в spec.md.
+- FR-003 переписан через `split_code_lines` (LC-04), FR-005 - через правила разбора номера (LC-15), FR-006 - лимит `LINE_COMMENT_MAX` (LC-06), FR-018 - маршрут, фильтр очереди и контекст (LC-09…LC-13); пустой код и одиночный `\r` добавлены в Edge Cases.
 - Упоминания `\n`, `\r\n`, 403/404/400 и id вне диапазона SQLite — ссылки на уже действующее поведение (baseline, `openspec/specs/path-id-bounds`), а не выбор реализации.
-- `specs/line-comments-contract.md` из конституции в worktree отсутствует (записано в Assumptions).
+- Общий контракт `specs/line-comments-contract.md` записан и указан в Assumptions; он главнее спеки.

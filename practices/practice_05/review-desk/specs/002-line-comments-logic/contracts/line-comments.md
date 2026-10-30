@@ -1,64 +1,36 @@
-# Контракт: построчные комментарии (логика → слой отображения)
+# Контракт логики: построчные комментарии
 
-Вся бизнес-логика в `app/services/line_comments.py`; роуты `app/web/line_comments.py` только разбирают запрос и переводят исключения в ответ (FR-018, FR-019). Общий файл `specs/line-comments-contract.md` в worktree отсутствует; при его появлении он имеет приоритет (см. plan.md).
+Общий контракт [`specs/line-comments-contract.md`](../../line-comments-contract.md) главнее этого файла: сервис, маршрут,
+ключи контекста и ошибки определены там (LC-NN). Здесь - только детали зоны логики, которые контракт не переопределяют.
 
-## Сервис
+## Что реализует логика
 
-```text
-create_line_comment(db, user, submission_id: int, line: str, text: str) -> LineComment
-list_line_comments(db, user, submission_id: int) -> list[LineCommentView]
-line_count(submission) -> int
-```
-
-- `line` приходит строкой как из формы; разбор и проверка — в сервисе.
-- Порядок проверок при создании: роль `mentor` (`Forbidden`) → сдача (`NotFound`) → поля `line` и `text` (`ValidationError`).
-- `list_line_comments` использует правила `get_submission_for`: ментор — любая сдача, ученик — только своя, иначе `NotFound`.
-- `LineCommentView`: `id: int`, `line: int`, `text: str`, `author: str` (display_name), `created_at: datetime`.
-- Исключения — из `app/services/errors.py`; новых категорий нет (FR-019).
-
-## HTTP
-
-### POST /submissions/{submission_id}/comments
-
-Кто: только ментор. Форма (`application/x-www-form-urlencoded`): `line`, `text`.
-
-| Ситуация | Ответ |
+| Что | Пункт контракта |
 |---|---|
-| Успех | `303` → `/submissions/{submission_id}`; комментарий сохранён |
-| Нет сессии | `303` → `/login` |
-| Ученик (любой ввод, в том числе невалидный или несуществующая сдача) | `403` «Доступ запрещён» |
-| Сдачи нет, в том числе id вне диапазона `INTEGER` SQLite, или id не число | `404` «Не найдено» |
-| `line` вне `1..N`, неканоничный (`05`, `+3`, `3.0`, ` 3`, `٣`, `1e1`), огромный, пустой | `400`, страница сдачи с `line_comment_errors["line"]` |
-| `text` пустой, из пробелов или длиннее 2 000 символов | `400`, страница сдачи с `line_comment_errors["text"]` |
+| Таблица `line_comments`, модель `LineComment` в `app/models.py` | LC-01 |
+| `LineCommentView(id, line, text, author: str, created_at)`, порядок `line`, `created_at`, `id` | LC-02, LC-03 |
+| `split_code_lines(code)`, `line_count(submission)` | LC-04, LC-05 |
+| `LINE_COMMENT_MAX = 2_000`, `clean_text(text, LINE_COMMENT_MAX, "Комментарий к строке")` | LC-06 |
+| `can_comment`, `list_line_comments`, `create_line_comment` | LC-07 |
+| Порядок проверок: роль → сдача → поля `line` и `text` вместе | LC-08 |
+| `POST /submissions/{submission_id}/line-comments`, поля `line`, `text`, `assignment_id` | LC-09 |
+| `303` на `/submissions/{id}[?assignment_id=K]#L{n}` | LC-10, LC-13 |
+| Ключи контекста и `render_submission` (keyword-only, комментарии грузит сам) | LC-11, LC-12 |
+| Ответы на ошибки и тест-таблица номера строки | LC-14, LC-15 |
+| Ошибки у полей, ввод возвращается всегда; 404 — статус и заголовок | LC-16, LC-17 |
 
-При `400` комментарий не создаётся, в контексте также `line_comment_form = {"line": ..., "text": ...}` с введёнными значениями.
+## Детали зоны логики
 
-### GET /submissions/{submission_id}/comments
-
-Кто: ментор (любая сдача), ученик (только своя). Ответ `200`, `application/json`:
-
-```json
-{
-  "line_count": 10,
-  "comments": [
-    {"id": 1, "line": 2, "text": "Переименуй переменную", "author": "Ментор", "created_at": "2026-10-30T12:00:00+00:00"}
-  ]
-}
-```
-
-- Порядок `comments`: по `line`, затем `created_at`, затем `id` (FR-008).
-- Нет комментариев — `"comments": []` и `200`.
-- Чужая для ученика сдача, несуществующая и вне диапазона id — `404`, одинаково (FR-009, FR-011).
-- Нет сессии — `303` → `/login`.
-- Текст отдаётся как есть, без экранирования и очистки (JSON сам по себе кодирует символы; HTML-экранирование при выводе — зона отображения, FR-013).
-
-### Страница сдачи GET /submissions/{id} (существующая)
-
-Контекст шаблона дополняется (шаблон правит UI): `line_comments` (список как в `comments` выше, с объектом `created_at`), `line_count` (int). Для ученика `line_comments` содержит комментарии его сдачи; кнопка и форма создания для ученика — решение UI (сервис всё равно ответит `403`).
+- `line` приходит строкой как из формы; разбор и проверка — в сервисе (LC-15), роут номер не парсит.
+- `list_line_comments` использует правила `get_submission_for`: ментор — любая сдача, ученик — только своя, иначе `NotFound`.
+- Роут при `ValidationError` вызывает `render_submission(..., status_code=400, line_comment_errors=exc.errors, line_comment_form={"line": ..., "text": ...}, db=db, queue_filter=...)`.
+- Ученик (любой ввод, в том числе невалидный или несуществующая сдача) получает `403` раньше разбора формы (`Depends(require_mentor)`); аноним — `303` на `/login`.
+- Мусорный `assignment_id` отбрасывается без ошибки (`queue_filter_or_none`).
+- Исключения — из `app/services/errors.py`; новых категорий нет (FR-019).
 
 ## Что логика ожидает от UI
 
-- Формы отправляют поля с именами `line` и `text`.
-- Ошибки показываются у полей `line` и `text` из `line_comment_errors`.
+- Форма отправляет поля `line` и `text` (и скрытое `assignment_id` при фильтре очереди).
+- Ошибки показываются у полей `line` и `text` из `line_comment_errors`, введённые значения берутся из `line_comment_form`.
 - Текст выводится с автоэкранированием Jinja2, без `|safe`.
-- Диапазон допустимых строк — `line_count`.
+- Строки кода выводятся из `code_lines`, шаблон код не делит; `maxlength` поля текста — из `line_comment_max`.

@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [x] No [NEEDS CLARIFICATION] markers remain
+- [x] No unresolved-question markers remain
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -31,6 +31,8 @@
 
 ## Notes
 
-- Маркеры [NEEDS CLARIFICATION] (FR-003, FR-017) сняты на шаге clarify.
+- Перепроверено против спеки, приведённой к общему контракту `specs/line-comments-contract.md`: все пункты по-прежнему выполнены; открытых вопросов не осталось (FR-003, FR-017 сняты на шаге clarify).
 - Допущения: `maxlength`, `|safe`, `403/404/400` и Jinja2 упомянуты, потому что это ограничения проекта (AGENTS.md, brief, baseline), а не выбор реализации.
+- Имена `line`, `text`, `assignment_id`, `code_lines`, `line_comment_max`, якорь `L{n}` и ссылки `LC-NN` в спеке - интерфейс, зафиксированный контрактом (LC-09, LC-11, LC-18), а не выбор UI-команды.
+- Новые требования FR-018 (комментарии всех менторов) и FR-019 (новая попытка) покрыты сценариями US-1 AC7 и US-2 AC6; FR-002, FR-004, FR-012, FR-013 переписаны под одну форму «номер + текст» и ошибки у полей.
 - Items marked incomplete require spec updates before `/speckit-clarify` or `/speckit-plan`

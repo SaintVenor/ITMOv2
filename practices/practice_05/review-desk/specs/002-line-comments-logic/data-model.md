@@ -7,7 +7,7 @@
 | `id` | integer | PK | FR-001 |
 | `submission_id` | integer | FK → `submissions.id`, NOT NULL, ровно одна сдача | FR-001 |
 | `line` | integer | NOT NULL, ≥ 1; верхняя граница проверяется сервисом по коду сдачи | FR-003, FR-005 |
-| `text` | text | NOT NULL; 1…2 000 символов после strip и нормализации `\r\n` | FR-006, FR-013 |
+| `text` | text | NOT NULL; 1…`LINE_COMMENT_MAX` (2 000) символов после strip и нормализации `\r\n` | FR-006, FR-013 |
 | `author_id` | integer | FK → `users.id`, NOT NULL; роль `mentor` проверяет сервис | FR-001, FR-004 |
 | `created_at` | datetime (tz) | NOT NULL, default `utcnow` | FR-001 |
 
@@ -25,14 +25,16 @@ SQLAlchemy-модель `LineComment` в `app/models.py` со связями `su
 
 ## Вычисляемые значения
 
-- `line_count(submission)` = `len(submission.code.split("\n"))` (≥ 1, так как код не пуст); допустимые номера `1..line_count` (FR-003).
+- `split_code_lines(code)` — единственное правило разбиения (LC-04, FR-003): `\r\n` и `\r` → `\n`, `split("\n")`, финальный пустой элемент отбрасывается, пустой код → `[]`.
+- `line_count(submission)` = `len(split_code_lines(submission.code))` (≥ 0; 0 только для пустого кода, недостижимого через HTTP); допустимые номера `1..line_count` (FR-003, LC-05).
+- `LineCommentView(id, line, text, author: str, created_at)` — вид для слоя отображения (LC-02, FR-008); порядок `line`, `created_at`, `id` (LC-03).
 
 ## Правила валидации
 
 | Поле формы | Правило | Ошибка |
 |---|---|---|
-| `line` | `[1-9][0-9]*` ASCII, не длиннее 19 цифр, значение ≤ `line_count` | `ValidationError({"line": ...})` |
-| `text` | `clean_text(text, 2000, "Комментарий")` | `ValidationError({"text": ...})` |
+| `line` | `re.fullmatch(r"[1-9][0-9]*", s, re.ASCII)`, не длиннее 19 символов (до `int()`), `1 ≤ n ≤ line_count` (LC-15) | `ValidationError({"line": ...})`: «Номер строки: целое от 1 до {N}» (при N = 0 — «В коде нет строк») |
+| `text` | `clean_text(text, LINE_COMMENT_MAX, "Комментарий к строке")` | `ValidationError({"text": ...})` |
 
 Оба поля проверяются вместе: ошибки возвращаются одним `ValidationError` по полям.
 

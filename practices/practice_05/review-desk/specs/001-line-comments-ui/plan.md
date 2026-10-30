@@ -7,12 +7,12 @@
 ## Summary
 
 Страница сдачи `GET /submissions/{id}` показывает код с явными номерами строк и комментарии ментора под своими строками.
-Ментор выбирает строку ссылкой `?line=N` (перезагрузка, без JS), под строкой открывается форма, отправка идёт
-`POST /submissions/{id}/line-comments` с редиректом `303` обратно на сдачу. Ученик-автор только читает. Вся
-серверная логика (хранение, права, проверка номера строки и текста) - в `app/services/line_comments.py` команды логики;
-UI-команда делает шаблоны, роуты-обёртки и стили и опирается на интерфейс сервиса из
-[contracts/service-expectations.md](contracts/service-expectations.md). Решения и отвергнутые варианты - в
-[research.md](research.md).
+Ментор вводит номер строки и текст в одну форму под кодом (без JS), отправка идёт
+`POST /submissions/{id}/line-comments` с редиректом `303` на `#L{n}` страницы сдачи (LC-09, LC-10). Ученик-автор
+только читает. Вся серверная логика (хранение, права, проверка номера строки и текста, маршрут, `render_submission`)
+- у команды логики; UI-команда делает шаблоны и стили и опирается на общий контракт
+[`specs/line-comments-contract.md`](../line-comments-contract.md) и [contracts/service-expectations.md](contracts/service-expectations.md).
+Решения - в [research.md](research.md).
 
 ## Technical Context
 
@@ -22,7 +22,7 @@ UI-команда делает шаблоны, роуты-обёртки и ст
 
 **Storage**: N/A для UI. Новая таблица `line_comments` принадлежит команде логики ([data-model.md](data-model.md) описывает только вид данных для UI)
 
-**Testing**: pytest + `TestClient`; тесты фичи в `tests/test_line_comments_ui.py`, имя или docstring ссылаются на `FR-NNN`
+**Testing**: pytest + `TestClient`; тесты фичи в `tests/test_line_comments_ui.py`, docstring ссылается на `LC-NN` и на `[UI FR-nnn]` (LC-29)
 
 **Target Platform**: Linux server, браузеры без JavaScript
 
@@ -32,7 +32,7 @@ UI-команда делает шаблоны, роуты-обёртки и ст
 
 **Constraints**: без JS и сборки фронтенда; `|safe` запрещён; baseline, `review-queue`, `path-id-bounds` не меняются; слои не меняются
 
-**Scale/Scope**: один экран (страница сдачи), один новый POST-маршрут; код до 100 000 символов (`CODE_MAX`), комментарии - до 5 000
+**Scale/Scope**: один экран (страница сдачи), один новый POST-маршрут (пишет логика); код до 100 000 символов (`CODE_MAX`), комментарии - до 2 000 (LC-06)
 
 ## Constitution Check
 
@@ -41,23 +41,23 @@ UI-команда делает шаблоны, роуты-обёртки и ст
 | Принцип | Оценка |
 |---|---|
 | I. Приоритет `AGENTS.md` и `docs/baseline.md` | Пройден: baseline не меняется, `docs/baseline.md` и `scripts/check.sh` не трогаем |
-| II. Слои | Пройден: роуты в `app/web/` только разбирают форму и рендерят; правила - в сервисе. Единственный путь, где UI знает о строках, - вычисление `line_count` для рендера, оно берётся из сервиса |
-| III. Трассировка тестов | Пройден: `tests/test_line_comments_ui.py`, `FR-NNN` в имени/docstring |
+| II. Слои | Пройден: UI пишет только шаблоны и CSS; правила и роуты - у логики. Строки кода и `line_count` шаблон получает из контекста (`code_lines`, LC-04, LC-11), сам не делит |
+| III. Трассировка тестов | Пройден: `tests/test_line_comments_ui.py`, docstring с `LC-NN` и `[UI FR-nnn]` (LC-29) |
 | IV. Объём по спеке | Пройден: редактирование, удаление, черновики и уведомления не планируются |
 | V. Неоднозначности на plan | Зафиксированы как допущения (см. ниже и [research.md](research.md)); вопросов нет |
-| Контракт `specs/line-comments-contract.md` | Файла нет. Допущение: при его появлении он приоритетнее; расхождения правятся в `contracts/` этой фичи |
-| OpenSpec-поведение | `review-queue` и `path-id-bounds` сохраняются: `assignment_id` передаётся через POST как у ревью, id вне `INTEGER` -> `404` |
+| Контракт `specs/line-comments-contract.md` | Пройден: спека и план приведены к контракту; общая часть - ссылками на `LC-NN` |
+| OpenSpec-поведение | `review-queue` и `path-id-bounds` сохраняются: `assignment_id` передаётся через POST как у ревью (LC-13), id вне `INTEGER` -> `404` |
 
 Нарушений нет, Complexity Tracking не нужен.
 
 ### Допущения плана (неоднозначности, решения приняты без вопросов)
 
-- **A-1**: Контракта `line-comments-contract.md` нет; интерфейс сервиса в `contracts/service-expectations.md` - предложение UI-команды, логика его подтверждает или корректирует.
-- **A-2**: Невалидный параметр `?line=` на `GET` молча игнорируется (форма не открывается, страница `200`). `404/400` на `GET` не нужны: страница сдачи существует.
-- **A-3**: Для ученика `?line=` игнорируется.
-- **A-4**: Сообщение об ошибке номера строки - общий баннер над кодом (`errors["line"]`); ошибка текста - под полем (`errors["text"]`).
-- **A-5**: Якорь `#line-N` в редиректе после успеха и в ссылке «Комментировать» - только удобство прокрутки, на тесты не влияет.
-- **A-6**: Поле формы называется `text`, номер строки - скрытое поле `line`; `assignment_id` (фильтр очереди) передаётся скрытым полем, как у формы ревью.
+- **A-1**: Интерфейс сервиса, маршрут, ключи контекста и ошибки заданы общим контрактом (LC-07, LC-09…LC-14); `contracts/service-expectations.md` только ссылается на него.
+- **A-2**: Числовых GET-параметров у страницы сдачи нет (LC-09, LC-18); единственный параметр - `assignment_id` (LC-13).
+- **A-3**: Для ученика формы и поля номера строки нет (`can_comment = False`, LC-19).
+- **A-4**: Ошибки номера строки и текста выводятся у своих полей через `_field_error.html` (`line_comment_errors`, LC-16); отдельного баннера нет.
+- **A-5**: Якорь строки - `id="L{n}"`; редирект после успеха ведёт на `#L{n}` (LC-10), его проверяют тесты.
+- **A-6**: Поля формы: видимое поле `line`, `textarea name=text`, скрытое `assignment_id` (как у формы ревью, LC-13, LC-18).
 
 ## Project Structure
 
@@ -81,21 +81,20 @@ specs/001-line-comments-ui/
 ```text
 app/
   web/
-    submissions.py       # изменить: GET читает ?line=, передаёт comments и open_line в render_submission
-    line_comments.py     # новый: POST /submissions/{id}/line-comments (подключить в main.py)
+    submissions.py       # зона логики: render_submission (LC-12); UI не пишет
+    line_comments.py     # зона логики: POST /submissions/{id}/line-comments; UI не создаёт (LC-26)
   templates/
-    _code.html           # изменить: макрос code_block(code, ...) с явными номерами и комментариями под строками
+    _code.html           # изменить: макрос по code_lines с явными номерами, id="L{n}" и комментариями под строками
     _line_comment.html   # новый: один комментарий (автор, дата, текст)
-    _line_comment_form.html  # новый: форма под строкой
-    submissions/detail.html  # изменить: пустое состояние, баннер ошибки, вызов нового макроса
-  static/style.css      # изменить: стили строк, комментариев, формы, выделения
-  main.py                # изменить: include_router(line_comments.router)
+    _line_comment_form.html  # новый: единственная форма под кодом (номер + текст)
+    submissions/detail.html  # изменить: пустое состояние, ошибки у полей, вызов нового макроса
+  static/style.css      # изменить: стили строк, комментариев, формы, выделения строк с комментариями
   services/line_comments.py  # зона команды логики (UI не пишет)
 tests/
   test_line_comments_ui.py   # новый
 ```
 
-**Structure Decision**: слои проекта не меняются (`docs/architecture.md`). Новый роутер `app/web/line_comments.py` по образцу `app/web/review.py`; рендер страницы сдачи переиспользует `render_submission`. Таблица страниц в `docs/architecture.md` не обновляется в рамках этого плана (документ вне зоны `specs/`); добавление строки - задача для tasks.
+**Structure Decision**: слои проекта не меняются (`docs/architecture.md`). Роутер `app/web/line_comments.py` и `render_submission` пишет логика (LC-26), UI - шаблоны и CSS (LC-27); порядок: сначала логика (LC-28). Таблица страниц в `docs/architecture.md` не обновляется в рамках этого плана (документ вне зоны `specs/`); добавление строки - задача для tasks.
 
 ## Phase 0/1 результаты
 
