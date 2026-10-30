@@ -12,7 +12,10 @@
 </div>
 <p class="muted">{{ submission.student.display_name }} · {{ submission.created_at | dt }}</p>
 
-{{ code_block(submission.code) }}
+{% if not line_comments %}<p class="muted" id="no-line-comments">Комментариев к строкам пока нет</p>{% endif %}
+{{ code_block(code_lines, line_comments) }}
+
+{% if can_comment %}{% include "_line_comment_form.html" %}{% endif %}
 
 {% if submission.review %}
   {% with review = submission.review %}{% include "_review.html" %}{% endwith %}

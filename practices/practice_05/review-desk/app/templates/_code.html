@@ -1,4 +1,10 @@
-{% macro code_block(code) -%}
-<pre class="code"><code>{% for line in code.split("\n") %}<span class="line">{{ line }}</span>
-{% endfor %}</code></pre>
+{% from "_line_comment.html" import line_comment %}
+{% macro code_block(code_lines, line_comments) -%}
+<div class="code">{% for line in code_lines %}
+{%- set row_comments = line_comments | selectattr("line", "equalto", loop.index) | list %}
+<div class="code-row{% if row_comments %} code-row--commented{% endif %}" id="L{{ loop.index }}">
+  <div class="code-line"><span class="line-no">{{ loop.index }}</span><code class="line-text">{{ line }}</code></div>
+  {% if row_comments %}<div class="line-comments">{% for c in row_comments %}{{ line_comment(c) }}{% endfor %}</div>{% endif %}
+</div>{% endfor %}
+</div>
 {%- endmacro %}

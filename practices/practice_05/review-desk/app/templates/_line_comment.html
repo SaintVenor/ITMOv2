@@ -1,0 +1,6 @@
+{% macro line_comment(c) -%}
+<article class="line-comment" id="comment-{{ c.id }}">
+  <div class="line-comment-head"><span class="line-comment-author">{{ c.author }}</span> <span class="muted">{{ c.created_at | dt }}</span></div>
+  <div class="line-comment-text">{{ c.text }}</div>
+</article>
+{%- endmacro %}

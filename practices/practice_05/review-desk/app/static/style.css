@@ -175,8 +175,8 @@ form.inline { display: inline; }
 .status-changes_requested { background: var(--changes-bg);  color: var(--changes-fg); }
 .status-none              { background: var(--none-bg);     color: var(--none-fg); }
 
-/* Код с номерами строк (CSS-счётчик, без JS) */
-pre.code {
+/* Код с номерами строк: строки приходят из code_lines, номер - текстом */
+.code {
   background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -185,13 +185,10 @@ pre.code {
   overflow-x: auto;
   font: .9rem/1.5 var(--mono);
   tab-size: 4;
-  counter-reset: line;
 }
-pre.code code { display: block; min-width: max-content; }
-pre.code .line { counter-increment: line; padding-right: 1rem; }
-pre.code .line::before {
-  content: counter(line);
-  display: inline-block;
+.code-line { display: flex; min-width: max-content; padding-right: 1rem; }
+.line-no {
+  flex: none;
   width: 3.5em;
   padding-right: 1em;
   margin-right: 1em;
@@ -200,6 +197,22 @@ pre.code .line::before {
   border-right: 1px solid var(--border);
   user-select: none;
 }
+.line-text { font: inherit; white-space: pre; min-height: 1.5em; }
+
+/* Комментарии ментора под строками */
+.code-row--commented { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.code-row--commented .line-no { color: var(--accent); font-weight: 700; }
+.line-comments { margin: .25rem 1rem .5rem 5.5rem; display: flex; flex-direction: column; gap: .4rem; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.line-comment {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: .4rem .7rem;
+}
+.line-comment-head { font-size: .85rem; display: flex; gap: .6rem; flex-wrap: wrap; }
+.line-comment-author { font-weight: 600; }
+.line-comment-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .95rem; }
 
 /* Ревью */
 .review {

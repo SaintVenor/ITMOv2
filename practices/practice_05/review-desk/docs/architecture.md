@@ -54,8 +54,9 @@ scripts/check.sh   # единая команда проверки
 | `GET/POST /assignments/new` | mentor | создание задачи |
 | `GET /assignments/{id}` | все | описание; у ученика — форма сдачи и свои попытки |
 | `POST /assignments/{id}/submissions` | student | новая попытка |
-| `GET /submissions/{id}` | mentor, автор | код, статус, ревью; у ментора — форма ревью |
+| `GET /submissions/{id}` | mentor, автор | код с номерами строк и комментариями к строкам, статус, ревью; у ментора — формы ревью и комментария к строке |
 | `POST /submissions/{id}/review` | mentor | вердикт и комментарий |
+| `POST /submissions/{id}/line-comments` | mentor | комментарий к строке кода; `303` на `/submissions/{id}#L{n}` |
 | `GET /review` | mentor | очередь `pending` |
 
 ## Запуск
