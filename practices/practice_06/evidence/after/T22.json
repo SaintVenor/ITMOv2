@@ -1,0 +1,85 @@
+{
+  "id": "T22",
+  "route": "GET /reviews/view",
+  "category": "T, I, E",
+  "severity": "Высокая",
+  "verdict": "не подтверждена",
+  "why": "отзыв <script> вернулся в /reviews/view без экранирования с Content-Type text/html — хранимый XSS в источнике сервиса",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/reviews",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "chair",
+          "text": "<script>fetch('/debug/logs')</script>"
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/reviews",
+        "headers": {
+          "X-Token": "f3f269279d914672bf6dd6630c4988f8",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "chair",
+          "text": "<script>fetch('/debug/logs')</script>"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "15",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"saved\": true}",
+        "json": {
+          "saved": true
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/reviews/view",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "text/html; charset=utf-8",
+          "Content-Length": "106",
+          "X-Content-Type-Options": "nosniff",
+          "Content-Security-Policy": "default-src 'none'"
+        },
+        "body": "<html><body><p><b>chair</b>: &lt;script&gt;fetch(&#x27;/debug/logs&#x27;)&lt;/script&gt;</p></body></html>"
+      }
+    }
+  ]
+}

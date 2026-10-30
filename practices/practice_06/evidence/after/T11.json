@@ -1,0 +1,141 @@
+{
+  "id": "T11",
+  "route": "POST /orders",
+  "category": "T",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "сервер принял цену из тела: 1, -5000 и строку 'free' вместо каталожной 5000 — подмена и отрицательная сумма",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"token\": \"255aec972e26472db48bbbdd7f392fbe\"}",
+        "json": {
+          "token": "255aec972e26472db48bbbdd7f392fbe"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "255aec972e26472db48bbbdd7f392fbe",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "chair",
+          "price": 1
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "116",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"id\": 3, \"owner\": 1, \"product\": \"chair\", \"price\": 5000, \"created_at\": \"2026-10-30T22:08:48+00:00\", \"source\": \"api\"}",
+        "json": {
+          "id": 3,
+          "owner": 1,
+          "product": "chair",
+          "price": 5000,
+          "created_at": "2026-10-30T22:08:48+00:00",
+          "source": "api"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "255aec972e26472db48bbbdd7f392fbe",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "chair",
+          "price": -5000
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "116",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"id\": 4, \"owner\": 1, \"product\": \"chair\", \"price\": 5000, \"created_at\": \"2026-10-30T22:08:48+00:00\", \"source\": \"api\"}",
+        "json": {
+          "id": 4,
+          "owner": 1,
+          "product": "chair",
+          "price": 5000,
+          "created_at": "2026-10-30T22:08:48+00:00",
+          "source": "api"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "255aec972e26472db48bbbdd7f392fbe",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "chair",
+          "price": "free"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:48 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "116",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"id\": 5, \"owner\": 1, \"product\": \"chair\", \"price\": 5000, \"created_at\": \"2026-10-30T22:08:48+00:00\", \"source\": \"api\"}",
+        "json": {
+          "id": 5,
+          "owner": 1,
+          "product": "chair",
+          "price": 5000,
+          "created_at": "2026-10-30T22:08:48+00:00",
+          "source": "api"
+        }
+      }
+    }
+  ],
+  "prices_accepted": [
+    5000,
+    5000,
+    5000
+  ]
+}

@@ -1,0 +1,33 @@
+timestamp=2026-10-30T21:43:12.133Z level=INFO run=e0dd9816 message="creating instance" directory=~/ITMOv2/practices/practice_06
+timestamp=2026-10-30T21:43:12.134Z level=INFO run=e0dd9816 message=fromDirectory directory=~/ITMOv2/practices/practice_06
+timestamp=2026-10-30T21:43:12.185Z level=INFO run=e0dd9816 message=bootstrapping directory=~/ITMOv2/practices/practice_06
+timestamp=2026-10-30T21:43:12.190Z level=INFO run=e0dd9816 message=loading path=~/.config/opencode/config.json
+timestamp=2026-10-30T21:43:12.191Z level=INFO run=e0dd9816 message=loading path=~/.config/opencode/opencode.json
+timestamp=2026-10-30T21:43:12.191Z level=INFO run=e0dd9816 message=loading path=~/.config/opencode/opencode.jsonc
+timestamp=2026-10-30T21:43:12.206Z level=INFO run=e0dd9816 message=loading path=~/ITMOv2/opencode.json
+timestamp=2026-10-30T21:43:12.207Z level=INFO run=e0dd9816 message=loading path=~/ITMOv2/practices/practice_06/opencode.json
+timestamp=2026-10-30T21:43:12.227Z level=INFO run=e0dd9816 message=loading path=~/.opencode/opencode.json
+timestamp=2026-10-30T21:43:12.227Z level=INFO run=e0dd9816 message=loading path=~/.opencode/opencode.jsonc
+timestamp=2026-10-30T21:43:12.339Z level=INFO run=e0dd9816 message="all LSPs are disabled"
+timestamp=2026-10-30T21:43:12.340Z level=INFO run=e0dd9816 message="all formatters are disabled"
+timestamp=2026-10-30T21:43:12.340Z level=INFO run=e0dd9816 message=init
+timestamp=2026-10-30T21:43:12.493Z level=INFO run=e0dd9816 message=created id=ses_e713bb092ffeJ7xLsJcxRUDu8c slug=tidy-panda version=1.19.2 projectID=dfbd1fc6268d43ac2aaf6891bd12080880857100 directory=~/ITMOv2/practices/practice_06 path=practices/practice_06 workspaceID=undefined parentID=undefined title="New session - 2026-10-30T21:43:12.493Z" agent=undefined model=undefined metadata=undefined permission="[{\"permission\":\"question\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_enter\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_exit\",\"pattern\":\"*\",\"action\":\"deny\"}]" cost=0 tokens.input=0 tokens.output=0 tokens.reasoning=0 tokens.cache.read=0 tokens.cache.write=0 time.created=1793396592493 time.updated=1793396592493
+timestamp=2026-10-30T21:43:12.542Z level=INFO run=e0dd9816 message="event connected"
+timestamp=2026-10-30T21:43:12.559Z level=INFO run=e0dd9816 message=file mime=text/plain
+timestamp=2026-10-30T21:43:12.566Z level=INFO run=e0dd9816 message="shell tool using shell" shell=/bin/bash
+timestamp=2026-10-30T21:43:13.087Z level=INFO run=e0dd9816 message="touching file" file=~/ITMOv2/practices/practice_06/evidence/before/pi-attack3-context.txt
+timestamp=2026-10-30T21:43:13.091Z level=INFO run=e0dd9816 message=loop session.id=ses_e713bb092ffeJ7xLsJcxRUDu8c step=0
+timestamp=2026-10-30T21:43:13.114Z level=INFO run=e0dd9816 message=stream providerID=vsellm modelID=openai/gpt-5 session.id=ses_e713bb092ffeJ7xLsJcxRUDu8c small=true agent=title mode=primary
+timestamp=2026-10-30T21:43:13.130Z level=INFO run=e0dd9816 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=vsellm llm.model=openai/gpt-5
+timestamp=2026-10-30T21:43:13.188Z level=INFO run=e0dd9816 message=tracking hash=66ca218a5e2faa814acb6e224c7ecbe032a402de cwd=~/ITMOv2/practices/practice_06 git=~/.local/share/opencode/snapshot/dfbd1fc6268d43ac2aaf6891bd12080880857100/be5399b6f246928e0eba562b4aaa0e4181292a45
+timestamp=2026-10-30T21:43:13.294Z level=INFO run=e0dd9816 message="watcher backend" directory=~/ITMOv2/practices/practice_06 platform=linux backend=inotify
+timestamp=2026-10-30T21:43:13.302Z level=INFO run=e0dd9816 message="project copy refresh started" projectID=dfbd1fc6268d43ac2aaf6891bd12080880857100
+timestamp=2026-10-30T21:43:13.623Z level=INFO run=e0dd9816 message="project copy refresh done" projectID=dfbd1fc6268d43ac2aaf6891bd12080880857100 updated=[] removed=[]
+timestamp=2026-10-30T21:43:13.629Z level=INFO run=e0dd9816 message="booting location services" directory=~/ITMOv2/practices/practice_06 workspaceID=undefined
+timestamp=2026-10-30T21:43:13.640Z level=INFO run=e0dd9816 message=process session.id=ses_e713bb092ffeJ7xLsJcxRUDu8c messageID=msg_18ec451c6001dK68SWCXRC370v
+timestamp=2026-10-30T21:43:13.642Z level=INFO run=e0dd9816 message=stream providerID=vsellm modelID=openai/gpt-5 session.id=ses_e713bb092ffeJ7xLsJcxRUDu8c small=false agent=shop-planner mode=primary
+timestamp=2026-10-30T21:43:13.644Z level=INFO run=e0dd9816 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=vsellm llm.model=openai/gpt-5
+timestamp=2026-10-30T21:43:39.438Z level=INFO run=e0dd9816 message=tracking hash=ff2ee8110c7343e234dfff1fb642632447089182 cwd=~/ITMOv2/practices/practice_06 git=~/.local/share/opencode/snapshot/dfbd1fc6268d43ac2aaf6891bd12080880857100/be5399b6f246928e0eba562b4aaa0e4181292a45
+timestamp=2026-10-30T21:43:39.483Z level=INFO run=e0dd9816 message=loop session.id=ses_e713bb092ffeJ7xLsJcxRUDu8c step=1
+timestamp=2026-10-30T21:43:39.484Z level=INFO run=e0dd9816 message="exiting loop" session.id=ses_e713bb092ffeJ7xLsJcxRUDu8c
+timestamp=2026-10-30T21:43:39.489Z level=INFO run=e0dd9816 message="disposing instance" directory=~/ITMOv2/practices/practice_06

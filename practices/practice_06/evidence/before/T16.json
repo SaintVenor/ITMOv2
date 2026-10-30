@@ -1,0 +1,54 @@
+{
+  "id": "T16",
+  "route": "GET /files",
+  "category": "I",
+  "severity": "Средняя",
+  "verdict": "подтверждена",
+  "why": "ошибки path=. и несуществующего файла вернули абсолютный путь /tmp/... стенда",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=alice&path=.",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "113"
+        },
+        "body": "{\"error\": \"[Errno 21] Is a directory: '/tmp/itmo-practice-06-qcn6wkj9/files/alice'\", \"type\": \"IsADirectoryError\"}",
+        "json": {
+          "error": "[Errno 21] Is a directory: '/tmp/itmo-practice-06-qcn6wkj9/files/alice'",
+          "type": "IsADirectoryError"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/files?user=alice&path=missing.txt",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "135"
+        },
+        "body": "{\"error\": \"[Errno 2] No such file or directory: '/tmp/itmo-practice-06-qcn6wkj9/files/alice/missing.txt'\", \"type\": \"FileNotFoundError\"}",
+        "json": {
+          "error": "[Errno 2] No such file or directory: '/tmp/itmo-practice-06-qcn6wkj9/files/alice/missing.txt'",
+          "type": "FileNotFoundError"
+        }
+      }
+    }
+  ]
+}

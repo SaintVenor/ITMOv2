@@ -1,0 +1,131 @@
+{
+  "id": "T11",
+  "route": "POST /orders",
+  "category": "T",
+  "severity": "Критическая",
+  "verdict": "подтверждена",
+  "why": "сервер принял цену из тела: 1, -5000 и строку 'free' вместо каталожной 5000 — подмена и отрицательная сумма",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45"
+        },
+        "body": "{\"token\": \"9f7ce5ffe46a487bb82b500cc3272d34\"}",
+        "json": {
+          "token": "9f7ce5ffe46a487bb82b500cc3272d34"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "9f7ce5ffe46a487bb82b500cc3272d34",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "chair",
+          "price": 1
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "53"
+        },
+        "body": "{\"id\": 3, \"owner\": 1, \"product\": \"chair\", \"price\": 1}",
+        "json": {
+          "id": 3,
+          "owner": 1,
+          "product": "chair",
+          "price": 1
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "9f7ce5ffe46a487bb82b500cc3272d34",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "chair",
+          "price": -5000
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "57"
+        },
+        "body": "{\"id\": 4, \"owner\": 1, \"product\": \"chair\", \"price\": -5000}",
+        "json": {
+          "id": 4,
+          "owner": 1,
+          "product": "chair",
+          "price": -5000
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "9f7ce5ffe46a487bb82b500cc3272d34",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "product": "chair",
+          "price": "free"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "58"
+        },
+        "body": "{\"id\": 5, \"owner\": 1, \"product\": \"chair\", \"price\": \"free\"}",
+        "json": {
+          "id": 5,
+          "owner": 1,
+          "product": "chair",
+          "price": "free"
+        }
+      }
+    }
+  ],
+  "prices_accepted": [
+    1,
+    -5000,
+    "free"
+  ]
+}

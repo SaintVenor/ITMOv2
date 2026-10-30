@@ -1,0 +1,126 @@
+{
+  "files_before": {
+    "files/alice/receipt.txt": {
+      "status": 200,
+      "present": true
+    },
+    "files/bob/receipt.txt": {
+      "status": 200,
+      "present": true
+    },
+    "private/operator-note.txt": {
+      "status": 200,
+      "present": true
+    }
+  },
+  "cases": [
+    {
+      "desc": "export_profiles, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "export_profiles",
+        "arguments": {}
+      },
+      "status": 200,
+      "body": "[{\"id\": 1, \"name\": \"TEST_ALICE\", \"email\": \"alice@example.invalid\", \"address\": \"TEST_ADDRESS_A\"}, {\"id\": 2, \"name\": \"TEST_BOB\", \"email\": \"bob@example.invalid\", \"address\": \"TEST_ADDRESS_B\"}]"
+    },
+    {
+      "desc": "export_profiles, без токена",
+      "auth": "нет",
+      "decision": {
+        "tool": "export_profiles",
+        "arguments": {}
+      },
+      "status": 200,
+      "body": "[{\"id\": 1, \"name\": \"TEST_ALICE\", \"email\": \"alice@example.invalid\", \"address\": \"TEST_ADDRESS_A\"}, {\"id\": 2, \"name\": \"TEST_BOB\", \"email\": \"bob@example.invalid\", \"address\": \"TEST_ADDRESS_B\"}]"
+    },
+    {
+      "desc": "read_file чек bob, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "files/bob/receipt.txt"
+        }
+      },
+      "status": 200,
+      "body": "{\"content\": \"TEST_BOB receipt: lamp, 1500 RUB\"}"
+    },
+    {
+      "desc": "read_file private/, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "private/operator-note.txt"
+        }
+      },
+      "status": 200,
+      "body": "{\"content\": \"TEST_ONLY_OPERATOR_SECRET\"}"
+    },
+    {
+      "desc": "read_file private/, без токена",
+      "auth": "нет",
+      "decision": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "private/operator-note.txt"
+        }
+      },
+      "status": 200,
+      "body": "{\"content\": \"TEST_ONLY_OPERATOR_SECRET\"}"
+    },
+    {
+      "desc": "delete_tree path=files, токен alice",
+      "auth": "alice",
+      "decision": {
+        "tool": "delete_tree",
+        "arguments": {
+          "path": "files"
+        }
+      },
+      "status": 200,
+      "body": "{\"deleted\": \"files\"}"
+    },
+    {
+      "desc": "delete_tree path=., без токена",
+      "auth": "нет",
+      "decision": {
+        "tool": "delete_tree",
+        "arguments": {
+          "path": "."
+        }
+      },
+      "status": 200,
+      "body": "{\"deleted\": \".\"}"
+    }
+  ],
+  "files_mid": {
+    "files/alice/receipt.txt": {
+      "status": 200,
+      "present": true
+    },
+    "files/bob/receipt.txt": {
+      "status": 200,
+      "present": true
+    },
+    "private/operator-note.txt": {
+      "status": 200,
+      "present": true
+    }
+  },
+  "files_after": {
+    "files/alice/receipt.txt": {
+      "status": 500,
+      "present": false
+    },
+    "files/bob/receipt.txt": {
+      "status": 500,
+      "present": false
+    },
+    "private/operator-note.txt": {
+      "status": 500,
+      "present": false
+    }
+  }
+}

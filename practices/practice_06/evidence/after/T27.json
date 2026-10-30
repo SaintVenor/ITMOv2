@@ -1,0 +1,84 @@
+{
+  "id": "T27",
+  "route": "Разбор тела",
+  "category": "D",
+  "severity": "Низкая",
+  "verdict": "не подтверждена",
+  "why": "тело-массив и тело без обязательных полей вызвали 500 с текстом исключения",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "db04cae4d3464925981cd56cac28a4d2",
+          "Content-Type": "application/json"
+        },
+        "body": "[]"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "39",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"body must be a json object\"}",
+        "json": {
+          "error": "body must be a json object"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/reviews",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{}"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "path": "/reviews",
+        "headers": {
+          "X-Token": "da535e8c27b44d8ab7450194ca45c3aa",
+          "Content-Type": "application/json"
+        },
+        "body": "{}"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "38",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"product and text required\"}",
+        "json": {
+          "error": "product and text required"
+        }
+      }
+    }
+  ]
+}

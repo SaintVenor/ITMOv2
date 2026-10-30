@@ -1,0 +1,56 @@
+{
+  "id": "T24",
+  "route": "GET /assistant/context",
+  "category": "I",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "UNION SELECT в order_id подставил имена и email всех профилей прямо в промпт для внешней LLM",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/assistant/context?order_id=0 UNION SELECT id,name,email,address FROM profiles",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/assistant/context?order_id=0 UNION SELECT id,name,email,address FROM profiles",
+        "headers": {
+          "X-Token": "32fb7681ad6144929ac6114a8532aaed"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "29",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"invalid order_id\"}",
+        "json": {
+          "error": "invalid order_id"
+        }
+      }
+    }
+  ]
+}

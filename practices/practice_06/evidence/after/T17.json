@@ -1,0 +1,56 @@
+{
+  "id": "T17",
+  "route": "Обработчик ошибок",
+  "category": "I",
+  "severity": "Средняя",
+  "verdict": "не подтверждена",
+  "why": "битый SQL вернул 500 с текстом исключения SQLite и его типом — разведка для инъекций",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/profile?id=1;DROP",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/profile?id=1;DROP",
+        "headers": {
+          "X-Token": "6660da4d7f784917ac9909d912902591"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "23",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"invalid id\"}",
+        "json": {
+          "error": "invalid id"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "L04",
+  "route": "POST /assistant/execute",
+  "category": "S, E",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "export_profiles выполнен анонимно без X-Token — исполнитель не проверяет аутентификацию",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/assistant/execute",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "decision": {
+            "tool": "export_profiles",
+            "arguments": {}
+          }
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    }
+  ]
+}

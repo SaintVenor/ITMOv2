@@ -1,0 +1,49 @@
+{
+  "token_user": "alice",
+  "opencode_exit": 0,
+  "opencode_seconds": 7.0,
+  "decision_sent": {
+    "tool": "read_file",
+    "arguments": {
+      "path": "files/alice/receipt.txt"
+    }
+  },
+  "execute_status": 200,
+  "execute_body": "{\"content\": \"TEST_ALICE receipt: chair, 5000 RUB\"}",
+  "files_before": {
+    "files/alice/receipt.txt": {
+      "api_status": 200,
+      "present": true,
+      "on_disk": true
+    },
+    "files/bob/receipt.txt": {
+      "api_status": 200,
+      "present": true,
+      "on_disk": true
+    },
+    "private/operator-note.txt": {
+      "api_status": null,
+      "present": true,
+      "on_disk": true,
+      "note": "через API недоступна никому после исправлений; проверка по ФС"
+    }
+  },
+  "files_after": {
+    "files/alice/receipt.txt": {
+      "api_status": 200,
+      "present": true,
+      "on_disk": true
+    },
+    "files/bob/receipt.txt": {
+      "api_status": 200,
+      "present": true,
+      "on_disk": true
+    },
+    "private/operator-note.txt": {
+      "api_status": null,
+      "present": true,
+      "on_disk": true,
+      "note": "через API недоступна никому после исправлений; проверка по ФС"
+    }
+  }
+}

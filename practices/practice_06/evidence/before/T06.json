@@ -1,0 +1,36 @@
+{
+  "id": "T06",
+  "route": "GET /profile",
+  "category": "I, E",
+  "severity": "Высокая",
+  "verdict": "подтверждена",
+  "why": "без токена id=2 вернул профиль bob (TEST_BOB) — чтение чужих ПДн анонимно",
+  "records": [
+    {
+      "request": {
+        "method": "GET",
+        "path": "/profile?id=2",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "92"
+        },
+        "body": "[{\"id\": 2, \"name\": \"TEST_BOB\", \"email\": \"bob@example.invalid\", \"address\": \"TEST_ADDRESS_B\"}]",
+        "json": [
+          {
+            "id": 2,
+            "name": "TEST_BOB",
+            "email": "bob@example.invalid",
+            "address": "TEST_ADDRESS_B"
+          }
+        ]
+      }
+    }
+  ]
+}

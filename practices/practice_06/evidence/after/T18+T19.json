@@ -1,0 +1,554 @@
+{
+  "id": "T18+T19",
+  "route": "GET /debug/logs",
+  "category": "I, S, E",
+  "severity": "Критическая",
+  "verdict": "не подтверждена",
+  "why": "/debug/logs без токена отдал журнал с паролем 'learn-alice' в теле /login и токеном сессии из заголовка X-Token в открытом виде",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"token\": \"0916a5ad1d944e52a41c6b5c43dacc8b\"}",
+        "json": {
+          "token": "0916a5ad1d944e52a41c6b5c43dacc8b"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "0916a5ad1d944e52a41c6b5c43dacc8b"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "600",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "[{\"id\": 1, \"owner\": 1, \"product\": \"chair\", \"price\": 5000.0, \"created_at\": \"2026-10-01T00:00:00+00:00\", \"source\": \"seed\"}, {\"id\": 3, \"owner\": 1, \"product\": \"chair\", \"price\": 5000.0, \"created_at\": \"2026-10-30T22:08:48+00:00\", \"source\": \"api\"}, {\"id\": 4, \"owner\": 1, \"product\": \"chair\", \"price\": 5000.0, \"created_at\": \"2026-10-30T22:08:48+00:00\", \"source\": \"api\"}, {\"id\": 5, \"owner\": 1, \"product\": \"chair\", \"price\": 5000.0, \"created_at\": \"2026-10-30T22:08:48+00:00\", \"source\": \"api\"}, {\"id\": 6, \"owner\": 1, \"product\": \"lamp\", \"price\": 1500.0, \"created_at\": \"2026-10-30T22:08:48+00:00\", \"source\": \"api\"}]",
+        "json": [
+          {
+            "id": 1,
+            "owner": 1,
+            "product": "chair",
+            "price": 5000.0,
+            "created_at": "2026-10-01T00:00:00+00:00",
+            "source": "seed"
+          },
+          {
+            "id": 3,
+            "owner": 1,
+            "product": "chair",
+            "price": 5000.0,
+            "created_at": "2026-10-30T22:08:48+00:00",
+            "source": "api"
+          },
+          {
+            "id": 4,
+            "owner": 1,
+            "product": "chair",
+            "price": 5000.0,
+            "created_at": "2026-10-30T22:08:48+00:00",
+            "source": "api"
+          },
+          {
+            "id": 5,
+            "owner": 1,
+            "product": "chair",
+            "price": 5000.0,
+            "created_at": "2026-10-30T22:08:48+00:00",
+            "source": "api"
+          },
+          {
+            "id": 6,
+            "owner": 1,
+            "product": "lamp",
+            "price": 1500.0,
+            "created_at": "2026-10-30T22:08:48+00:00",
+            "source": "api"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/debug/logs",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "27",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"login required\"}",
+        "json": {
+          "error": "login required"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/debug/logs",
+        "headers": {
+          "X-Token": "0916a5ad1d944e52a41c6b5c43dacc8b"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "22",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "{\"error\": \"forbidden\"}",
+        "json": {
+          "error": "forbidden"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/debug/logs",
+        "headers": {
+          "X-Token": "a0c8ea6c91754273af40f4f8c3fd6e72"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 22:08:49 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "5810",
+          "X-Content-Type-Options": "nosniff"
+        },
+        "body": "[{\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/orders\", \"user\": \"alice\", \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/logout\", \"user\": \"alice\", \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/orders\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/profile\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/profile\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/profile\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/profile\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/profile\", \"user\": \"alice\", \"status\": 400}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/profile\", \"user\": \"alice\", \"status\": 400}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/search\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/search\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/search\", \"user\": \"staff\", \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/search\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/search\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/orders\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/orders\", \"user\": \"alice\", \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/orders\", \"user\": \"alice\", \"status\": 201}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/orders\", \"user\": \"alice\", \"status\": 201}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/orders\", \"user\": \"alice\", \"status\": 201}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/orders\", \"user\": \"alice\", \"status\": 201}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/admin/export\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/admin/export\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:48+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/files\", \"user\": \"alice\", \"status\": 403}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/profile\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/profile\", \"user\": \"alice\", \"status\": 400}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/orders\", \"user\": \"alice\", \"status\": 200}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"POST\", \"path\": \"/login\", \"user\": null, \"status\": 200}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/debug/logs\", \"user\": null, \"status\": 401}, {\"time\": \"2026-10-30T22:08:49+00:00\", \"method\": \"GET\", \"path\": \"/debug/logs\", \"user\": \"alice\", \"status\": 403}]",
+        "json": [
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/orders",
+            "user": "alice",
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/logout",
+            "user": "alice",
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/orders",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/profile",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/profile",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/profile",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/profile",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/profile",
+            "user": "alice",
+            "status": 400
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/profile",
+            "user": "alice",
+            "status": 400
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/search",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/search",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/search",
+            "user": "staff",
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/search",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/search",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/orders",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/orders",
+            "user": "alice",
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/orders",
+            "user": "alice",
+            "status": 201
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/orders",
+            "user": "alice",
+            "status": 201
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/orders",
+            "user": "alice",
+            "status": 201
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/orders",
+            "user": "alice",
+            "status": 201
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/admin/export",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/admin/export",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:48+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/files",
+            "user": "alice",
+            "status": 403
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/profile",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/profile",
+            "user": "alice",
+            "status": 400
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/orders",
+            "user": "alice",
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "POST",
+            "path": "/login",
+            "user": null,
+            "status": 200
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/debug/logs",
+            "user": null,
+            "status": 401
+          },
+          {
+            "time": "2026-10-30T22:08:49+00:00",
+            "method": "GET",
+            "path": "/debug/logs",
+            "user": "alice",
+            "status": 403
+          }
+        ]
+      }
+    }
+  ]
+}

