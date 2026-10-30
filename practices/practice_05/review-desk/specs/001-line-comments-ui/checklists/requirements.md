@@ -1,0 +1,38 @@
+# Specification Quality Checklist: Построчные комментарии ментора к коду сдачи: интерфейс
+
+**Purpose**: Validate specification completeness and quality before proceeding to planning
+**Created**: 2026-10-30
+**Feature**: [spec.md](../spec.md)
+
+## Content Quality
+
+- [x] No implementation details (languages, frameworks, APIs)
+- [x] Focused on user value and business needs
+- [x] Written for non-technical stakeholders
+- [x] All mandatory sections completed
+
+## Requirement Completeness
+
+- [x] No unresolved-question markers remain
+- [x] Requirements are testable and unambiguous
+- [x] Success criteria are measurable
+- [x] Success criteria are technology-agnostic (no implementation details)
+- [x] All acceptance scenarios are defined
+- [x] Edge cases are identified
+- [x] Scope is clearly bounded
+- [x] Dependencies and assumptions identified
+
+## Feature Readiness
+
+- [x] All functional requirements have clear acceptance criteria
+- [x] User scenarios cover primary flows
+- [x] Feature meets measurable outcomes defined in Success Criteria
+- [x] No implementation details leak into specification
+
+## Notes
+
+- Перепроверено против спеки, приведённой к общему контракту `specs/line-comments-contract.md`: все пункты по-прежнему выполнены; открытых вопросов не осталось (FR-003, FR-017 сняты на шаге clarify).
+- Допущения: `maxlength`, `|safe`, `403/404/400` и Jinja2 упомянуты, потому что это ограничения проекта (AGENTS.md, brief, baseline), а не выбор реализации.
+- Имена `line`, `text`, `assignment_id`, `code_lines`, `line_comment_max`, якорь `L{n}` и ссылки `LC-NN` в спеке - интерфейс, зафиксированный контрактом (LC-09, LC-11, LC-18), а не выбор UI-команды.
+- Новые требования FR-018 (комментарии всех менторов) и FR-019 (новая попытка) покрыты сценариями US-1 AC7 и US-2 AC6; FR-002, FR-004, FR-012, FR-013 переписаны под одну форму «номер + текст» и ошибки у полей.
+- Items marked incomplete require spec updates before `/speckit-clarify` or `/speckit-plan`

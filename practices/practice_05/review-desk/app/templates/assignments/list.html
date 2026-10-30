@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Задачи{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Задачи</h1>
+  {% if user.role == "mentor" %}<a class="button" href="/assignments/new">Новая задача</a>{% endif %}
+</div>
+{% if assignments %}
+<ul class="list">
+  {% for a in assignments %}
+  <li class="list-item">
+    <a href="/assignments/{{ a.id }}">{{ a.title }}</a>
+    <span class="list-meta">
+      {% if statuses is defined %}
+        {% set st = statuses.get(a.id) %}
+        {% if st %}<span class="status status-{{ st }}">{{ STATUS_LABELS[st] }}</span>
+        {% else %}<span class="status status-none">Не сдано</span>{% endif %}
+      {% endif %}
+      <span class="muted">{{ a.created_at | dt }}</span>
+    </span>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="muted">Задач пока нет.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+--- part2/design-before.md	2026-10-30 02:36:36.155850267 +0300
++++ part2/design-after.md	2026-10-30 03:25:11.961345911 +0300
+@@ -42,6 +42,41 @@
+ 
+ ### Поток обработки запроса
+ 
++```mermaid
++sequenceDiagram
++    actor U as Пользователь
++    participant MW as SessionMiddleware + require_session
++    participant R as FastAPI router (pydantic: int)
++    participant S as app/services/* (get_assignment и др.)
++    participant DB as SQLite (через SQLAlchemy Session)
++    participant EH as handle_service_error (app/main.py)
++
++    U->>MW: GET/POST .../{id}
++    MW->>MW: разбор cookie сессии, проверка публичности пути
++    MW->>R: запрос с валидной сессией (иначе redirect на /login)
++    R->>R: конвертация id в Python int (pydantic, произвольная точность)
++    alt id не числовой (например "abc")
++        R-->>U: 404 (RequestValidationError -> handle_bad_path)
++    else id числовой (любой разрядности)
++        R->>S: вызов сервисной функции с id (int)
++        S->>S: fits_sqlite_int(id): id в -2^63 .. 2^63-1?
++        alt вне диапазона — здесь отсекается переполнение
++            S->>EH: raise NotFound(...)
++            EH-->>U: 404 "Не найдено" (без обращения к SQLite)
++        else в диапазоне
++            S->>DB: db.get(..., id)
++            DB-->>S: строка или None
++            alt найдено
++                S-->>R: объект
++                R-->>U: 200
++            else не найдено (None)
++                S->>EH: raise NotFound(...)
++                EH-->>U: 404 "Не найдено"
++            end
++        end
++    end
++```
++
+ 1. Запрос приходит в ASGI-приложение (`app/main.py::create_app`). Порядок middleware: `SessionMiddleware` добавлен последним, поэтому выполняется первым — он разбирает cookie сессии и кладёт `request.session`. После него работает `require_session` (`BaseHTTPMiddleware`): если путь не публичный и в сессии нет пользователя — редирект на `/login`, запрос дальше не идёт.
+ 2. Если сессия есть, Starlette сопоставляет путь маршруту (например, `/submissions/{submission_id}`) и достаёт сырой строковый сегмент пути.
+ 3. FastAPI конвертирует этот сегмент в параметр обработчика по аннотации типа. Для `submission_id: int` это делает pydantic: нечисловая строка (`abc`) здесь проваливается и становится `RequestValidationError`, которую перехватывает `@app.exception_handler(RequestValidationError) -> handle_bad_path` в `app/main.py` и превращает в `404` — это уже работает и не меняется. Числовая строка любой длины и знака успешно становится Python `int` произвольной точности — **переполнение SQLite тут не отсекается**, потому что для pydantic/Python `int` такого ограничения нет.

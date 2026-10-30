@@ -1,0 +1,18 @@
+<section class="card">
+  <h2>Комментарий к строке</h2>
+  <form method="post" action="/submissions/{{ submission.id }}/line-comments" id="line-comment-form" class="form">
+    {% if queue_filter %}<input type="hidden" name="assignment_id" value="{{ queue_filter.id }}">{% endif %}
+    <label>Номер строки (1–{{ line_count }})
+      <input type="text" name="line" inputmode="numeric" autocomplete="off" required
+             value="{{ line_comment_form.get('line', '') }}"
+             {% if line_comment_errors.get('line') %}aria-invalid="true"{% endif %}>
+    </label>
+    {% with errors = line_comment_errors, field = "line" %}{% include "_field_error.html" %}{% endwith %}
+    <label>Комментарий
+      <textarea name="text" rows="4" maxlength="{{ line_comment_max }}" required
+                {% if line_comment_errors.get('text') %}aria-invalid="true"{% endif %}>{{ line_comment_form.get('text', '') }}</textarea>
+    </label>
+    {% with errors = line_comment_errors, field = "text" %}{% include "_field_error.html" %}{% endwith %}
+    <button type="submit" class="button">Отправить</button>
+  </form>
+</section>
