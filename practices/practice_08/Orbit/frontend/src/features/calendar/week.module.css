@@ -1,0 +1,29 @@
+.week { border: 1px solid var(--line); background: var(--surface); border-radius: 4px; overflow: clip; }
+.dayStrip, .timeBand { display: grid; grid-template-columns: 76px repeat(7, minmax(0, 1fr)); }
+.dayStrip { background: var(--panel-alt); }
+.time { background: var(--paper); font-family: ui-monospace, monospace; }
+.cell[data-current] { background: color-mix(in srgb, var(--selected) 5%, var(--surface)); }
+.timeHead, .time { padding: 12px 8px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.day { background: transparent; border: 0; border-inline-start: 1px solid var(--line); color: var(--ink); cursor: pointer; display: grid; padding: 8px; }
+.day span { font-size: 12px; text-transform: uppercase; }
+.day strong { font: 32px/1.15 var(--mantine-font-family-headings); }
+.day[aria-pressed="true"] { color: #293020; background: #def09f; }
+.day[aria-current="date"] strong { text-decoration: underline; text-underline-offset: 3px; }
+.timeBand { border-block-start: 1px solid var(--line); min-height: 66px; }
+.cell { min-width: 0; border-inline-start: 1px solid var(--line); padding: 5px; display: grid; align-content: start; gap: 4px; }
+.block { border: 0; text-align: left; display: grid; min-width: 0; overflow-wrap: anywhere; border-inline-start: 3px solid var(--kind-mark); border-radius: 5px; padding: 6px 7px; background: var(--kind-bg); color: var(--kind-text); cursor: pointer; font: inherit; font-size: 13px; line-height: 1.3; }
+.block span, .block small { font-size: 11px; margin-top: 3px; }
+.block small { font-weight: 650; text-decoration: underline; }
+.block[data-lesson] { border-color: var(--lesson); background: var(--lesson-bg); color: var(--lesson); }
+.empty, .mobileEmpty { color: var(--muted); padding: 8px 16px; }
+.mobileEmpty { display: none; }
+@media (max-width: 780px) {
+  .dayStrip { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .timeHead, .cell:not([data-current]), .timeBand[data-empty-day], .block:global(.kind-step) { display: none; }
+  .timeBand { grid-template-columns: 70px minmax(0, 1fr); }
+  .mobileEmpty { display: block; }
+}
+
+.block { color:var(--ink); }
+.block[data-lesson] { border-color:var(--lesson-mark); color:var(--ink); }
+.block .type { color:var(--lesson); font-weight:700; margin:0 0 3px; }
