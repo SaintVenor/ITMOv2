@@ -1,0 +1,767 @@
+{
+  "name": "HW 7.2 - Issue Triage",
+  "nodes": [
+    {
+      "parameters": {
+        "owner": {
+          "__rl": true,
+          "value": "SaintVenor",
+          "mode": "list",
+          "cachedResultName": "SaintVenor",
+          "cachedResultUrl": "https://github.com/SaintVenor"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n-issues-test",
+          "mode": "list",
+          "cachedResultName": "n8n-issues-test",
+          "cachedResultUrl": "https://github.com/SaintVenor/n8n-issues-test"
+        },
+        "events": [
+          "issues"
+        ],
+        "options": {}
+      },
+      "id": "cc47d6ec-8e67-4ca7-99d8-62518d44bcc0",
+      "name": "GitHub issue event",
+      "type": "n8n-nodes-base.githubTrigger",
+      "position": [
+        4304,
+        2000
+      ],
+      "webhookId": "7918365f-702f-458b-8633-a1cffb5e51a6",
+      "notesInFlow": false,
+      "typeVersion": 1,
+      "credentials": {
+        "githubApi": {
+          "id": "jyL1567K7JNiu2mz",
+          "name": "GitHub account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d724301a-104b-4e9d-bf8a-7a1086023080",
+              "leftValue": "={{ $json.body.action }}",
+              "rightValue": "opened",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Only opened issues",
+      "position": [
+        4528,
+        2000
+      ],
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "id": "b055cea1-8b70-458e-89a0-c43b720498ea"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fbb1eb83-27fe-4dc7-afe0-fd0029962653",
+              "name": "issue_id",
+              "type": "string",
+              "value": "={{ String($json.body.issue.id) }}"
+            },
+            {
+              "id": "b575a38d-64c1-4d2f-b25c-3aeab5a77670",
+              "name": "number",
+              "type": "number",
+              "value": "={{ $json.body.issue.number }}"
+            },
+            {
+              "id": "3747ea0e-40ca-4518-aa37-fe14b08da75b",
+              "name": "title",
+              "type": "string",
+              "value": "={{ String($json.body.issue.title ?? '') }}"
+            },
+            {
+              "id": "14e69edb-15e3-4c84-8384-e9ccaf7e0df9",
+              "name": "body",
+              "type": "string",
+              "value": "={{ String($json.body.issue.body ?? '') }}"
+            },
+            {
+              "id": "4f0eb462-7e29-4d29-8693-00839cb12ece",
+              "name": "author",
+              "type": "string",
+              "value": "={{ $json.body.issue.user?.login ?? 'unknown' }}"
+            },
+            {
+              "id": "80085087-9bca-4661-8776-536b694f57c3",
+              "name": "is_new_contributor",
+              "type": "boolean",
+              "value": "={{ ['NONE','FIRST_TIMER','FIRST_TIME_CONTRIBUTOR'].includes($json.body.issue.author_association) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Issue fields",
+      "position": [
+        4752,
+        2000
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "id": "f65d342c-b1a0-4552-b80c-daf0d17832d0"
+    },
+    {
+      "parameters": {
+        "operation": "rowNotExists",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "TF0jtMZD06yEyidl"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "issue_id",
+              "keyValue": "={{ $json.issue_id }}"
+            }
+          ]
+        }
+      },
+      "name": "Issue not processed",
+      "type": "n8n-nodes-base.dataTable",
+      "position": [
+        4976,
+        2000
+      ],
+      "typeVersion": 1,
+      "id": "1d9e7065-c162-4085-b8ca-0e02cef0d81b"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "9gQHTIr7TJRs4Qmt"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "title": "={{ $json.title }}",
+            "body": "={{ $json.body }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "name": "Call classifier",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "position": [
+        5200,
+        2000
+      ],
+      "typeVersion": 1.3,
+      "id": "6226e6fd-6613-456a-ac75-8bb7123c6c09"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "bug",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "813611db-172f-4445-9fc5-78e60ad7e499"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "bug"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "6738de5e-2468-42aa-be80-20f194179e39",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "task",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "task"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "52eba612-f0a9-40e3-838b-800fc1d1faab",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "feature",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "feature"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "28922c33-b740-4da7-996a-8e2c81d2aa17",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "unknown",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "unknown"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.5,
+      "position": [
+        5472,
+        1968
+      ],
+      "id": "b20c5d40-e7d4-4f79-82e9-7deb7efa89d6",
+      "name": "Issue type"
+    },
+    {
+      "parameters": {
+        "operation": "createComment",
+        "owner": {
+          "__rl": true,
+          "value": "SaintVenor",
+          "mode": "list",
+          "cachedResultName": "SaintVenor",
+          "cachedResultUrl": "https://github.com/SaintVenor"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n-issues-test",
+          "mode": "list",
+          "cachedResultName": "n8n-issues-test",
+          "cachedResultUrl": "https://github.com/SaintVenor/n8n-issues-test"
+        },
+        "issueNumber": "={{ $('Issue fields').first().json.number }}",
+        "body": "={{ $('Call classifier').first().json.type === 'unknown' ? '' : ($('Issue fields').first().json.is_new_contributor ? 'Привет @' + $('Issue fields').first().json.author + '! Спасибо за обращение! Правила участия: https://github.com/SaintVenor/n8n-issues-test/blob/main/CONTRIBUTING.md\\n\\n' : '') + ({bug:'Спасибо за сообщение об ошибке! Укажи шаги воспроизведения, ожидаемый и фактический результат.',task:'Спасибо за обращение! Уточни, какого результата хочешь добиться.',feature:'Спасибо за предложение! Расскажи, где новая возможность будет полезна.'})[$('Call classifier').first().json.type] }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        6064,
+        1872
+      ],
+      "id": "d041ebbc-11b4-4738-98ee-59ed65346086",
+      "name": "Post issue reply",
+      "webhookId": "78766bab-1fc7-468d-a0a2-2af161ded8ce",
+      "credentials": {
+        "githubApi": {
+          "id": "jyL1567K7JNiu2mz",
+          "name": "GitHub account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "TF0jtMZD06yEyidl"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "issue_id",
+              "keyValue": "={{ $('Issue fields').first().json.issue_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "issue_id": "={{ $('Issue fields').first().json.issue_id }}",
+            "author": "={{ $('Issue fields').first().json.author }}",
+            "created_at": "={{ $now.toISO() }}"
+          },
+          "schema": [
+            {
+              "id": "issue_id",
+              "displayName": "issue_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "author",
+              "displayName": "author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "matchingColumns": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "name": "Record processed issue",
+      "type": "n8n-nodes-base.dataTable",
+      "position": [
+        6400,
+        2048
+      ],
+      "typeVersion": 1,
+      "id": "e9a9e82c-8289-473a-999e-ff7aba534f33"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.github.com/repos/SaintVenor/n8n-issues-test/issues/' + $('Issue fields').first().json.number + '/labels' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { labels: ['bug', ...($('Issue fields').first().json.is_new_contributor ? ['first-time-contributor'] : [])] } }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "Add bug label",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        5744,
+        1680
+      ],
+      "typeVersion": 4.2,
+      "id": "b44ba4ed-3745-4d32-b8b6-a6081ef9a893",
+      "credentials": {
+        "githubApi": {
+          "id": "jyL1567K7JNiu2mz",
+          "name": "GitHub account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.github.com/repos/SaintVenor/n8n-issues-test/issues/' + $('Issue fields').first().json.number + '/labels' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { labels: ['task', ...($('Issue fields').first().json.is_new_contributor ? ['first-time-contributor'] : [])] } }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "Add task label",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        5744,
+        1872
+      ],
+      "typeVersion": 4.2,
+      "id": "768f3d61-4c9d-4a2c-9836-9df3f1ce6b7d",
+      "credentials": {
+        "githubApi": {
+          "id": "jyL1567K7JNiu2mz",
+          "name": "GitHub account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.github.com/repos/SaintVenor/n8n-issues-test/issues/' + $('Issue fields').first().json.number + '/labels' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { labels: ['feature-request', ...($('Issue fields').first().json.is_new_contributor ? ['first-time-contributor'] : [])] } }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "Add feature label",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        5744,
+        2064
+      ],
+      "typeVersion": 4.2,
+      "id": "452832fa-a78d-4695-966f-0d079299d743",
+      "credentials": {
+        "githubApi": {
+          "id": "jyL1567K7JNiu2mz",
+          "name": "GitHub account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.github.com/repos/SaintVenor/n8n-issues-test/issues/' + $('Issue fields').first().json.number + '/labels' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { labels: ['needs-triage', ...($('Issue fields').first().json.is_new_contributor ? ['first-time-contributor'] : [])] } }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "Add needs-triage label",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        5744,
+        2256
+      ],
+      "typeVersion": 4.2,
+      "id": "2b6d44ec-2435-461c-80f3-10bfc514dbd8",
+      "credentials": {
+        "githubApi": {
+          "id": "jyL1567K7JNiu2mz",
+          "name": "GitHub account 4"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "GitHub issue event": {
+      "main": [
+        [
+          {
+            "node": "Only opened issues",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Only opened issues": {
+      "main": [
+        [
+          {
+            "node": "Issue fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Issue fields": {
+      "main": [
+        [
+          {
+            "node": "Issue not processed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Issue not processed": {
+      "main": [
+        [
+          {
+            "node": "Call classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call classifier": {
+      "main": [
+        [
+          {
+            "node": "Issue type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Issue type": {
+      "main": [
+        [
+          {
+            "node": "Add bug label",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add task label",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add feature label",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add needs-triage label",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add bug label": {
+      "main": [
+        [
+          {
+            "node": "Post issue reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add task label": {
+      "main": [
+        [
+          {
+            "node": "Post issue reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add feature label": {
+      "main": [
+        [
+          {
+            "node": "Post issue reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add needs-triage label": {
+      "main": [
+        [
+          {
+            "node": "Record processed issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post issue reply": {
+      "main": [
+        [
+          {
+            "node": "Record processed issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "fe99c790-1e9a-470f-91bd-022d5c33f441",
+  "meta": {
+    "instanceId": "68dbbb4e8fa686c3fd4e9982ade6836edb66976f207553e7ac22df961581c78c"
+  },
+  "nodeGroups": [],
+  "id": "qN4z8ijUMS7UDlwV",
+  "tags": []
+}
