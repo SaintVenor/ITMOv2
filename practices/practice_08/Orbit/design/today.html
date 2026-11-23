@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Сегодня · Орбита</title>
+<style>
+:root{color-scheme:light;--paper:#f3f3ef;--card:#fff;--ink:#192122;--muted:#54615f;--line:#c6ccc7;--lesson:#e1e9e5;--alert:#943209;--wash:#ffeadc;--signal:#ff8044;--hero:#172322;--mono:Consolas,"Courier New",monospace}
+:root.dark{color-scheme:dark;--paper:#161c1c;--card:#202928;--ink:#eff3ee;--muted:#b2c0ba;--line:#485451;--lesson:#303f3a;--alert:#ffa67c;--wash:#412d23;--hero:#304f47}
+:root.dark .hero{box-shadow:inset 0 0 0 1px #86a99c}
+:root.dark .info{border-color:#769488}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.4 "Segoe UI",Arial,sans-serif}button,input{font:inherit;color:inherit}button{cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:5px;min-height:44px;padding:8px 14px}button:hover{border-color:var(--muted)}:focus-visible{outline:3px solid #3987df;outline-offset:2px}
+header{border-bottom:1px solid var(--line);background:var(--card)}.bar,main{max-width:1224px;margin:auto;padding-inline:32px}.bar,.flex,.spread{display:flex;align-items:center;gap:12px}.spread,.bar{justify-content:space-between}.bar{height:62px}.brand{font-size:23px;font-weight:750;letter-spacing:-1px;display:flex;align-items:center;gap:12px}.brand i{width:31px;height:19px;transform:rotate(-34deg);border:2px solid;border-radius:50%;position:relative}.brand i:before{content:"";position:absolute;inset:3px 9px;background:currentColor;border-radius:50%}.theme{font-size:20px;width:44px;padding:0}.mono,time,.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-nums}.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:bold}.muted{color:var(--muted)}main{padding-bottom:40px}.heading{padding-block:28px 20px}.heading h1{font-size:clamp(38px,5vw,68px);letter-spacing:-.065em;line-height:1;margin:6px 0}.clock{display:grid;gap:3px;font-size:12px;color:var(--muted)}input[type=time]{border:0;background:transparent;font:600 20px var(--mono);min-height:44px;color:var(--ink)}
+nav{display:flex;gap:6px;margin-bottom:24px}nav button{flex:1;text-align:left;padding:10px 16px;background:transparent;font-weight:650}nav small{display:block;font-weight:400;color:var(--muted)}nav [aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}nav [aria-pressed=true] small{color:inherit}.layout{display:grid;grid-template-columns:minmax(0,.84fr) minmax(0,1.35fr);gap:24px;align-items:start}.left{display:grid;gap:14px}.hero{background:var(--hero);color:#f4f6f1;border-radius:10px;padding:26px;position:relative;overflow:hidden;isolation:isolate}.hero:after{content:"";width:172px;height:172px;border-radius:50%;border:1px dashed #40534b;box-shadow:0 0 0 22px #24332d,0 0 0 23px #40534b;position:absolute;right:-98px;top:-90px;z-index:-1}.hero .eyebrow{color:#ff9a67}.hero h2{font-size:clamp(26px,3vw,42px);line-height:1.09;letter-spacing:-.045em;margin:24px 0}.info{border-top:1px solid #485752;padding-top:16px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.info small{display:block;color:#becac3;font-size:13px}.info b{font:600 clamp(18px,2vw,26px) var(--mono)}.notice,.step{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--card)}.notice{color:var(--alert);background:var(--wash);border-left:4px solid}.notice p,.step p{margin:4px 0 0}.sheet{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}.sheet h2{margin:0;font-size:22px;letter-spacing:-.04em}.toggle{display:flex;gap:6px;align-items:center;cursor:pointer;min-height:44px;font-size:14px}.toggle input{width:19px;height:19px;accent-color:var(--ink)}.sheet>.spread{border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}.now,.gap{display:flex;align-items:center;gap:8px;font:12px var(--mono);padding:8px 0;color:var(--muted)}.now{color:var(--alert);font-weight:bold}.now:after,.gap:after{content:"";flex:1;border-top:1px dashed currentColor}.cluster{display:grid;grid-template-columns:51px 1fr;position:relative}.axis,.tracks{position:relative}.axis time{position:absolute;font-size:12px;color:var(--muted)}.block{position:absolute;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left;border-left:3px solid var(--muted);padding:5px 10px;line-height:1.22;overflow:hidden;background:var(--paper);min-height:0}.block.lesson{background:var(--lesson)}.block.next{border-left-color:var(--signal)}.block small{color:var(--muted);font:11px var(--mono)}.block b{font-size:15px}.block:focus-visible{z-index:3}.live-line{position:absolute;left:0;right:0;border-top:2px dashed var(--alert);pointer-events:none}.empty{padding:24px 0;color:var(--muted)}dialog{max-width:min(420px,92vw);width:100%;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);padding:24px}dialog::backdrop{background:#10191899}dialog h2{margin-top:0}dialog button,.step button{margin-top:8px}.primary{background:var(--ink);color:var(--paper)}.sr{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
+@media(max-width:760px){.bar,main{padding-inline:16px}.bar{height:52px}.heading{padding:16px 0 12px}.layout{display:flex;flex-direction:column;gap:12px}.left,.sheet{width:100%}.left{gap:8px}.hero{padding:17px}.hero h2{margin:13px 0}.info{padding-top:10px}.sheet{padding:12px}.notice,.step{padding:10px 12px}nav{margin-bottom:12px}nav button{padding:6px;font-size:14px}.cluster{grid-template-columns:43px 1fr}.block{padding:4px 6px}.block b{font-size:14px}.sheet h2{font-size:20px}.heading .eyebrow{font-size:11px}}
+@media(max-width:760px){.left{display:contents}.hero,.notice,.step{width:100%}.layout:not(.free) .step{order:1}}
+</style>
+<header><div class="bar"><span class="brand"><i aria-hidden="true"></i>Орбита</span><button id="theme" class="theme" aria-label="Тёмная тема" aria-pressed="false">◐</button></div></header>
+<main>
+<div class="heading spread"><div><div class="eyebrow muted" id="date"></div><h1 id="title"></h1></div><label class="clock">Демо-время<input id="clock" type="time" value="09:12" required></label></div>
+<nav aria-label="Выбор дня"></nav>
+<div class="layout"><section class="left"><div class="hero" id="hero"></div><div id="notice" class="notice" hidden></div><div class="step" id="step"></div></section>
+<section class="sheet"><div class="spread"><h2>Шкала дня</h2><label class="toggle"><input id="lessons" type="checkbox" autocomplete="off">Учебные пары</label></div><div id="timeline"></div></section></div>
+<p role="status" class="sr" id="status"></p></main>
+<dialog aria-labelledby="modalTitle"><h2 id="modalTitle"></h2><div id="detail"></div><form method="dialog"><button>Закрыть</button></form></dialog>
+<script>
+const byId = id => document.getElementById(id);
+const days = [
+  {date:'2026-11-20', short:'Пт, 20', caption:'Плотный день', title:'Сегодня', full:'Пятница, 20 ноября'},
+  {date:'2026-11-21', short:'Сб, 21', caption:'Свободный день', title:'Суббота', full:'Суббота, 21 ноября'},
+  {date:'2026-11-22', short:'Вс, 22', caption:'Личные дела', title:'Воскресенье', full:'Воскресенье, 22 ноября'}
+];
+const events = [
+  {day:0,start:590,end:680,title:'Технологии ИИ в разработке ПО',type:'Пара',place:'2334'},
+  {day:0,start:650,end:695,title:'Консультация',type:'Событие'},
+  {day:0,start:785,end:840,title:'Монтаж ролика',type:'Событие'},
+  {day:2,start:660,end:720,title:'Забрать книги',type:'Дело',place:'Библиотека'},
+  {day:2,start:840,end:930,title:'Репетиция',type:'Встреча',place:'Студия'}
+];
+const today = days[0].date;
+let selected = Math.max(0,days.findIndex(d=>d.date===new URLSearchParams(location.search).get('date')));
+let assigned = -1, done = false;
+const storageKey = 'orbit-today-prototype-step-v1';
+try {
+  const saved=JSON.parse(localStorage.getItem(storageKey));
+  if(saved && Number.isInteger(saved.day) && days[saved.day]){
+    assigned=saved.day; done=saved.done===true;
+  }
+} catch { /* Local files can run with browser storage disabled. */ }
+function saveStep(){
+  try { localStorage.setItem(storageKey,JSON.stringify({day:assigned,done})); } catch {}
+}
+const planName = 'Снять первый короткий ролик', stepName = 'Собрать черновик';
+const fmt = n => [Math.floor(n/60),n%60].map(v=>String(v).padStart(2,'0')).join(':');
+function duration(minutes){
+  if(minutes<=60) return minutes+' мин';
+  const rest=minutes%60;
+  return Math.floor(minutes/60)+' ч'+(rest?' '+rest+' мин':'');
+}
+const span = e => fmt(e.start)+'–'+fmt(e.end);
+const room = e => e.type==='Пара'?'Аудитория':'Место';
+const dialog = document.querySelector('dialog');
+function modal(title,content){
+  byId('modalTitle').textContent=title;
+  byId('detail').innerHTML=content;
+  dialog.showModal();
+}
+function stepPanel(){
+  const panel=byId('step');
+  if(assigned===selected){
+    panel.innerHTML='<small class="eyebrow muted">Шаг плана · без времени</small><p><b>'+stepName+'</b></p><button id="complete" '+(done?'disabled':'')+'>'+(done?'✓ Выполнено':'Отметить выполненным')+'</button> <button id="plan">Открыть план</button>';
+    byId('complete').onclick=()=>{done=true;saveStep();render();byId('plan').focus();byId('status').textContent='Шаг выполнен';};
+  }else if(assigned<0){
+    panel.innerHTML='<b>Планы на день</b><p><button id="pick">Выбрать шаг из планов</button></p>';
+    byId('pick').onclick=()=>{
+      modal('Назначить шаг','<p>'+planName+'</p><button class="primary" id="assign">'+stepName+'</button>');
+      byId('assign').onclick=()=>{assigned=selected;saveStep();dialog.close();render();byId('complete').focus();byId('status').textContent=stepName+' · '+days[selected].full;};
+    };
+  }else panel.innerHTML='<b>Шаг уже назначен</b><p>'+days[assigned].full+'</p><button id="plan">Открыть план</button>';
+  if(byId('plan')) byId('plan').onclick=()=>modal(planName,'<p>Выполнено '+(done?2:1)+' из 3</p><ol><li>✓ Придумать сюжет</li><li>'+stepName+(done?' · выполнено':' · '+days[assigned].full)+'</li><li>Смонтировать ролик</li></ol>');
+}
+function timeline(items,next,now,isToday){
+  const root=byId('timeline');root.replaceChildren();
+  function note(label,kind){const el=document.createElement('div');el.className=kind;el.textContent=label;root.append(el);}
+  if(!items.length){note(assigned===selected?'На шкале нет дел с указанным временем.':'На этот день ничего не назначено.','empty');return;}
+  const groups=[];
+  for(const event of items){
+    let group=groups.at(-1);
+    if(!group || event.start>=group.end){group={start:event.start,end:event.end,items:[]};groups.push(group);}
+    group.items.push(event);group.end=Math.max(group.end,event.end);
+  }
+  groups.forEach((group,index)=>{
+    const prev=groups[index-1];
+    if(isToday && now<group.start && (!prev || now>=prev.end))note('● Сейчас '+fmt(now),'now');
+    if(prev)note('Окно · '+duration(group.start-prev.end),'gap');
+    const scale=1.55;
+    const row=document.createElement('div');row.className='cluster';row.style.height=(group.end-group.start)*scale+'px';
+    row.innerHTML='<div class="axis"></div><div class="tracks"></div>';root.append(row);
+    const [axis,tracks]=row.children;
+    const ends=[];
+    const lanes=group.items.map(e=>{let i=ends.findIndex(end=>end<=e.start);if(i<0)i=ends.length;ends[i]=e.end;return i;});
+    for(const start of new Set(group.items.map(e=>e.start))){
+      const tick=document.createElement('time');tick.style.top=(start-group.start)*scale+'px';tick.textContent=fmt(start);axis.append(tick);
+    }
+    group.items.forEach((e,i)=>{
+      const block=document.createElement('button');block.className='block'+(e.type==='Пара'?' lesson':'')+(e===next?' next':'');
+      Object.assign(block.style,{top:(e.start-group.start)*scale+'px',height:(e.end-e.start)*scale+'px',left:(100*lanes[i]/ends.length)+'%',width:'calc('+100/ends.length+'% - 3px)'});
+      block.innerHTML='<small>'+e.type+(e===next?' · Далее':'')+'</small><b>'+e.title+'</b><small>'+span(e)+'</small>';
+      block.onclick=()=>modal(e.title,'<p>'+e.type+' · '+span(e)+'</p>'+(e.place?'<p>'+room(e)+' · '+e.place+'</p>':''));
+      tracks.append(block);
+    });
+    if(isToday && now>=group.start && now<group.end){
+      const line=document.createElement('div');line.className='live-line';line.style.top=(now-group.start)*scale+'px';tracks.append(line);note('● Сейчас '+fmt(now),'now');
+    }
+  });
+  if(isToday && now>=groups.at(-1).end)note('● Сейчас '+fmt(now),'now');
+}
+function render(){
+  const day=days[selected],isToday=day.date===today;
+  const [hours,minutes]=byId('clock').value.split(':').map(Number);
+  const now=hours*60+minutes;
+  const items=events.filter(e=>e.day===selected && (e.type!=='Пара'||byId('lessons').checked));
+  document.querySelector('.layout').classList.toggle('free', !items.length);
+  const current=isToday && items.find(e=>e.start<=now && now<e.end);
+  const next=items.find(e=>day.date>today || (isToday && e.start>now));
+  const focus=current||next;
+  byId('title').textContent=day.title;byId('date').textContent=day.full+' · 2026';
+  document.querySelectorAll('nav button').forEach((b,i)=>b.setAttribute('aria-pressed',i===selected));
+  let label='Расписание',title='Свободный день',info='';
+  if(focus){
+    label=current?'● Сейчас идёт':isToday?'→ Далее · через '+(next.start-now)+' мин':'→ Первое дело';
+    title=focus.title;info='<div class="info"><div><small>'+focus.type+'</small><b>'+span(focus)+'</b></div>'+(focus.place?'<div><small>'+room(focus)+'</small><b>'+focus.place+'</b></div>':'')+'</div>';
+  }else if(assigned===selected && !done){title=stepName;label='Шаг плана · без времени';}
+  else if(items.length || assigned===selected){title=isToday?'Всё на сегодня закончилось':'Все дела завершены';}
+  byId('hero').innerHTML='<div class="eyebrow">'+label+'</div><h2>'+title+'</h2>'+info;
+  const conflicts=[];
+  items.forEach((e,i)=>items.slice(i+1).forEach(other=>{
+    const start=Math.max(e.start,other.start),end=Math.min(e.end,other.end);
+    if(start<end)conflicts.push('<p>'+fmt(start)+'–'+fmt(end)+' · '+(end-start)+' мин</p>');
+  }));
+  byId('notice').hidden=!conflicts.length;byId('notice').innerHTML='<b>△ Пересечение в расписании</b>'+conflicts.join('');
+  timeline(items,next,now,isToday);stepPanel();
+}
+days.forEach((day,i)=>{
+  const b=document.createElement('button');b.innerHTML=day.short+'<small>'+day.caption+'</small>';
+  b.onclick=()=>{selected=i;const url=new URL(location.href);url.searchParams.set('date',day.date);history.replaceState(null,'',url);render();};
+  document.querySelector('nav').append(b);
+});
+byId('lessons').checked=false;
+byId('lessons').onchange=render;
+byId('clock').oninput=()=>{if(byId('clock').validity.valid)render();};
+byId('theme').onclick=()=>{const dark=document.documentElement.classList.toggle('dark');byId('theme').setAttribute('aria-pressed',dark);};
+render();
+</script>
+</html>
